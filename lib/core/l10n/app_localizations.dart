@@ -34,6 +34,10 @@ class AppLocalizations {
       'search': 'Search...',
       'language': 'Language',
       'currency': 'Currency',
+      'amountRequired': 'Amount is required',
+      'accountRequired': 'Account is required',
+      'categoryRequired': 'Category is required',
+      'transactionSaved': 'Transaction saved!',
     },
     'ar': {
       'appTitle': 'متتبع المصروفات',
@@ -55,6 +59,10 @@ class AppLocalizations {
       'search': 'بحث...',
       'language': 'اللغة',
       'currency': 'العملة',
+      'amountRequired': 'المبلغ مطلوب',
+      'accountRequired': 'الحساب مطلوب',
+      'categoryRequired': 'التصنيف مطلوب',
+      'transactionSaved': 'تم حفظ المعاملة!',
     },
     'es': {
       'appTitle': 'Gestor de Gastos',
@@ -76,6 +84,10 @@ class AppLocalizations {
       'search': 'Buscar...',
       'language': 'Idioma',
       'currency': 'Moneda',
+      'amountRequired': 'El monto es obligatorio',
+      'accountRequired': 'La cuenta es obligatoria',
+      'categoryRequired': 'La categoría es obligatoria',
+      'transactionSaved': '¡Transacción guardada!',
     },
     'fr': {
       'appTitle': 'Gestion des Dépenses',
@@ -97,6 +109,10 @@ class AppLocalizations {
       'search': 'Chercher...',
       'language': 'Langue',
       'currency': 'Devise',
+      'amountRequired': 'Le montant est requis',
+      'accountRequired': 'Le compte est requis',
+      'categoryRequired': 'La catégorie est requise',
+      'transactionSaved': 'Transaction enregistrée !',
     },
     'de': {
       'appTitle': 'Kostenverfolgung',
@@ -118,6 +134,10 @@ class AppLocalizations {
       'search': 'Suche...',
       'language': 'Sprache',
       'currency': 'Währung',
+      'amountRequired': 'Betrag ist erforderlich',
+      'accountRequired': 'Konto ist erforderlich',
+      'categoryRequired': 'Kategorie ist erforderlich',
+      'transactionSaved': 'Transaktion gespeichert!',
     },
   };
 
@@ -133,6 +153,8 @@ class AppLocalizations {
   String get navReports => _t('reports');
   String get navSettings => _t('settings');
   String get totalBalance => _t('totalBalance');
+  String get totalIncome => _t('income');
+  String get totalExpense => _t('expense');
   String get income => _t('income');
   String get expense => _t('expense');
   String get save => _t('save');
@@ -142,10 +164,18 @@ class AppLocalizations {
   String get account => _t('account');
   String get date => _t('date');
   String get addTransaction => _t('addTransaction');
+  String get editTransaction => _t('addTransaction'); // Can reuse for now
   String get note => _t('note');
   String get search => _t('search');
   String get language => _t('language');
   String get currency => _t('currency');
+  String get amountRequired => _t('amountRequired');
+  String get accountRequired => _t('accountRequired');
+  String get categoryRequired => _t('categoryRequired');
+  String get transactionSaved => _t('transactionSaved');
+  String get noTransactions => _t('search'); // Placeholder
+  String get expenseByCategory => _t('expense'); // Placeholder or specific
+  String get monthlyOverview => _t('dashboard'); // Placeholder or specific
 
   bool get isArabic => locale.languageCode == 'ar';
 }
