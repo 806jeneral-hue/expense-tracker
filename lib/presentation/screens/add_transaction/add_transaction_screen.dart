@@ -231,7 +231,28 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                     const SizedBox(height: 16),
 
                     // Category
-                    _buildSectionLabel(loc.category),
+                    _buildSectionLabel(
+                      loc.category,
+                      trailing: GestureDetector(
+                        onTap: () => _showAddCategoryDialog(provider, loc),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.add_circle_outline_rounded,
+                                size: 16, color: AppColors.primary),
+                            const SizedBox(width: 4),
+                            Text(
+                              provider.isArabic ? "جديد" : "New",
+                              style: GoogleFonts.outfit(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     _buildCategoryGrid(provider, loc),
 
@@ -291,18 +312,21 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     );
   }
 
-  Widget _buildSectionLabel(String label) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        label,
-        style: GoogleFonts.outfit(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textSecondary,
-          letterSpacing: 0.5,
+  Widget _buildSectionLabel(String label, {Widget? trailing}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textSecondary,
+            letterSpacing: 0.5,
+          ),
         ),
-      ),
+        if (trailing != null) trailing,
+      ],
     );
   }
 
@@ -511,5 +535,50 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
         ),
       );
     }
+  }
+
+  void _showAddCategoryDialog(AppProvider provider, AppLocalizations loc) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(
+          provider.isArabic ? "إضافة تصنيف جديد" : "Add New Category",
+          style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.w600),
+        ),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: provider.isArabic ? "اسم التصنيف" : "Category Name",
+            hintStyle: GoogleFonts.outfit(fontSize: 14),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(provider.isArabic ? "إلغاء" : "Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (controller.text.trim().isEmpty) return;
+              final newCat = CategoryModel(
+                name: controller.text.trim(),
+                nameAr: controller.text.trim(), // Use same for now or translate
+                icon: 'category',
+                type: _type,
+              );
+              await provider.addCategory(newCat);
+              if (mounted) {
+                setState(() => _selectedCategory = provider.categories.last);
+                Navigator.pop(ctx);
+              }
+            },
+            child: Text(provider.isArabic ? "إضافة" : "Add"),
+          ),
+        ],
+      ),
+    );
   }
 }

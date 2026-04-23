@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../data/database/database_helper.dart';
 import '../../data/models/account_model.dart';
@@ -10,6 +11,7 @@ import '../../data/models/transaction_model.dart';
 
 class AppProvider extends ChangeNotifier {
   final DatabaseHelper _db = DatabaseHelper.instance;
+  late SharedPreferences _prefs;
 
   // ---- Locale ----
   Locale _locale = const Locale('en');
@@ -21,6 +23,7 @@ class AppProvider extends ChangeNotifier {
 
   void setSecurity(bool value) {
     _isSecurityEnabled = value;
+    _prefs.setBool('security', value);
     notifyListeners();
   }
 
@@ -80,6 +83,14 @@ class AppProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
+    _prefs = await SharedPreferences.getInstance();
+    
+    // Load Saved Settings
+    _currency = _prefs.getString('currency') ?? 'EGP';
+    _isSecurityEnabled = _prefs.getBool('security') ?? false;
+    final lang = _prefs.getString('language') ?? 'en';
+    _locale = Locale(lang);
+
     await loadAccounts();
     await loadCategories();
     await loadTransactions();
@@ -95,6 +106,7 @@ class AppProvider extends ChangeNotifier {
 
   void setLocale(Locale locale) {
     _locale = locale;
+    _prefs.setString('language', locale.languageCode);
     notifyListeners();
   }
 
@@ -102,6 +114,7 @@ class AppProvider extends ChangeNotifier {
     _locale = _locale.languageCode == 'en'
         ? const Locale('ar')
         : const Locale('en');
+    _prefs.setString('language', _locale.languageCode);
     notifyListeners();
   }
 
@@ -234,6 +247,7 @@ class AppProvider extends ChangeNotifier {
 
   void setCurrency(String currency) {
     _currency = currency;
+    _prefs.setString('currency', currency);
     notifyListeners();
   }
 
