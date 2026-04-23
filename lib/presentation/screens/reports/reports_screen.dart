@@ -22,29 +22,106 @@ class ReportsScreen extends StatelessWidget {
         title: Text(loc.reports),
         backgroundColor: AppColors.background,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.calendar_month_rounded, color: AppColors.primary),
+            onPressed: () => _showMonthPicker(context, provider),
+          ),
+        ],
       ),
-      body: provider.isLoading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
           : ListView(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
               children: [
                 _MonthSummaryCard(provider: provider, loc: loc),
-                const SizedBox(height: 20),
-                Text(loc.expenseByCategory,
-                    style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
+                const SizedBox(height: 24),
+                
+                // ---- Charts Section ----
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      provider.transactionFilter == 'income' ? loc.income : loc.expense,
+                      style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                    ),
+                    _buildFilterToggle(provider, loc),
+                  ],
+                ),
                 const SizedBox(height: 12),
                 _ExpensePieChart(provider: provider, loc: loc),
-                const SizedBox(height: 20),
+                
+                const SizedBox(height: 24),
                 Text(loc.monthlyOverview,
                     style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: AppColors.textPrimary)),
                 const SizedBox(height: 12),
                 _MonthlyBarChart(provider: provider),
-                const SizedBox(height: 20),
-                if (provider.categoryBreakdown.isNotEmpty)
-                  _CategoryBreakdownList(provider: provider, loc: loc),
+                
+                const SizedBox(height: 24),
+                _CategoryBreakdownList(provider: provider, loc: loc),
+                
+                const SizedBox(height: 24),
+                Text(
+                  provider.isArabic ? "سجل المعاملات" : "Transaction History",
+                  style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                ),
+                const SizedBox(height: 12),
+                _DetailedTransactionList(provider: provider, loc: loc),
               ],
             ),
     );
+  }
+
+  Widget _buildFilterToggle(AppProvider provider, AppLocalizations loc) {
+    return Container(
+      height: 32,
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: AppColors.divider,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          _buildToggleItem(provider, 'expense', loc.expense),
+          _buildToggleItem(provider, 'income', loc.income),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToggleItem(AppProvider provider, String type, String label) {
+    final isSelected = provider.transactionFilter == type;
+    return GestureDetector(
+      onTap: () => provider.setFilter(type),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.white : Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
+          boxShadow: isSelected ? [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4)] : [],
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 12,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showMonthPicker(BuildContext context, AppProvider provider) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: provider.selectedMonth,
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      initialDatePickerMode: DatePickerMode.year,
+    );
+    if (picked != null) {
+      provider.setSelectedMonth(picked);
+    }
   }
 }
 
@@ -305,6 +382,75 @@ class _CategoryBreakdownList extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation(color), minHeight: 6),
             ),
           ]);
+        },
+      ),
+    );
+  }
+}
+
+class _DetailedTransactionList extends StatelessWidget {
+  final AppProvider provider;
+  final AppLocalizations loc;
+  const _DetailedTransactionList({required this.provider, required this.loc});
+
+  @override
+  Widget build(BuildContext context) {
+    if (provider.transactions.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Text(loc.noTransactions, style: GoogleFonts.outfit(color: AppColors.textLight)),
+        ),
+      );
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))],
+      ),
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: provider.transactions.length,
+        separatorBuilder: (_, __) => const Divider(height: 1, indent: 16, endIndent: 16),
+        itemBuilder: (context, i) {
+          final tx = provider.transactions[i];
+          final isIncome = tx.type == 'income';
+          return ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            leading: Container(
+              width: 40, height: 40,
+              decoration: BoxDecoration(
+                color: (isIncome ? AppColors.income : AppColors.expense).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                isIncome ? Icons.arrow_downward_rounded : Icons.arrow_upward_rounded,
+                color: isIncome ? AppColors.income : AppColors.expense,
+                size: 20,
+              ),
+            ),
+            title: Text(
+              provider.isArabic ? (tx.categoryNameAr ?? tx.categoryName ?? "") : (tx.categoryName ?? ""),
+              style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600),
+            ),
+            subtitle: Text(
+              "${DateFormat('dd MMM').format(tx.date)}${tx.note != null ? ' • ${tx.note}' : ''}",
+              style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: Text(
+              "${isIncome ? '+' : '-'}${Formatters.formatCurrency(tx.amount, currency: provider.currency)}",
+              style: GoogleFonts.outfit(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: isIncome ? AppColors.income : AppColors.expense,
+              ),
+            ),
+          );
         },
       ),
     );

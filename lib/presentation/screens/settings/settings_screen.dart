@@ -6,6 +6,8 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../data/models/account_model.dart';
 
+import '../auth/pin_lock_screen.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -201,48 +203,114 @@ class _PreferencesCard extends StatelessWidget {
   final AppLocalizations loc;
   const _PreferencesCard({required this.provider, required this.loc});
 
+  static const languages = [
+    {'code': 'en', 'name': 'English', 'flag': '🇺🇸'},
+    {'code': 'ar', 'name': 'العربية', 'flag': '🇪🇬'},
+    {'code': 'es', 'name': 'Español', 'flag': '🇪🇸'},
+    {'code': 'fr', 'name': 'Français', 'flag': '🇫🇷'},
+    {'code': 'de', 'name': 'Deutsch', 'flag': '🇩🇪'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+              color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))
+        ],
       ),
       child: Column(
         children: [
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             leading: Container(
-              width: 42, height: 42,
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.language_rounded, color: AppColors.primary, size: 20),
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(12)),
+              child: const Icon(Icons.language_rounded,
+                  color: AppColors.primary, size: 20),
             ),
-            title: Text(loc.language, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-            subtitle: Text(provider.isArabic ? loc.arabic : loc.english,
-                style: GoogleFonts.outfit(fontSize: 12, color: AppColors.textSecondary)),
-            trailing: Switch(
-              value: provider.isArabic,
-              onChanged: (_) => provider.toggleLanguage(),
-              activeColor: AppColors.primary,
+            title: Text(loc.language,
+                style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary)),
+            trailing: DropdownButton<String>(
+              value: provider.locale.languageCode,
+              underline: const SizedBox.shrink(),
+              onChanged: (code) {
+                if (code != null) provider.setLocale(Locale(code));
+              },
+              items: languages
+                  .map((l) => DropdownMenuItem(
+                        value: l['code'],
+                        child: Text('${l['flag']} ${l['name']}',
+                            style: GoogleFonts.outfit(fontSize: 13)),
+                      ))
+                  .toList(),
             ),
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             leading: Container(
-              width: 42, height: 42,
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.lock_rounded, color: AppColors.primary, size: 20),
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(12)),
+              child: const Icon(Icons.lock_rounded,
+                  color: AppColors.primary, size: 20),
             ),
-            title: const Text("قفل التطبيق", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-            subtitle: const Text("استخدم البصمة أو PIN لفتح التطبيق", style: TextStyle(fontSize: 11)),
+            title: Text(
+                provider.isArabic ? "قفل التطبيق" : "App Lock",
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            subtitle: Text(
+                provider.isArabic 
+                  ? "استخدم الرقم السري لفتح التطبيق" 
+                  : "Use PIN to unlock the app",
+                style: const TextStyle(fontSize: 11)),
             trailing: Switch(
               value: provider.isSecurityEnabled,
-              onChanged: (v) => provider.setSecurity(v),
+              onChanged: (v) {
+                if (v && !provider.hasPin) {
+                  // Force set PIN if enabling security for first time
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PinLockScreen(isSettingPin: true),
+                    ),
+                  );
+                }
+                provider.setSecurity(v);
+              },
               activeColor: AppColors.primary,
             ),
           ),
+          if (provider.isSecurityEnabled) ...[
+            const Divider(height: 1, indent: 16, endIndent: 16),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              title: Text(
+                provider.isArabic ? "تغيير الرقم السري" : "Change PIN",
+                style: GoogleFonts.outfit(fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.w500),
+              ),
+              trailing: const Icon(Icons.chevron_right_rounded, size: 18, color: AppColors.primary),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const PinLockScreen(isSettingPin: true),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

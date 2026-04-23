@@ -5,6 +5,7 @@ import 'core/theme/app_theme.dart';
 import 'core/l10n/app_localizations.dart';
 import 'presentation/providers/app_provider.dart';
 import 'presentation/screens/main_screen.dart';
+import 'presentation/screens/auth/pin_lock_screen.dart';
 
 class ExpenseTrackerApp extends StatelessWidget {
   const ExpenseTrackerApp({super.key});
@@ -21,6 +22,9 @@ class ExpenseTrackerApp extends StatelessWidget {
       supportedLocales: const [
         Locale('en'),
         Locale('ar'),
+        Locale('es'),
+        Locale('fr'),
+        Locale('de'),
       ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -28,15 +32,31 @@ class ExpenseTrackerApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      builder: (context, child) {
-        return Directionality(
-          textDirection: appProvider.locale.languageCode == 'ar'
-              ? TextDirection.rtl
-              : TextDirection.ltr,
-          child: child!,
-        );
-      },
-      home: const MainScreen(),
+      home: const AuthWrapper(),
     );
+  }
+}
+
+class AuthWrapper extends StatefulWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  State<AuthWrapper> createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<AuthWrapper> {
+  bool _isAuthenticated = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = context.watch<AppProvider>();
+
+    if (provider.isSecurityEnabled && provider.hasPin && !_isAuthenticated) {
+      return PinLockScreen(
+        onUnlocked: () => setState(() => _isAuthenticated = true),
+      );
+    }
+
+    return const MainScreen();
   }
 }
