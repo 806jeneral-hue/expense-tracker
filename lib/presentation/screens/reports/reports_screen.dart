@@ -29,6 +29,9 @@ class ReportsScreen extends StatelessWidget {
           ),
         ],
       ),
+      body: provider.isLoading
+          ? const Center(
+              child: CircularProgressIndicator(color: AppColors.primary))
           : ListView(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
               children: [
