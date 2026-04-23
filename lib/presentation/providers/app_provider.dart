@@ -232,6 +232,11 @@ class AppProvider extends ChangeNotifier {
 
   // ==================== CURRENCY ====================
 
+  void setCurrency(String currency) {
+    _currency = currency;
+    notifyListeners();
+  }
+
   // ==================== EXPORT CSV ====================
 
   Future<void> exportToCSV() async {
