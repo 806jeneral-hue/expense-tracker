@@ -27,6 +27,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
 
   String _type = 'expense';
   CategoryModel? _selectedCategory;
+  CategoryModel? _selectedSubCategory;
   AccountModel? _selectedAccount;
   DateTime _selectedDate = DateTime.now();
 
@@ -256,6 +257,22 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                     const SizedBox(height: 8),
                     _buildCategoryGrid(provider, loc),
 
+                    // Sub-Category
+                    if (_selectedCategory != null) ...[
+                      const SizedBox(height: 12),
+                      _buildSectionLabel(
+                        provider.isArabic ? "التصنيف الفرعي" : "Sub-Category",
+                        trailing: GestureDetector(
+                          onTap: () => _showAddCategoryDialog(provider, loc,
+                              isSub: true),
+                          child: const Icon(Icons.add_circle_outline_rounded,
+                              size: 16, color: AppColors.primary),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _buildSubCategoryGrid(provider, loc),
+                    ],
+
                     const SizedBox(height: 16),
 
                     // Account
@@ -367,6 +384,47 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               name,
               style: GoogleFonts.outfit(
                 fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: isSelected ? Colors.white : AppColors.textSecondary,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildSubCategoryGrid(AppProvider provider, AppLocalizations loc) {
+    final subs = provider.getSubCategories(_selectedCategory!.id!);
+    if (subs.isEmpty) {
+      return Text(
+        provider.isArabic ? "لا يوجد تصنيفات فرعية" : "No sub-categories",
+        style: GoogleFonts.outfit(fontSize: 12, color: AppColors.textLight),
+      );
+    }
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: subs.map((sub) {
+        final isSelected = _selectedSubCategory?.id == sub.id;
+        final name = provider.isArabic ? sub.nameAr : sub.name;
+        return GestureDetector(
+          onTap: () => setState(() => _selectedSubCategory = sub),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.primary.withOpacity(0.8) : Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: isSelected ? AppColors.primary : AppColors.divider,
+              ),
+            ),
+            child: Text(
+              name,
+              style: GoogleFonts.outfit(
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: isSelected ? Colors.white : AppColors.textSecondary,
               ),
@@ -506,11 +564,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
 
     final account = _selectedAccount ?? provider.accounts.first;
     final amount = double.parse(_amountController.text);
+    final categoryId = (_selectedSubCategory ?? _selectedCategory)!.id!;
 
     final newTx = TransactionModel(
       id: isEditing ? widget.existingTransaction!.id : null,
       accountId: account.id!,
-      categoryId: _selectedCategory!.id!,
+      categoryId: categoryId,
       amount: amount,
       type: _type,
       note: _noteController.text.trim().isEmpty
@@ -537,14 +596,17 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     }
   }
 
-  void _showAddCategoryDialog(AppProvider provider, AppLocalizations loc) {
+  void _showAddCategoryDialog(AppProvider provider, AppLocalizations loc,
+      {bool isSub = false}) {
     final controller = TextEditingController();
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
-          provider.isArabic ? "إضافة تصنيف جديد" : "Add New Category",
+          isSub
+              ? (provider.isArabic ? "إضافة تصنيف فرعي" : "Add Sub-Category")
+              : (provider.isArabic ? "إضافة تصنيف جديد" : "Add New Category"),
           style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.w600),
         ),
         content: TextField(
@@ -565,13 +627,21 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               if (controller.text.trim().isEmpty) return;
               final newCat = CategoryModel(
                 name: controller.text.trim(),
-                nameAr: controller.text.trim(), // Use same for now or translate
-                icon: 'category',
+                nameAr: controller.text.trim(),
+                icon: isSub ? 'subdirectory_arrow_right' : 'category',
                 type: _type,
+                parentId: isSub ? _selectedCategory?.id : null,
               );
               await provider.addCategory(newCat);
               if (mounted) {
-                setState(() => _selectedCategory = provider.categories.last);
+                if (isSub) {
+                  setState(() => _selectedSubCategory = provider.categories.last);
+                } else {
+                  setState(() {
+                    _selectedCategory = provider.categories.last;
+                    _selectedSubCategory = null;
+                  });
+                }
                 Navigator.pop(ctx);
               }
             },

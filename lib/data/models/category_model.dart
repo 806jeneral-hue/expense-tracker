@@ -7,6 +7,8 @@ class CategoryModel {
   final String icon;
   final bool isCustom;
 
+  final int? parentId;
+
   CategoryModel({
     this.id,
     required this.name,
@@ -15,6 +17,7 @@ class CategoryModel {
     this.color = '#102C26',
     this.icon = 'category',
     this.isCustom = false,
+    this.parentId,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,6 +29,7 @@ class CategoryModel {
       'color': color,
       'icon': icon,
       'is_custom': isCustom ? 1 : 0,
+      'parent_id': parentId,
     };
   }
 
@@ -38,6 +42,7 @@ class CategoryModel {
       color: map['color'] ?? '#102C26',
       icon: map['icon'] ?? 'category',
       isCustom: (map['is_custom'] ?? 0) == 1,
+      parentId: map['parent_id'],
     );
   }
 }

@@ -22,9 +22,16 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: _createDB,
+      onUpgrade: _onUpgrade,
     );
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE categories ADD COLUMN parent_id INTEGER REFERENCES categories(id) ON DELETE CASCADE');
+    }
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -51,7 +58,8 @@ class DatabaseHelper {
         type TEXT NOT NULL,
         color TEXT NOT NULL DEFAULT '#102C26',
         icon TEXT NOT NULL DEFAULT 'category',
-        is_custom INTEGER NOT NULL DEFAULT 0
+        is_custom INTEGER NOT NULL DEFAULT 0,
+        parent_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
       )
     ''');
 
