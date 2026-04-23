@@ -30,6 +30,7 @@ class AppLocalizations {
       'account': 'Account',
       'date': 'Date',
       'addTransaction': 'Add Transaction',
+      'editTransaction': 'Edit Transaction',
       'note': 'Note',
       'search': 'Search...',
       'language': 'Language',
@@ -38,6 +39,17 @@ class AppLocalizations {
       'accountRequired': 'Account is required',
       'categoryRequired': 'Category is required',
       'transactionSaved': 'Transaction saved!',
+      'about': 'About',
+      'version': 'Version 1.0.0',
+      'exportCsv': 'Export CSV',
+      'accounts': 'Accounts',
+      'addAccount': 'Add Account',
+      'accountName': 'Account Name',
+      'initialBalance': 'Initial Balance',
+      'noTransactions': 'No transactions yet',
+      'expenseByCategory': 'Expense by Category',
+      'monthlyOverview': 'Monthly Overview',
+      'noData': 'No data available',
     },
     'ar': {
       'appTitle': 'متتبع المصروفات',
@@ -55,6 +67,7 @@ class AppLocalizations {
       'account': 'الحساب',
       'date': 'التاريخ',
       'addTransaction': 'إضافة معاملة',
+      'editTransaction': 'تعديل المعاملة',
       'note': 'ملاحظة',
       'search': 'بحث...',
       'language': 'اللغة',
@@ -63,6 +76,17 @@ class AppLocalizations {
       'accountRequired': 'الحساب مطلوب',
       'categoryRequired': 'التصنيف مطلوب',
       'transactionSaved': 'تم حفظ المعاملة!',
+      'about': 'عن التطبيق',
+      'version': 'الإصدار 1.0.0',
+      'exportCsv': 'تصدير CSV',
+      'accounts': 'الحسابات',
+      'addAccount': 'إضافة حساب',
+      'accountName': 'اسم الحساب',
+      'initialBalance': 'الرصيد الابتدائي',
+      'noTransactions': 'لا توجد معاملات بعد',
+      'expenseByCategory': 'المصروفات حسب الفئة',
+      'monthlyOverview': 'نظرة شهرية',
+      'noData': 'لا توجد بيانات',
     },
     'es': {
       'appTitle': 'Gestor de Gastos',
@@ -80,6 +104,7 @@ class AppLocalizations {
       'account': 'Cuenta',
       'date': 'Fecha',
       'addTransaction': 'Añadir Transacción',
+      'editTransaction': 'Editar Transacción',
       'note': 'Nota',
       'search': 'Buscar...',
       'language': 'Idioma',
@@ -88,6 +113,17 @@ class AppLocalizations {
       'accountRequired': 'La cuenta es obligatoria',
       'categoryRequired': 'La categoría es obligatoria',
       'transactionSaved': '¡Transacción guardada!',
+      'about': 'Acerca de',
+      'version': 'Versión 1.0.0',
+      'exportCsv': 'Exportar CSV',
+      'accounts': 'Cuentas',
+      'addAccount': 'Añadir Cuenta',
+      'accountName': 'Nombre de la cuenta',
+      'initialBalance': 'Saldo Inicial',
+      'noTransactions': 'Aún no hay transacciones',
+      'expenseByCategory': 'Gastos por categoría',
+      'monthlyOverview': 'Resumen mensual',
+      'noData': 'No hay datos disponibles',
     },
     'fr': {
       'appTitle': 'Gestion des Dépenses',
@@ -105,6 +141,7 @@ class AppLocalizations {
       'account': 'Compte',
       'date': 'Date',
       'addTransaction': 'Ajouter Transaction',
+      'editTransaction': 'Modifier Transaction',
       'note': 'Note',
       'search': 'Chercher...',
       'language': 'Langue',
@@ -113,6 +150,17 @@ class AppLocalizations {
       'accountRequired': 'Le compte est requis',
       'categoryRequired': 'La catégorie est requise',
       'transactionSaved': 'Transaction enregistrée !',
+      'about': 'À propos',
+      'version': 'Version 1.0.0',
+      'exportCsv': 'Exporter CSV',
+      'accounts': 'Comptes',
+      'addAccount': 'Ajouter un compte',
+      'accountName': 'Nom du compte',
+      'initialBalance': 'Solde initial',
+      'noTransactions': 'Pas encore de transactions',
+      'expenseByCategory': 'Dépenses par catégorie',
+      'monthlyOverview': 'Aperçu mensuel',
+      'noData': 'Aucune donnée disponible',
     },
     'de': {
       'appTitle': 'Kostenverfolgung',
@@ -130,6 +178,7 @@ class AppLocalizations {
       'account': 'Konto',
       'date': 'Datum',
       'addTransaction': 'Transaktion hinzufügen',
+      'editTransaction': 'Transaktion bearbeiten',
       'note': 'Notiz',
       'search': 'Suche...',
       'language': 'Sprache',
@@ -138,6 +187,17 @@ class AppLocalizations {
       'accountRequired': 'Konto ist erforderlich',
       'categoryRequired': 'Kategorie ist erforderlich',
       'transactionSaved': 'Transaktion gespeichert!',
+      'about': 'Über uns',
+      'version': 'Version 1.0.0',
+      'exportCsv': 'CSV Exportieren',
+      'accounts': 'Konten',
+      'addAccount': 'Konto hinzufügen',
+      'accountName': 'Kontoname',
+      'initialBalance': 'Anfangsguthaben',
+      'noTransactions': 'Noch keine Transaktionen',
+      'expenseByCategory': 'Ausgaben nach Kategorie',
+      'monthlyOverview': 'Monatsübersicht',
+      'noData': 'Keine Daten verfügbar',
     },
   };
 
@@ -164,7 +224,7 @@ class AppLocalizations {
   String get account => _t('account');
   String get date => _t('date');
   String get addTransaction => _t('addTransaction');
-  String get editTransaction => _t('addTransaction'); // Can reuse for now
+  String get editTransaction => _t('editTransaction');
   String get note => _t('note');
   String get search => _t('search');
   String get language => _t('language');
@@ -173,9 +233,17 @@ class AppLocalizations {
   String get accountRequired => _t('accountRequired');
   String get categoryRequired => _t('categoryRequired');
   String get transactionSaved => _t('transactionSaved');
-  String get noTransactions => _t('search'); // Placeholder
-  String get expenseByCategory => _t('expense'); // Placeholder or specific
-  String get monthlyOverview => _t('dashboard'); // Placeholder or specific
+  String get about => _t('about');
+  String get version => _t('version');
+  String get exportCsv => _t('exportCsv');
+  String get accounts => _t('accounts');
+  String get addAccount => _t('addAccount');
+  String get accountName => _t('accountName');
+  String get initialBalance => _t('initialBalance');
+  String get noTransactions => _t('noTransactions');
+  String get expenseByCategory => _t('expenseByCategory');
+  String get monthlyOverview => _t('monthlyOverview');
+  String get noData => _t('noData');
 
   bool get isArabic => locale.languageCode == 'ar';
 }
