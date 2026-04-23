@@ -23,9 +23,12 @@ class AppLocalizations {
       'totalBalance': 'Total Balance',
       'income': 'Income',
       'expense': 'Expense',
+      'all': 'All',
       'save': 'Save',
       'cancel': 'Cancel',
       'delete': 'Delete',
+      'deleteTransaction': 'Delete Transaction',
+      'deleteConfirm': 'Are you sure you want to delete this transaction?',
       'category': 'Category',
       'account': 'Account',
       'date': 'Date',
@@ -39,9 +42,6 @@ class AppLocalizations {
       'accountRequired': 'Account is required',
       'categoryRequired': 'Category is required',
       'transactionSaved': 'Transaction saved!',
-      'all': 'All',
-      'deleteTransaction': 'Delete Transaction',
-      'deleteConfirm': 'Are you sure you want to delete this transaction?',
       'about': 'About',
       'version': 'Version 1.0.0',
       'exportCsv': 'Export CSV',
@@ -53,6 +53,31 @@ class AppLocalizations {
       'expenseByCategory': 'Expense by Category',
       'monthlyOverview': 'Monthly Overview',
       'noData': 'No data available',
+      'recentTransactions': 'Recent Transactions',
+      'addFirstTransaction': 'Add your first transaction',
+      'seeAll': 'See All',
+      'thisMonth': 'This Month',
+      'amount': 'Amount',
+      'amountHint': '0.00',
+      'selectCategory': 'Select Category',
+      'selectAccount': 'Select Account',
+      'categories': 'Categories',
+      'accountType': 'Account Type',
+      'cash': 'Cash',
+      'bank': 'Bank',
+      'credit': 'Credit',
+      'savings': 'Savings',
+      'food': 'Food & Dining',
+      'transport': 'Transport',
+      'shopping': 'Shopping',
+      'health': 'Health',
+      'entertainment': 'Entertainment',
+      'education': 'Education',
+      'bills': 'Bills',
+      'salary': 'Salary',
+      'freelance': 'Freelance',
+      'investment': 'Investment',
+      'other': 'Other',
     },
     'ar': {
       'appTitle': 'متتبع المصروفات',
@@ -63,9 +88,12 @@ class AppLocalizations {
       'totalBalance': 'الرصيد الإجمالي',
       'income': 'دخل',
       'expense': 'مصروف',
+      'all': 'الكل',
       'save': 'حفظ',
       'cancel': 'إلغاء',
       'delete': 'حذف',
+      'deleteTransaction': 'حذف المعاملة',
+      'deleteConfirm': 'هل أنت متأكد من حذف هذه المعاملة؟',
       'category': 'التصنيف',
       'account': 'الحساب',
       'date': 'التاريخ',
@@ -79,9 +107,6 @@ class AppLocalizations {
       'accountRequired': 'الحساب مطلوب',
       'categoryRequired': 'التصنيف مطلوب',
       'transactionSaved': 'تم حفظ المعاملة!',
-      'all': 'الكل',
-      'deleteTransaction': 'حذف المعاملة',
-      'deleteConfirm': 'هل أنت متأكد من حذف هذه المعاملة؟',
       'about': 'عن التطبيق',
       'version': 'الإصدار 1.0.0',
       'exportCsv': 'تصدير CSV',
@@ -93,6 +118,31 @@ class AppLocalizations {
       'expenseByCategory': 'المصروفات حسب الفئة',
       'monthlyOverview': 'نظرة شهرية',
       'noData': 'لا توجد بيانات',
+      'recentTransactions': 'آخر المعاملات',
+      'addFirstTransaction': 'أضف أول معاملة لك',
+      'seeAll': 'عرض الكل',
+      'thisMonth': 'هذا الشهر',
+      'amount': 'المبلغ',
+      'amountHint': '0.00',
+      'selectCategory': 'اختر الفئة',
+      'selectAccount': 'اختر الحساب',
+      'categories': 'الفئات',
+      'accountType': 'نوع الحساب',
+      'cash': 'نقدي',
+      'bank': 'بنك',
+      'credit': 'بطاقة ائتمان',
+      'savings': 'مدخرات',
+      'food': 'الطعام',
+      'transport': 'المواصلات',
+      'shopping': 'التسوق',
+      'health': 'الصحة',
+      'entertainment': 'الترفيه',
+      'education': 'التعليم',
+      'bills': 'الفواتير',
+      'salary': 'المرتب',
+      'freelance': 'عمل حر',
+      'investment': 'استثمار',
+      'other': 'أخرى',
     },
     'es': {
       'appTitle': 'Gestor de Gastos',
@@ -103,9 +153,12 @@ class AppLocalizations {
       'totalBalance': 'Saldo Total',
       'income': 'Ingresos',
       'expense': 'Gastos',
+      'all': 'Todo',
       'save': 'Guardar',
       'cancel': 'Cancelar',
       'delete': 'Eliminar',
+      'deleteTransaction': 'Eliminar Transacción',
+      'deleteConfirm': '¿Estás seguro?',
       'category': 'Categoría',
       'account': 'Cuenta',
       'date': 'Fecha',
@@ -119,9 +172,6 @@ class AppLocalizations {
       'accountRequired': 'La cuenta es obligatoria',
       'categoryRequired': 'La categoría es obligatoria',
       'transactionSaved': '¡Transacción guardada!',
-      'all': 'Todo',
-      'deleteTransaction': 'Eliminar Transacción',
-      'deleteConfirm': '¿Estás seguro de que quieres eliminar esta transacción?',
       'about': 'Acerca de',
       'version': 'Versión 1.0.0',
       'exportCsv': 'Exportar CSV',
@@ -133,6 +183,31 @@ class AppLocalizations {
       'expenseByCategory': 'Gastos por categoría',
       'monthlyOverview': 'Resumen mensual',
       'noData': 'No hay datos disponibles',
+      'recentTransactions': 'Transacciones recientes',
+      'addFirstTransaction': 'Añade tu primera transacción',
+      'seeAll': 'Ver todo',
+      'thisMonth': 'Este mes',
+      'amount': 'Monto',
+      'amountHint': '0.00',
+      'selectCategory': 'Seleccionar categoría',
+      'selectAccount': 'Seleccionar cuenta',
+      'categories': 'Categorías',
+      'accountType': 'Tipo de cuenta',
+      'cash': 'Efectivo',
+      'bank': 'Banco',
+      'credit': 'Crédito',
+      'savings': 'Ahorros',
+      'food': 'Comida',
+      'transport': 'Transporte',
+      'shopping': 'Compras',
+      'health': 'Salud',
+      'entertainment': 'Entretenimiento',
+      'education': 'Educación',
+      'bills': 'Facturas',
+      'salary': 'Salario',
+      'freelance': 'Freelance',
+      'investment': 'Inversión',
+      'other': 'Otro',
     },
     'fr': {
       'appTitle': 'Gestion des Dépenses',
@@ -143,9 +218,12 @@ class AppLocalizations {
       'totalBalance': 'Solde Total',
       'income': 'Revenu',
       'expense': 'Dépense',
+      'all': 'Tout',
       'save': 'Enregistrer',
       'cancel': 'Annuler',
       'delete': 'Supprimer',
+      'deleteTransaction': 'Supprimer la transaction',
+      'deleteConfirm': 'Êtes-vous sûr ?',
       'category': 'Catégorie',
       'account': 'Compte',
       'date': 'Date',
@@ -159,9 +237,6 @@ class AppLocalizations {
       'accountRequired': 'Le compte est requis',
       'categoryRequired': 'La catégorie est requise',
       'transactionSaved': 'Transaction enregistrée !',
-      'all': 'Tout',
-      'deleteTransaction': 'Supprimer la transaction',
-      'deleteConfirm': 'Êtes-vous sûr de vouloir supprimer cette transaction ?',
       'about': 'À propos',
       'version': 'Version 1.0.0',
       'exportCsv': 'Exporter CSV',
@@ -173,6 +248,31 @@ class AppLocalizations {
       'expenseByCategory': 'Dépenses par catégorie',
       'monthlyOverview': 'Aperçu mensuel',
       'noData': 'Aucune donnée disponible',
+      'recentTransactions': 'Transactions récentes',
+      'addFirstTransaction': 'Ajoutez votre première transaction',
+      'seeAll': 'Voir tout',
+      'thisMonth': 'Ce mois-ci',
+      'amount': 'Montant',
+      'amountHint': '0.00',
+      'selectCategory': 'Choisir une catégorie',
+      'selectAccount': 'Choisir un compte',
+      'categories': 'Catégories',
+      'accountType': 'Type de compte',
+      'cash': 'Espèces',
+      'bank': 'Banque',
+      'credit': 'Crédit',
+      'savings': 'Épargne',
+      'food': 'Nourriture',
+      'transport': 'Transport',
+      'shopping': 'Shopping',
+      'health': 'Santé',
+      'entertainment': 'Divertissement',
+      'education': 'Éducation',
+      'bills': 'Factures',
+      'salary': 'Salaire',
+      'freelance': 'Freelance',
+      'investment': 'Investissement',
+      'other': 'Autre',
     },
     'de': {
       'appTitle': 'Kostenverfolgung',
@@ -183,9 +283,12 @@ class AppLocalizations {
       'totalBalance': 'Gesamtguthaben',
       'income': 'Einnahmen',
       'expense': 'Ausgaben',
+      'all': 'Alle',
       'save': 'Speichern',
       'cancel': 'Abbrechen',
       'delete': 'Löschen',
+      'deleteTransaction': 'Transaktion löschen',
+      'deleteConfirm': 'Sind Sie sicher?',
       'category': 'Kategorie',
       'account': 'Konto',
       'date': 'Datum',
@@ -199,9 +302,6 @@ class AppLocalizations {
       'accountRequired': 'Konto ist erforderlich',
       'categoryRequired': 'Kategorie ist erforderlich',
       'transactionSaved': 'Transaktion gespeichert!',
-      'all': 'Alle',
-      'deleteTransaction': 'Transaktion löschen',
-      'deleteConfirm': 'Sind Sie sicher, dass Sie diese Transaktion löschen möchten?',
       'about': 'Über uns',
       'version': 'Version 1.0.0',
       'exportCsv': 'CSV Exportieren',
@@ -213,6 +313,31 @@ class AppLocalizations {
       'expenseByCategory': 'Ausgaben nach Kategorie',
       'monthlyOverview': 'Monatsübersicht',
       'noData': 'Keine Daten verfügbar',
+      'recentTransactions': 'Letzte Transaktionen',
+      'addFirstTransaction': 'Erste Transaktion hinzufügen',
+      'seeAll': 'Alle ansehen',
+      'thisMonth': 'Diesen Monat',
+      'amount': 'Betrag',
+      'amountHint': '0.00',
+      'selectCategory': 'Kategorie wählen',
+      'selectAccount': 'Konto wählen',
+      'categories': 'Kategorien',
+      'accountType': 'Kontotyp',
+      'cash': 'Bargeld',
+      'bank': 'Bank',
+      'credit': 'Kredit',
+      'savings': 'Sparen',
+      'food': 'Essen',
+      'transport': 'Transport',
+      'shopping': 'Shopping',
+      'health': 'Gesundheit',
+      'entertainment': 'Unterhaltung',
+      'education': 'Bildung',
+      'bills': 'Rechnungen',
+      'salary': 'Gehalt',
+      'freelance': 'Freelance',
+      'investment': 'Investition',
+      'other': 'Andere',
     },
   };
 
@@ -228,8 +353,6 @@ class AppLocalizations {
   String get reports => _t('reports');
   String get settings => _t('settings');
   String get totalBalance => _t('totalBalance');
-  String get totalIncome => _t('income');
-  String get totalExpense => _t('expense');
   String get income => _t('income');
   String get expense => _t('expense');
   String get all => _t('all');
@@ -262,7 +385,32 @@ class AppLocalizations {
   String get expenseByCategory => _t('expenseByCategory');
   String get monthlyOverview => _t('monthlyOverview');
   String get noData => _t('noData');
-  
+  String get recentTransactions => _t('recentTransactions');
+  String get addFirstTransaction => _t('addFirstTransaction');
+  String get seeAll => _t('seeAll');
+  String get thisMonth => _t('thisMonth');
+  String get amount => _t('amount');
+  String get amountHint => _t('amountHint');
+  String get selectCategory => _t('selectCategory');
+  String get selectAccount => _t('selectAccount');
+  String get categories => _t('categories');
+  String get accountType => _t('accountType');
+  String get cash => _t('cash');
+  String get bank => _t('bank');
+  String get credit => _t('credit');
+  String get savings => _t('savings');
+  String get food => _t('food');
+  String get transport => _t('transport');
+  String get shopping => _t('shopping');
+  String get health => _t('health');
+  String get entertainment => _t('entertainment');
+  String get education => _t('education');
+  String get bills => _t('bills');
+  String get salary => _t('salary');
+  String get freelance => _t('freelance');
+  String get investment => _t('investment');
+  String get other => _t('other');
+
   // Legacy support for navigation
   String get navDashboard => dashboard;
   String get navTransactions => transactions;
