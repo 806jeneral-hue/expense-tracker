@@ -29,7 +29,7 @@ jobs:
         run: flutter pub get
 
       - name: Create Android files
-        run: flutter create . --platforms android
+        run: flutter create --project-name=expense_tracker . --platforms android
 
       - name: Build APK
         run: flutter build apk --release --no-tree-shake-icons
