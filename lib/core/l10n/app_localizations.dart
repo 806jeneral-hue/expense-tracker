@@ -39,6 +39,9 @@ class AppLocalizations {
       'accountRequired': 'Account is required',
       'categoryRequired': 'Category is required',
       'transactionSaved': 'Transaction saved!',
+      'all': 'All',
+      'deleteTransaction': 'Delete Transaction',
+      'deleteConfirm': 'Are you sure you want to delete this transaction?',
       'about': 'About',
       'version': 'Version 1.0.0',
       'exportCsv': 'Export CSV',
@@ -76,6 +79,9 @@ class AppLocalizations {
       'accountRequired': 'الحساب مطلوب',
       'categoryRequired': 'التصنيف مطلوب',
       'transactionSaved': 'تم حفظ المعاملة!',
+      'all': 'الكل',
+      'deleteTransaction': 'حذف المعاملة',
+      'deleteConfirm': 'هل أنت متأكد من حذف هذه المعاملة؟',
       'about': 'عن التطبيق',
       'version': 'الإصدار 1.0.0',
       'exportCsv': 'تصدير CSV',
@@ -113,6 +119,9 @@ class AppLocalizations {
       'accountRequired': 'La cuenta es obligatoria',
       'categoryRequired': 'La categoría es obligatoria',
       'transactionSaved': '¡Transacción guardada!',
+      'all': 'Todo',
+      'deleteTransaction': 'Eliminar Transacción',
+      'deleteConfirm': '¿Estás seguro de que quieres eliminar esta transacción?',
       'about': 'Acerca de',
       'version': 'Versión 1.0.0',
       'exportCsv': 'Exportar CSV',
@@ -150,6 +159,9 @@ class AppLocalizations {
       'accountRequired': 'Le compte est requis',
       'categoryRequired': 'La catégorie est requise',
       'transactionSaved': 'Transaction enregistrée !',
+      'all': 'Tout',
+      'deleteTransaction': 'Supprimer la transaction',
+      'deleteConfirm': 'Êtes-vous sûr de vouloir supprimer cette transaction ?',
       'about': 'À propos',
       'version': 'Version 1.0.0',
       'exportCsv': 'Exporter CSV',
@@ -187,6 +199,9 @@ class AppLocalizations {
       'accountRequired': 'Konto ist erforderlich',
       'categoryRequired': 'Kategorie ist erforderlich',
       'transactionSaved': 'Transaktion gespeichert!',
+      'all': 'Alle',
+      'deleteTransaction': 'Transaktion löschen',
+      'deleteConfirm': 'Sind Sie sicher, dass Sie diese Transaktion löschen möchten?',
       'about': 'Über uns',
       'version': 'Version 1.0.0',
       'exportCsv': 'CSV Exportieren',
@@ -208,18 +223,21 @@ class AppLocalizations {
 
   // Getters
   String get appTitle => _t('appTitle');
-  String get navDashboard => _t('dashboard');
-  String get navTransactions => _t('transactions');
-  String get navReports => _t('reports');
-  String get navSettings => _t('settings');
+  String get dashboard => _t('dashboard');
+  String get transactions => _t('transactions');
+  String get reports => _t('reports');
+  String get settings => _t('settings');
   String get totalBalance => _t('totalBalance');
   String get totalIncome => _t('income');
   String get totalExpense => _t('expense');
   String get income => _t('income');
   String get expense => _t('expense');
+  String get all => _t('all');
   String get save => _t('save');
   String get cancel => _t('cancel');
   String get delete => _t('delete');
+  String get deleteTransaction => _t('deleteTransaction');
+  String get deleteConfirm => _t('deleteConfirm');
   String get category => _t('category');
   String get account => _t('account');
   String get date => _t('date');
@@ -244,6 +262,12 @@ class AppLocalizations {
   String get expenseByCategory => _t('expenseByCategory');
   String get monthlyOverview => _t('monthlyOverview');
   String get noData => _t('noData');
+  
+  // Legacy support for navigation
+  String get navDashboard => dashboard;
+  String get navTransactions => transactions;
+  String get navReports => reports;
+  String get navSettings => settings;
 
   bool get isArabic => locale.languageCode == 'ar';
 }
