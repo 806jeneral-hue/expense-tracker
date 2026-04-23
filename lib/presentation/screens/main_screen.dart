@@ -10,7 +10,6 @@ import 'add_transaction/add_transaction_screen.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/l10n/app_localizations.dart';
 
-import '../../core/services/security_service.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -21,27 +20,11 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  bool _isAuthenticated = false;
+  bool _isAuthenticated = true;
 
   @override
   void initState() {
     super.initState();
-    _checkSecurity();
-  }
-
-  Future<void> _checkSecurity() async {
-    final provider = context.read<AppProvider>();
-    if (provider.isSecurityEnabled) {
-      bool authenticated = await SecurityService.authenticate();
-      if (!authenticated) {
-        // إذا فشل التحقق، نغلق التطبيق أو نعيد المحاولة
-        SystemNavigator.pop(); 
-      } else {
-        setState(() => _isAuthenticated = true);
-      }
-    } else {
-      setState(() => _isAuthenticated = true);
-    }
   }
 
   final List<Widget> _screens = const [
