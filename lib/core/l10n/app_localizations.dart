@@ -23,6 +23,8 @@ class AppLocalizations {
       'totalBalance': 'Total Balance',
       'income': 'Income',
       'expense': 'Expense',
+      'totalIncome': 'Total Income',
+      'totalExpense': 'Total Expense',
       'all': 'All',
       'save': 'Save',
       'cancel': 'Cancel',
@@ -88,6 +90,8 @@ class AppLocalizations {
       'totalBalance': 'الرصيد الإجمالي',
       'income': 'دخل',
       'expense': 'مصروف',
+      'totalIncome': 'إجمالي الدخل',
+      'totalExpense': 'إجمالي المصروفات',
       'all': 'الكل',
       'save': 'حفظ',
       'cancel': 'إلغاء',
@@ -153,6 +157,8 @@ class AppLocalizations {
       'totalBalance': 'Saldo Total',
       'income': 'Ingresos',
       'expense': 'Gastos',
+      'totalIncome': 'Ingresos Totales',
+      'totalExpense': 'Gastos Totales',
       'all': 'Todo',
       'save': 'Guardar',
       'cancel': 'Cancelar',
@@ -218,6 +224,8 @@ class AppLocalizations {
       'totalBalance': 'Solde Total',
       'income': 'Revenu',
       'expense': 'Dépense',
+      'totalIncome': 'Revenu Total',
+      'totalExpense': 'Dépense Totale',
       'all': 'Tout',
       'save': 'Enregistrer',
       'cancel': 'Annuler',
@@ -283,6 +291,8 @@ class AppLocalizations {
       'totalBalance': 'Gesamtguthaben',
       'income': 'Einnahmen',
       'expense': 'Ausgaben',
+      'totalIncome': 'Gesamteinnahmen',
+      'totalExpense': 'Gesamtausgaben',
       'all': 'Alle',
       'save': 'Speichern',
       'cancel': 'Abbrechen',
@@ -355,6 +365,8 @@ class AppLocalizations {
   String get totalBalance => _t('totalBalance');
   String get income => _t('income');
   String get expense => _t('expense');
+  String get totalIncome => _t('totalIncome');
+  String get totalExpense => _t('totalExpense');
   String get all => _t('all');
   String get save => _t('save');
   String get cancel => _t('cancel');
