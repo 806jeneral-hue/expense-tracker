@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../providers/app_provider.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/l10n/app_localizations.dart';
-import '../../../core/utils/formatters.dart';
-import '../../../data/models/transaction_model.dart';
-import '../../widgets/transaction_card.dart';
+import 'package:expense_tracker/presentation/providers/app_provider.dart';
+import 'package:expense_tracker/core/constants/app_colors.dart';
+import 'package:expense_tracker/core/l10n/app_localizations.dart';
+import 'package:expense_tracker/core/utils/formatters.dart';
+import 'package:expense_tracker/data/models/transaction_model.dart';
+import 'package:expense_tracker/presentation/widgets/transaction_card.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});

@@ -1,11 +1,11 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'core/theme/app_theme.dart';
-import 'core/l10n/app_localizations.dart';
-import 'presentation/providers/app_provider.dart';
-import 'presentation/screens/main_screen.dart';
-import 'presentation/screens/auth/pin_lock_screen.dart';
+import 'package:expense_tracker/core/theme/app_theme.dart';
+import 'package:expense_tracker/core/l10n/app_localizations.dart';
+import 'package:expense_tracker/presentation/providers/app_provider.dart';
+import 'package:expense_tracker/presentation/screens/main_screen.dart';
+import 'package:expense_tracker/presentation/screens/auth/pin_lock_screen.dart';
 
 class ExpenseTrackerApp extends StatelessWidget {
   const ExpenseTrackerApp({super.key});
