@@ -141,12 +141,13 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.dark(
-        primary: AppColors.primary,
-        secondary: AppColors.secondary,
+        primary: AppColors.darkFab,
+        secondary: AppColors.darkIncome,
         surface: AppColors.darkSurface,
         onPrimary: AppColors.textWhite,
         onSecondary: AppColors.darkTextPrimary,
         onSurface: AppColors.darkTextPrimary,
+        error: AppColors.darkExpense,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
       textTheme: GoogleFonts.outfitTextTheme().copyWith(
@@ -192,7 +193,8 @@ class AppTheme {
       ),
       cardTheme: CardTheme(
         color: AppColors.darkCard,
-        elevation: 4,
+        elevation: 0,
+        shadowColor: Colors.black.withOpacity(0.1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
@@ -212,12 +214,31 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: const BorderSide(color: AppColors.darkFab, width: 1.5),
         ),
         hintStyle: GoogleFonts.outfit(
           color: AppColors.darkTextSecondary.withOpacity(0.5),
           fontSize: 14,
         ),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: AppColors.darkFab,
+        foregroundColor: Colors.white,
+        elevation: 2,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: AppColors.darkSurface,
+        selectedItemColor: AppColors.darkIncome,
+        unselectedItemColor: AppColors.darkInactive,
+        elevation: 0,
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+      ),
+      dividerTheme: const DividerThemeData(
+        color: AppColors.darkDivider,
+        thickness: 1,
+        space: 1,
       ),
     );
   }

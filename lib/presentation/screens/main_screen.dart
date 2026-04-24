@@ -52,17 +52,17 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openAddTransaction(context),
-        backgroundColor: AppColors.primary,
-        elevation: 4,
+        backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+        elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
+        child: Icon(Icons.add, color: Theme.of(context).floatingActionButtonTheme.foregroundColor, size: 28),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           boxShadow: [
             BoxShadow(
               color: AppColors.shadow,
@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
           child: SizedBox(
             height: 64,
             child: BottomAppBar(
-              color: Colors.white,
+              color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
               elevation: 0,
               notchMargin: 8,
               shape: const CircularNotchedRectangle(),
@@ -149,7 +149,7 @@ class _NavItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
           color: isSelected
-              ? AppColors.primary.withOpacity(0.1)
+              ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor?.withOpacity(0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
@@ -159,7 +159,7 @@ class _NavItem extends StatelessWidget {
             Icon(
               icon,
               color:
-                  isSelected ? AppColors.primary : AppColors.textLight,
+                  isSelected ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
               size: 22,
             ),
             const SizedBox(height: 2),
@@ -170,7 +170,7 @@ class _NavItem extends StatelessWidget {
                 fontWeight:
                     isSelected ? FontWeight.w600 : FontWeight.w400,
                 color:
-                    isSelected ? AppColors.primary : AppColors.textLight,
+                    isSelected ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor : Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
               ),
             ),
           ],

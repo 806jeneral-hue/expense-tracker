@@ -17,10 +17,10 @@ class SettingsScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(loc.settings),
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
       body: ListView(
@@ -92,9 +92,9 @@ class _AccountsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
       ),
       child: Column(
         children: [
@@ -215,11 +215,11 @@ class _PreferencesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-              color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))
+              color: Theme.of(context).shadowColor, blurRadius: 12, offset: const Offset(0, 4))
         ],
       ),
       child: Column(

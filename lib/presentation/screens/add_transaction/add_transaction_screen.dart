@@ -147,7 +147,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             child: Container(
               height: 44,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(14),
                 boxShadow: [
                   BoxShadow(

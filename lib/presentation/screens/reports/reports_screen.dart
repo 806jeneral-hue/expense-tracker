@@ -204,7 +204,7 @@ class _ExpensePieChartState extends State<_ExpensePieChart> {
     if (breakdown.isEmpty) {
       return Container(
         height: 140,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
+        decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
             boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
         child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Icon(Icons.pie_chart_outline_rounded, size: 36, color: AppColors.textLight),
@@ -219,7 +219,7 @@ class _ExpensePieChartState extends State<_ExpensePieChart> {
     return Container(
       height: 260,
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
+      decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
           boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
       child: Row(
         children: [
@@ -296,7 +296,7 @@ class _MonthlyBarChart extends StatelessWidget {
     return Container(
       height: 200,
       padding: const EdgeInsets.fromLTRB(12, 20, 12, 8),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
+      decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
           boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
       child: BarChart(BarChartData(
         maxY: maxY * 1.25 + 1,
@@ -354,7 +354,7 @@ class _CategoryBreakdownList extends StatelessWidget {
     final total = breakdown.fold<double>(0, (s, i) => s + (i['total'] as num).toDouble());
 
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24),
+      decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
           boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
       child: ListView.separated(
         shrinkWrap: true,
