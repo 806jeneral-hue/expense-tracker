@@ -9,6 +9,7 @@ import 'package:expense_tracker/data/models/transaction_model.dart';
 import 'package:expense_tracker/presentation/widgets/transaction_card.dart';
 import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
 import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
+import 'package:expense_tracker/presentation/screens/reports/reports_screen.dart';
 import 'package:expense_tracker/presentation/screens/settings/settings_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -107,13 +108,6 @@ class DashboardScreen extends StatelessWidget {
                   crossAxisSpacing: 10,
                   children: [
                     _QuickActionItem(
-                      icon: Icons.pie_chart_outline_rounded,
-                      label: loc.reports,
-                      onTap: () {
-                        // Assuming you have a reports screen or navigation logic
-                      },
-                    ),
-                    _QuickActionItem(
                       icon: Icons.account_balance_wallet_outlined,
                       label: provider.isArabic ? 'الميزانية' : 'Budget',
                       onTap: () => Navigator.push(
@@ -130,10 +124,17 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ),
                     _QuickActionItem(
-                      icon: Icons.settings_outlined,
-                      label: loc.settings,
+                      icon: Icons.autorenew_rounded,
+                      label: provider.isArabic ? 'المتكررة' : 'Recurring',
                       onTap: () {
-                         // Navigation to settings usually from drawer or main nav
+                         // TODO: Navigate to Recurring Screen
+                      },
+                    ),
+                    _QuickActionItem(
+                      icon: Icons.category_outlined,
+                      label: provider.isArabic ? 'الفئات' : 'Categories',
+                      onTap: () {
+                         // TODO: Navigate to Categories management
                       },
                     ),
                   ],
