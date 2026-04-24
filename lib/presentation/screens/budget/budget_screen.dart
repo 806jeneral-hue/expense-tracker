@@ -45,13 +45,7 @@ class BudgetScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor,
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                )
-              ],
+              boxShadow: const [],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

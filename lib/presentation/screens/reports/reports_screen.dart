@@ -99,7 +99,7 @@ class ReportsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? Theme.of(context).cardColor : Colors.transparent,
           borderRadius: BorderRadius.circular(6),
-          boxShadow: isSelected ? [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4)] : [],
+          boxShadow: const [],
         ),
         alignment: Alignment.center,
         child: Text(
@@ -139,9 +139,9 @@ class _MonthSummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))],
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [],
       ),
       child: Column(
         children: [
@@ -205,7 +205,7 @@ class _ExpensePieChartState extends State<_ExpensePieChart> {
       return Container(
         height: 140,
         decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
-            boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
+            boxShadow: const []),
         child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Icon(Icons.pie_chart_outline_rounded, size: 36, color: AppColors.textLight),
           const SizedBox(height: 8),
@@ -220,7 +220,7 @@ class _ExpensePieChartState extends State<_ExpensePieChart> {
       height: 260,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
-          boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
+          boxShadow: const []),
       child: Row(
         children: [
           Expanded(
@@ -297,7 +297,7 @@ class _MonthlyBarChart extends StatelessWidget {
       height: 200,
       padding: const EdgeInsets.fromLTRB(12, 20, 12, 8),
       decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
-          boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
+          boxShadow: const []),
       child: BarChart(BarChartData(
         maxY: maxY * 1.25 + 1,
         barTouchData: BarTouchData(
@@ -355,7 +355,7 @@ class _CategoryBreakdownList extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(24),
-          boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))]),
+          boxShadow: const []),
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -409,9 +409,9 @@ class _DetailedTransactionList extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 16, offset: const Offset(0, 4))],
+        color: Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        boxShadow: const [],
       ),
       child: ListView.separated(
         shrinkWrap: true,

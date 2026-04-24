@@ -63,13 +63,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 20,
-              offset: const Offset(0, -4),
-            ),
-          ],
+          boxShadow: const [],
         ),
         child: SafeArea(
           child: SizedBox(

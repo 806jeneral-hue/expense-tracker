@@ -94,7 +94,7 @@ class _AccountsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: const [],
       ),
       child: Column(
         children: [
@@ -107,7 +107,7 @@ class _AccountsCard extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   leading: Container(
                     width: 42, height: 42,
-                    decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(12)),
+                    decoration: BoxDecoration(color: Theme.of(context).dividerTheme.color?.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
                     child: const Icon(Icons.account_balance_wallet_rounded, color: AppColors.primary, size: 20),
                   ),
                   title: Text(acc.name, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
@@ -217,10 +217,6 @@ class _PreferencesCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-              color: Theme.of(context).shadowColor, blurRadius: 12, offset: const Offset(0, 4))
-        ],
       ),
       child: Column(
         children: [
@@ -231,7 +227,7 @@ class _PreferencesCard extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                  color: AppColors.secondary,
+                  color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.language_rounded,
                   color: AppColors.primary, size: 20),
@@ -263,7 +259,7 @@ class _PreferencesCard extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                  color: AppColors.secondary,
+                  color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.dark_mode_rounded,
                   color: AppColors.primary, size: 20),
@@ -287,7 +283,7 @@ class _PreferencesCard extends StatelessWidget {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
-                  color: AppColors.secondary,
+                  color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.lock_rounded,
                   color: AppColors.primary, size: 20),

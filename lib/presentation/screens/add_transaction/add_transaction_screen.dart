@@ -148,14 +148,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               height: 44,
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(14),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.shadow,
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: const [],
               ),
               child: TabBar(
                 controller: _tabController,
@@ -365,20 +359,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             padding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary : Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              color: isSelected ? AppColors.primary : Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 color: isSelected ? AppColors.primary : AppColors.divider,
               ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      )
-                    ]
-                  : [],
+              boxShadow: const [],
             ),
             child: Text(
               name,
@@ -415,7 +401,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary.withOpacity(0.8) : Colors.white,
+              color: isSelected ? AppColors.primary.withOpacity(0.8) : Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: isSelected ? AppColors.primary : AppColors.divider,
@@ -459,7 +445,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : Colors.white,
+                color: isSelected ? AppColors.primary : Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color:
@@ -517,7 +503,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
         padding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white, // Save button text remains white
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.divider),
         ),

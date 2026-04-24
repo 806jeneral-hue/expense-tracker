@@ -172,13 +172,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor,
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              )
-            ],
+            boxShadow: const [],
           ),
           child: const Icon(
             Icons.notifications_none_rounded,
@@ -202,13 +196,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.darkSurface.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        boxShadow: const [],
       ),
       child: Stack(
         children: [
@@ -301,13 +289,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor,
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          )
-        ],
+        boxShadow: const [],
       ),
       child: Row(
         children: [
@@ -521,13 +503,7 @@ class _QuickActionItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor,
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                )
-              ]
+              boxShadow: const [],
             ),
             child: Icon(icon, color: AppColors.primary, size: 24),
           ),
@@ -558,13 +534,7 @@ class _EmptyState extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor,
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: const [],
       ),
       child: Column(
         children: [

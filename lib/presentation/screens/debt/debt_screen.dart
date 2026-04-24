@@ -57,13 +57,7 @@ class DebtScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).shadowColor,
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      )
-                    ],
+                    boxShadow: const [],
                   ),
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),

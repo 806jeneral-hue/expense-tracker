@@ -236,15 +236,7 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? activeColor : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: isSelected
-                  ? activeColor.withOpacity(0.3)
-                  : Theme.of(context).shadowColor,
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          boxShadow: const [],
         ),
         child: Text(
           label,
