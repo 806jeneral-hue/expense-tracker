@@ -6,6 +6,7 @@ import 'package:expense_tracker/core/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/providers/app_provider.dart';
 import 'package:expense_tracker/presentation/screens/main_screen.dart';
 import 'package:expense_tracker/presentation/screens/auth/pin_lock_screen.dart';
+import 'package:expense_tracker/presentation/screens/splash_screen.dart';
 
 class ExpenseTrackerApp extends StatelessWidget {
   const ExpenseTrackerApp({super.key});
@@ -34,7 +35,7 @@ class ExpenseTrackerApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: const AuthWrapper(),
+      home: const SplashScreen(),
     );
   }
 }

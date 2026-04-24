@@ -6,6 +6,7 @@ import '../../providers/app_provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/recurring_model.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/l10n/app_localizations.dart';
 
 class RecurringScreen extends StatelessWidget {
   const RecurringScreen({super.key});

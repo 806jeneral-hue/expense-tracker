@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../providers/app_provider.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../widgets/premium_logo.dart';
 
 class PinLockScreen extends StatefulWidget {
   final bool isSettingPin;
@@ -148,8 +149,7 @@ class _PinLockScreenState extends State<PinLockScreen> {
               child: Column(
                 children: [
                   const Spacer(),
-                  const Icon(Icons.lock_outline_rounded,
-                      size: 64, color: Colors.white70),
+                  const PremiumLogo(size: 80),
                   const SizedBox(height: 24),
                   Text(
                     _message,

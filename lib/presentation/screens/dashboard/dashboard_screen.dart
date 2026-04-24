@@ -34,11 +34,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           children: [
             // ---- Custom Top App Bar ----
-            _buildTopBar(provider, context),
+            _buildTopBar(provider, context, loc),
             const SizedBox(height: 24),
 
             // ---- Balance Hero Card ----
-            _buildBalanceCard(provider),
+            _buildBalanceCard(provider, loc),
             const SizedBox(height: 24),
 
             // ---- This Month Summary ----
@@ -51,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            _buildSummaryCard(provider),
+            _buildSummaryCard(provider, loc),
             const SizedBox(height: 24),
 
             // ---- Quick Actions ----
@@ -89,7 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _QuickActionItem(
                   icon: Icons.category_outlined,
                   label: loc.categories,
-                  onTap: () => _showCategoriesSheet(context, provider),
+                  onTap: () => _showCategoriesSheet(context, provider, loc),
                 ),
               ],
             ),
@@ -133,7 +133,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   // --- TOP BAR ---
-  Widget _buildTopBar(AppProvider provider, BuildContext context) {
+  Widget _buildTopBar(AppProvider provider, BuildContext context, AppLocalizations loc) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -185,7 +185,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   // --- BALANCE HERO CARD ---
-  Widget _buildBalanceCard(AppProvider provider) {
+  Widget _buildBalanceCard(AppProvider provider, AppLocalizations loc) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -274,7 +274,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   // --- SUMMARY CARD (Donut + Income/Expense) ---
-  Widget _buildSummaryCard(AppProvider provider) {
+  Widget _buildSummaryCard(AppProvider provider, AppLocalizations loc) {
     final double income = provider.totalIncome;
     final double expense = provider.totalExpense;
     final double total = income + expense;
@@ -443,7 +443,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   // --- CATEGORIES BOTTOM SHEET ---
-  void _showCategoriesSheet(BuildContext context, AppProvider provider) {
+  void _showCategoriesSheet(BuildContext context, AppProvider provider, AppLocalizations loc) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
