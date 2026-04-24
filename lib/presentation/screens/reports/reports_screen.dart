@@ -17,10 +17,10 @@ class ReportsScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(loc.reports),
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         actions: [
           IconButton(
@@ -44,7 +44,7 @@ class ReportsScreen extends StatelessWidget {
                   children: [
                     Text(
                       provider.transactionFilter == 'income' ? loc.income : loc.expense,
-                      style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                      style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: Theme.of(context).textTheme.titleLarge?.color),
                     ),
                     _buildFilterToggle(provider, loc),
                   ],
@@ -78,7 +78,7 @@ class ReportsScreen extends StatelessWidget {
       height: 32,
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-        color: AppColors.divider,
+        color: Theme.of(context).dividerTheme.color?.withOpacity(0.1) ?? AppColors.divider.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -97,7 +97,7 @@ class ReportsScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Colors.transparent,
+          color: isSelected ? Theme.of(context).cardColor : Colors.transparent,
           borderRadius: BorderRadius.circular(6),
           boxShadow: isSelected ? [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4)] : [],
         ),

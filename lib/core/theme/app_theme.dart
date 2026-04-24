@@ -150,6 +150,8 @@ class AppTheme {
         error: AppColors.darkExpense,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
+      cardColor: AppColors.darkSurface,
+      shadowColor: Colors.transparent, // This kills all shadows
       textTheme: GoogleFonts.outfitTextTheme().copyWith(
         displayLarge: GoogleFonts.outfit(
           fontSize: 32,
@@ -192,9 +194,9 @@ class AppTheme {
         iconTheme: const IconThemeData(color: AppColors.darkTextPrimary),
       ),
       cardTheme: CardTheme(
-        color: AppColors.darkCard,
+        color: AppColors.darkSurface,
         elevation: 0,
-        shadowColor: Colors.black.withOpacity(0.1),
+        shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),

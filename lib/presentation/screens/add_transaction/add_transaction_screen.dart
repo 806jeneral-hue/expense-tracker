@@ -93,9 +93,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.9,
-      decoration: const BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
       ),
       child: Column(
         children: [
@@ -121,7 +121,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                   style: GoogleFonts.outfit(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: Theme.of(context).textTheme.titleLarge?.color,
                   ),
                 ),
                 GestureDetector(
@@ -129,7 +129,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.divider,
+                      color: Theme.of(context).dividerTheme.color?.withOpacity(0.1) ?? AppColors.divider.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Icon(Icons.close_rounded, size: 18),

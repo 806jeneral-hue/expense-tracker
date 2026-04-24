@@ -53,7 +53,7 @@ class _MainScreenState extends State<MainScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openAddTransaction(context),
         backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
-        elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 4,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
@@ -65,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
           color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadow,
+              color: Theme.of(context).shadowColor,
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),

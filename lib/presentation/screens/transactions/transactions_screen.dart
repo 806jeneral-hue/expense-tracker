@@ -30,10 +30,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final loc = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(loc.transactions),
-        backgroundColor: AppColors.background,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),
       body: Column(
@@ -117,7 +117,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                               padding: const EdgeInsets.only(right: 20),
                               margin: const EdgeInsets.symmetric(vertical: 2),
                               decoration: BoxDecoration(
-                                color: AppColors.expenseLight,
+                                color: AppColors.darkExpense.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: const Icon(
@@ -166,7 +166,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: Theme.of(context).textTheme.titleLarge?.color,
             ),
           ),
         ],
@@ -240,7 +240,7 @@ class _FilterChip extends StatelessWidget {
             BoxShadow(
               color: isSelected
                   ? activeColor.withOpacity(0.3)
-                  : AppColors.shadow,
+                  : Theme.of(context).shadowColor,
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

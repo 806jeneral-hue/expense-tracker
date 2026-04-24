@@ -15,7 +15,7 @@ class BudgetScreen extends StatelessWidget {
     final isArabic = provider.isArabic;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
           isArabic ? 'الميزانية الشهرية' : 'Monthly Budget',
@@ -47,7 +47,7 @@ class BudgetScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.shadow.withOpacity(0.05),
+                  color: Theme.of(context).shadowColor,
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 )
@@ -94,12 +94,12 @@ class BudgetScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${isArabic ? 'المصروف:' : 'Spent:'} ${Formatters.formatCurrency(spent, currency: provider.currency)}',
+                      '${isArabic ? 'المصروف:' : 'Spent:'} ${Formatters.formatCurrency(spent, currency: provider.currency, isArabic: isArabic)}',
                       style: GoogleFonts.outfit(fontSize: 13, color: AppColors.textSecondary),
                     ),
                     Text(
                       budgetAmount > 0 
-                        ? '${isArabic ? 'الميزانية:' : 'Budget:'} ${Formatters.formatCurrency(budgetAmount, currency: provider.currency)}'
+                        ? '${isArabic ? 'الميزانية:' : 'Budget:'} ${Formatters.formatCurrency(budgetAmount, currency: provider.currency, isArabic: isArabic)}'
                         : (isArabic ? 'لم تحدد ميزانية' : 'No budget set'),
                       style: GoogleFonts.outfit(
                         fontSize: 13, 

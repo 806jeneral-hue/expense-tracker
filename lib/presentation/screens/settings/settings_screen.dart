@@ -110,7 +110,7 @@ class _AccountsCard extends StatelessWidget {
                     decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(12)),
                     child: const Icon(Icons.account_balance_wallet_rounded, color: AppColors.primary, size: 20),
                   ),
-                  title: Text(acc.name, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                  title: Text(acc.name, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
                   subtitle: Text('${acc.type.toUpperCase()} • ${acc.currency}',
                       style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary)),
                   trailing: Text(
@@ -240,7 +240,7 @@ class _PreferencesCard extends StatelessWidget {
                 style: GoogleFonts.outfit(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary)),
+                    color: Theme.of(context).textTheme.titleLarge?.color)),
             trailing: DropdownButton<String>(
               value: provider.locale.languageCode,
               underline: const SizedBox.shrink(),
@@ -272,7 +272,7 @@ class _PreferencesCard extends StatelessWidget {
                 style: GoogleFonts.outfit(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary)),
+                    color: Theme.of(context).textTheme.titleLarge?.color)),
             trailing: Switch(
               value: provider.isDarkMode,
               onChanged: (_) => provider.toggleTheme(),

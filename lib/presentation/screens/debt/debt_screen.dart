@@ -15,7 +15,7 @@ class DebtScreen extends StatelessWidget {
     final isArabic = provider.isArabic;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
           isArabic ? 'الديون والالتزامات' : 'Debts & Lending',
@@ -59,7 +59,7 @@ class DebtScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.shadow.withOpacity(0.05),
+                        color: Theme.of(context).shadowColor,
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       )
@@ -104,7 +104,7 @@ class DebtScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          Formatters.formatCurrency(debt.amount, currency: provider.currency),
+                          Formatters.formatCurrency(debt.amount, currency: provider.currency, isArabic: isArabic),
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.bold,
                             color: isLend ? Colors.green : Colors.red,
