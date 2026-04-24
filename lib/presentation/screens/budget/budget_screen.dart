@@ -40,7 +40,7 @@ class BudgetScreen extends StatelessWidget {
           final isOverBudget = spent > budgetAmount && budgetAmount > 0;
 
           return Container(
-            margin: const EdgeInsets.bottom(16),
+            margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,

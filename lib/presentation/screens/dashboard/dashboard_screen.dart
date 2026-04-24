@@ -310,8 +310,6 @@ class _BalanceHeroCard extends StatelessWidget {
 }
 
 // ---- Summary Card ----
-  }
-}
 
 class _QuickActionItem extends StatelessWidget {
   final IconData icon;
