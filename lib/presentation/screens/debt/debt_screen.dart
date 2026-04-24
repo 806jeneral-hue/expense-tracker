@@ -53,7 +53,7 @@ class DebtScreen extends StatelessWidget {
                 final isLend = debt.type == 'lend';
 
                 return Container(
-                  margin: const EdgeInsets.bottom(12),
+                  margin: const EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(20),
@@ -104,7 +104,7 @@ class DebtScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          Formatters.formatCurrency(debt.amount, provider.currency),
+                          Formatters.formatCurrency(debt.amount, currency: provider.currency),
                           style: GoogleFonts.outfit(
                             fontWeight: FontWeight.bold,
                             color: isLend ? Colors.green : Colors.red,

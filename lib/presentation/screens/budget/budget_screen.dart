@@ -94,12 +94,12 @@ class BudgetScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${isArabic ? 'المصروف:' : 'Spent:'} ${Formatters.formatCurrency(spent, provider.currency)}',
+                      '${isArabic ? 'المصروف:' : 'Spent:'} ${Formatters.formatCurrency(spent, currency: provider.currency)}',
                       style: GoogleFonts.outfit(fontSize: 13, color: AppColors.textSecondary),
                     ),
                     Text(
                       budgetAmount > 0 
-                        ? '${isArabic ? 'الميزانية:' : 'Budget:'} ${Formatters.formatCurrency(budgetAmount, provider.currency)}'
+                        ? '${isArabic ? 'الميزانية:' : 'Budget:'} ${Formatters.formatCurrency(budgetAmount, currency: provider.currency)}'
                         : (isArabic ? 'لم تحدد ميزانية' : 'No budget set'),
                       style: GoogleFonts.outfit(
                         fontSize: 13, 
