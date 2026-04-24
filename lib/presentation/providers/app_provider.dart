@@ -10,6 +10,8 @@ import '../../data/models/category_model.dart';
 import '../../data/models/transaction_model.dart';
 import '../../data/models/budget_model.dart';
 import '../../data/models/debt_model.dart';
+import '../../data/models/recurring_model.dart';
+import '../../core/l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
 
 class AppProvider extends ChangeNotifier {
@@ -140,6 +142,10 @@ class AppProvider extends ChangeNotifier {
   List<DebtModel> _debts = [];
   List<DebtModel> get debts => _debts;
 
+  // ---- Recurring ----
+  List<RecurringModel> _recurring = [];
+  List<RecurringModel> get recurring => _recurring;
+
   // ---- Loading ----
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -169,12 +175,13 @@ class AppProvider extends ChangeNotifier {
 
     await loadAccounts();
     await loadCategories();
-    await loadTransactions();
+    _transactions = await _db.getTransactions(limit: 50); // Get recent 50
     await loadSummary();
     await loadCategoryBreakdown();
     await loadMonthlyData();
     await loadBudgets();
     await loadDebts();
+    await loadRecurring();
 
     _isLoading = false;
     notifyListeners();
@@ -411,5 +418,42 @@ class AppProvider extends ChangeNotifier {
   Future<void> deleteDebt(int id) async {
     await _db.deleteDebt(id);
     await loadDebts();
+  }
+
+  // ==================== RECURRING ====================
+
+  Future<void> loadRecurring() async {
+    _recurring = await _db.getRecurring();
+    notifyListeners();
+  }
+
+  Future<void> addRecurring(RecurringModel item) async {
+    await _db.insertRecurring(item);
+    await loadRecurring();
+  }
+
+  Future<void> updateRecurring(RecurringModel item) async {
+    await _db.updateRecurring(item);
+    await loadRecurring();
+  }
+
+  Future<void> toggleRecurringStatus(RecurringModel item) async {
+    final updated = RecurringModel(
+      id: item.id,
+      accountId: item.accountId,
+      categoryId: item.categoryId,
+      amount: item.amount,
+      type: item.type,
+      note: item.note,
+      frequency: item.frequency,
+      nextExecution: item.nextExecution,
+      isActive: !item.isActive,
+    );
+    await updateRecurring(updated);
+  }
+
+  Future<void> deleteRecurring(int id) async {
+    await _db.deleteRecurring(id);
+    await loadRecurring();
   }
 }

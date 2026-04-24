@@ -11,6 +11,7 @@ import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
 import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
 import 'package:expense_tracker/presentation/screens/reports/reports_screen.dart';
 import 'package:expense_tracker/presentation/screens/settings/settings_screen.dart';
+import 'package:expense_tracker/presentation/screens/recurring/recurring_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -126,9 +127,10 @@ class DashboardScreen extends StatelessWidget {
                     _QuickActionItem(
                       icon: Icons.autorenew_rounded,
                       label: provider.isArabic ? 'المتكررة' : 'Recurring',
-                      onTap: () {
-                         // TODO: Navigate to Recurring Screen
-                      },
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const RecurringScreen()),
+                      ),
                     ),
                     _QuickActionItem(
                       icon: Icons.category_outlined,

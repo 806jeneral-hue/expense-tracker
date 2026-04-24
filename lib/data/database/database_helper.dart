@@ -5,6 +5,7 @@ import '../models/category_model.dart';
 import '../models/transaction_model.dart';
 import '../models/budget_model.dart';
 import '../models/debt_model.dart';
+import '../models/recurring_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -541,6 +542,37 @@ class DatabaseHelper {
   Future<int> deleteDebt(int id) async {
     final db = await database;
     return await db.delete('debts', where: 'id = ?', whereArgs: [id]);
+  }
+
+  // ==================== RECURRING TRANSACTIONS ====================
+
+  Future<int> insertRecurring(RecurringModel recurring) async {
+    final db = await database;
+    return await db.insert('recurring_transactions', recurring.toMap());
+  }
+
+  Future<List<RecurringModel>> getRecurring() async {
+    final db = await database;
+    final maps = await db.query(
+      'recurring_transactions',
+      orderBy: 'next_execution ASC',
+    );
+    return maps.map((m) => RecurringModel.fromMap(m)).toList();
+  }
+
+  Future<int> updateRecurring(RecurringModel recurring) async {
+    final db = await database;
+    return await db.update(
+      'recurring_transactions',
+      recurring.toMap(),
+      where: 'id = ?',
+      whereArgs: [recurring.id],
+    );
+  }
+
+  Future<int> deleteRecurring(int id) async {
+    final db = await database;
+    return await db.delete('recurring_transactions', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> close() async {
