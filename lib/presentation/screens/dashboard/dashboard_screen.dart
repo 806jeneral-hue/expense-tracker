@@ -402,6 +402,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Widget _buildSmallIndicator({
+    required String label,
+    required double amount,
+    required String currency,
+    required bool isIncome,
     required BuildContext context,
     required bool isArabic,
   }) {
