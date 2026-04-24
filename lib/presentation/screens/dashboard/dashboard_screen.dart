@@ -322,6 +322,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   currency: provider.currency,
                   isIncome: true,
                   context: context,
+                  isArabic: provider.isArabic,
                 ),
                 const SizedBox(height: 12),
                 _buildSmallIndicator(
@@ -330,6 +331,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   currency: provider.currency,
                   isIncome: false,
                   context: context,
+                  isArabic: provider.isArabic,
                 ),
               ],
             ),
@@ -400,12 +402,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildSmallIndicator({
-    required String label,
-    required double amount,
-    required String currency,
-    required bool isIncome,
     required BuildContext context,
+    required bool isArabic,
   }) {
     final color = isIncome ? AppColors.income : AppColors.expense;
     final bgColor = isIncome ? AppColors.incomeLight.withOpacity(0.3) : AppColors.expenseLight.withOpacity(0.3);
@@ -440,7 +438,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary),
                 ),
                 Text(
-                  Formatters.formatCurrency(amount, currency: currency, isArabic: provider.isArabic),
+                  Formatters.formatCurrency(amount, currency: currency, isArabic: isArabic),
                   style: GoogleFonts.outfit(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,

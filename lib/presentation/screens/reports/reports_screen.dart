@@ -46,7 +46,7 @@ class ReportsScreen extends StatelessWidget {
                       provider.transactionFilter == 'income' ? loc.income : loc.expense,
                       style: GoogleFonts.outfit(fontSize: 17, fontWeight: FontWeight.w700, color: Theme.of(context).textTheme.titleLarge?.color),
                     ),
-                    _buildFilterToggle(provider, loc),
+                    _buildFilterToggle(context, provider, loc),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -73,7 +73,7 @@ class ReportsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterToggle(AppProvider provider, AppLocalizations loc) {
+  Widget _buildFilterToggle(BuildContext context, AppProvider provider, AppLocalizations loc) {
     return Container(
       height: 32,
       padding: const EdgeInsets.all(2),
@@ -83,14 +83,14 @@ class ReportsScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _buildToggleItem(provider, 'expense', loc.expense),
-          _buildToggleItem(provider, 'income', loc.income),
+          _buildToggleItem(context, provider, 'expense', loc.expense),
+          _buildToggleItem(context, provider, 'income', loc.income),
         ],
       ),
     );
   }
 
-  Widget _buildToggleItem(AppProvider provider, String type, String label) {
+  Widget _buildToggleItem(BuildContext context, AppProvider provider, String type, String label) {
     final isSelected = provider.transactionFilter == type;
     return GestureDetector(
       onTap: () => provider.setFilter(type),

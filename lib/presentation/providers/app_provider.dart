@@ -213,8 +213,6 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool get isArabic => _locale.languageCode == 'ar';
-
   // ==================== THEME ====================
 
   void toggleTheme() {
