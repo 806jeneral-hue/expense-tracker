@@ -258,6 +258,29 @@ class _PreferencesCard extends StatelessWidget {
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            leading: Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  borderRadius: BorderRadius.circular(12)),
+              child: const Icon(Icons.dark_mode_rounded,
+                  color: AppColors.primary, size: 20),
+            ),
+            title: Text(provider.isArabic ? "الوضع الليلي" : "Dark Mode",
+                style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary)),
+            trailing: Switch(
+              value: provider.isDarkMode,
+              onChanged: (_) => provider.toggleTheme(),
+              activeColor: AppColors.primary,
+            ),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             leading: Container(

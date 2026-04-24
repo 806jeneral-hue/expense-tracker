@@ -22,7 +22,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
     );
@@ -31,6 +31,49 @@ class DatabaseHelper {
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
       await db.execute('ALTER TABLE categories ADD COLUMN parent_id INTEGER REFERENCES categories(id) ON DELETE CASCADE');
+    }
+    if (oldVersion < 3) {
+      // Budgets table
+      await db.execute('''
+        CREATE TABLE budgets (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          category_id INTEGER NOT NULL,
+          amount REAL NOT NULL,
+          month TEXT NOT NULL,
+          FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+        )
+      ''');
+
+      // Recurring transactions table
+      await db.execute('''
+        CREATE TABLE recurring_transactions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          account_id INTEGER NOT NULL,
+          category_id INTEGER NOT NULL,
+          amount REAL NOT NULL,
+          type TEXT NOT NULL,
+          note TEXT,
+          frequency TEXT NOT NULL,
+          next_execution TEXT NOT NULL,
+          is_active INTEGER NOT NULL DEFAULT 1,
+          FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
+          FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
+        )
+      ''');
+
+      // Debts table
+      await db.execute('''
+        CREATE TABLE debts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          person_name TEXT NOT NULL,
+          amount REAL NOT NULL,
+          type TEXT NOT NULL,
+          is_paid INTEGER NOT NULL DEFAULT 0,
+          date TEXT NOT NULL,
+          due_date TEXT,
+          note TEXT
+        )
+      ''');
     }
   }
 
@@ -80,6 +123,52 @@ class DatabaseHelper {
         FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
       )
     ''');
+
+    // Budgets table
+    await db.execute('''
+      CREATE TABLE budgets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_id INTEGER NOT NULL,
+        amount REAL NOT NULL,
+        month TEXT NOT NULL,
+        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+      )
+    ''');
+
+    // Recurring transactions table
+    await db.execute('''
+      CREATE TABLE recurring_transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id INTEGER NOT NULL,
+        category_id INTEGER NOT NULL,
+        amount REAL NOT NULL,
+        type TEXT NOT NULL,
+        note TEXT,
+        frequency TEXT NOT NULL,
+        next_execution TEXT NOT NULL,
+        is_active INTEGER NOT NULL DEFAULT 1,
+        FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
+        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
+      )
+    ''');
+
+    // Debts table
+    await db.execute('''
+      CREATE TABLE debts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        person_name TEXT NOT NULL,
+        amount REAL NOT NULL,
+        type TEXT NOT NULL,
+        is_paid INTEGER NOT NULL DEFAULT 0,
+        date TEXT NOT NULL,
+        due_date TEXT,
+        note TEXT
+      )
+    ''');
+
+    // Seed default data
+    await _seedData(db);
+  }
 
     // Seed default data
     await _seedData(db);
@@ -401,6 +490,59 @@ class DatabaseHelper {
     }
 
     return results;
+  }
+
+  // ==================== BUDGETS ====================
+
+  Future<int> insertBudget(BudgetModel budget) async {
+    final db = await database;
+    return await db.insert('budgets', budget.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<BudgetModel>> getBudgets(DateTime month) async {
+    final db = await database;
+    final monthStr = '${month.year}-${month.month.toString().padLeft(2, '0')}-01';
+    final maps = await db.query('budgets', where: 'month = ?', whereArgs: [monthStr]);
+    return maps.map((m) => BudgetModel.fromMap(m)).toList();
+  }
+
+  Future<int> deleteBudget(int id) async {
+    final db = await database;
+    return await db.delete('budgets', where: 'id = ?', whereArgs: [id]);
+  }
+
+  // ==================== DEBTS ====================
+
+  Future<int> insertDebt(DebtModel debt) async {
+    final db = await database;
+    return await db.insert('debts', debt.toMap());
+  }
+
+  Future<List<DebtModel>> getDebts({bool? isPaid}) async {
+    final db = await database;
+    final maps = await db.query(
+      'debts',
+      where: isPaid != null ? 'is_paid = ?' : null,
+      whereArgs: isPaid != null ? [isPaid ? 1 : 0] : null,
+      orderBy: 'date DESC',
+    );
+    return maps.map((m) => DebtModel.fromMap(m)).toList();
+  }
+
+  Future<int> updateDebt(DebtModel debt) async {
+    final db = await database;
+    return await db.update(
+      'debts',
+      debt.toMap(),
+      where: 'id = ?',
+      whereArgs: [debt.id],
+    );
+  }
+
+  Future<int> deleteDebt(int id) async {
+    final db = await database;
+    return await db.delete('debts', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> close() async {

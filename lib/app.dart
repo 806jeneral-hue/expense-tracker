@@ -18,6 +18,8 @@ class ExpenseTrackerApp extends StatelessWidget {
       title: 'Expense Tracker',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: appProvider.themeMode,
       locale: appProvider.locale,
       supportedLocales: const [
         Locale('en'),

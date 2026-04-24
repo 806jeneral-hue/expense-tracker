@@ -8,6 +8,9 @@ import '../../data/database/database_helper.dart';
 import '../../data/models/account_model.dart';
 import '../../data/models/category_model.dart';
 import '../../data/models/transaction_model.dart';
+import '../../data/models/budget_model.dart';
+import '../../data/models/debt_model.dart';
+import 'package:local_auth/local_auth.dart';
 
 class AppProvider extends ChangeNotifier {
   final DatabaseHelper _db = DatabaseHelper.instance;
@@ -16,6 +19,11 @@ class AppProvider extends ChangeNotifier {
   // ---- Locale ----
   Locale _locale = const Locale('en');
   Locale get locale => _locale;
+
+  // ---- Theme ----
+  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode get themeMode => _themeMode;
+  bool get isDarkMode => _themeMode == ThemeMode.dark;
 
   // ---- Security ----
   bool _isSecurityEnabled = false;
@@ -47,6 +55,35 @@ class AppProvider extends ChangeNotifier {
 
   bool verifyPin(String input) {
     return _appPin == input;
+  }
+
+  // ---- Biometrics ----
+  final LocalAuthentication _auth = LocalAuthentication();
+  bool _isBiometricAvailable = false;
+  bool get isBiometricAvailable => _isBiometricAvailable;
+
+  Future<void> checkBiometrics() async {
+    try {
+      _isBiometricAvailable = await _auth.canCheckBiometrics;
+      notifyListeners();
+    } catch (e) {
+      debugPrint("Biometric Error: $e");
+    }
+  }
+
+  Future<bool> authenticateWithBiometrics() async {
+    try {
+      return await _auth.authenticate(
+        localizedReason: 'Please authenticate to unlock the app',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+        ),
+      );
+    } catch (e) {
+      debugPrint("Auth Error: $e");
+      return false;
+    }
   }
 
   // ---- Accounts ----
@@ -95,6 +132,14 @@ class AppProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _monthlyData = [];
   List<Map<String, dynamic>> get monthlyData => _monthlyData;
 
+  // ---- Budgets ----
+  List<BudgetModel> _budgets = [];
+  List<BudgetModel> get budgets => _budgets;
+
+  // ---- Debts ----
+  List<DebtModel> _debts = [];
+  List<DebtModel> get debts => _debts;
+
   // ---- Loading ----
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -118,6 +163,9 @@ class AppProvider extends ChangeNotifier {
     _appPin = _prefs.getString('app_pin');
     final lang = _prefs.getString('language') ?? 'en';
     _locale = Locale(lang);
+    
+    final isDark = _prefs.getBool('isDarkMode') ?? false;
+    _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
 
     await loadAccounts();
     await loadCategories();
@@ -125,6 +173,8 @@ class AppProvider extends ChangeNotifier {
     await loadSummary();
     await loadCategoryBreakdown();
     await loadMonthlyData();
+    await loadBudgets();
+    await loadDebts();
 
     _isLoading = false;
     notifyListeners();
@@ -147,6 +197,14 @@ class AppProvider extends ChangeNotifier {
   }
 
   bool get isArabic => _locale.languageCode == 'ar';
+
+  // ==================== THEME ====================
+
+  void toggleTheme() {
+    _themeMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
+    _prefs.setBool('isDarkMode', isDarkMode);
+    notifyListeners();
+  }
 
   // ==================== ACCOUNTS ====================
 
@@ -310,5 +368,48 @@ class AppProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("Export Error: $e");
     }
+  }
+
+  // ==================== BUDGETS ====================
+
+  Future<void> loadBudgets() async {
+    _budgets = await _db.getBudgets(_selectedMonth);
+    notifyListeners();
+  }
+
+  Future<void> addBudget(BudgetModel budget) async {
+    await _db.insertBudget(budget);
+    await loadBudgets();
+  }
+
+  double getBudgetForCategory(int categoryId) {
+    try {
+      final b = _budgets.firstWhere((b) => b.categoryId == categoryId);
+      return b.amount;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  // ==================== DEBTS ====================
+
+  Future<void> loadDebts() async {
+    _debts = await _db.getDebts();
+    notifyListeners();
+  }
+
+  Future<void> addDebt(DebtModel debt) async {
+    await _db.insertDebt(debt);
+    await loadDebts();
+  }
+
+  Future<void> updateDebt(DebtModel debt) async {
+    await _db.updateDebt(debt);
+    await loadDebts();
+  }
+
+  Future<void> deleteDebt(int id) async {
+    await _db.deleteDebt(id);
+    await loadDebts();
   }
 }
