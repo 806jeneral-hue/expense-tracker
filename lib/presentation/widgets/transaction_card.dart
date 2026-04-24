@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../data/models/transaction_model.dart';
+import '../../../core/l10n/app_localizations.dart';
 
 class TransactionCard extends StatelessWidget {
   final TransactionModel transaction;
@@ -22,6 +23,7 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context);
     final isExpense = transaction.isExpense;
     final color = isExpense ? AppColors.expense : AppColors.income;
     final bgColor =
@@ -75,7 +77,9 @@ class TransactionCard extends StatelessWidget {
                     transaction.note?.isNotEmpty == true
                         ? transaction.note!
                         : Formatters.getRelativeDate(transaction.date,
-                            isArabic: isArabic),
+                            today: loc.today,
+                            yesterday: loc.yesterday,
+                            daysAgo: loc.daysAgo),
                     style: GoogleFonts.outfit(
                       fontSize: 12,
                       color: AppColors.textSecondary,
@@ -86,7 +90,9 @@ class TransactionCard extends StatelessWidget {
                   if (transaction.note?.isNotEmpty == true)
                     Text(
                       Formatters.getRelativeDate(transaction.date,
-                          isArabic: isArabic),
+                          today: loc.today,
+                          yesterday: loc.yesterday,
+                          daysAgo: loc.daysAgo),
                       style: GoogleFonts.outfit(
                         fontSize: 11,
                         color: AppColors.textLight,

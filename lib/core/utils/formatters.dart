@@ -24,20 +24,16 @@ class Formatters {
     return DateFormat('hh:mm a').format(date);
   }
 
-  static String getRelativeDate(DateTime date, {bool isArabic = false}) {
+  static String getRelativeDate(DateTime date, {String? today, String? yesterday, String? daysAgo}) {
     final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
+    final todayDate = DateTime(now.year, now.month, now.day);
     final dateOnly = DateTime(date.year, date.month, date.day);
-    final diff = today.difference(dateOnly).inDays;
+    final diff = todayDate.difference(dateOnly).inDays;
 
-    if (isArabic) {
-      if (diff == 0) return 'اليوم';
-      if (diff == 1) return 'أمس';
-      if (diff < 7) return 'منذ $diff أيام';
-    } else {
-      if (diff == 0) return 'Today';
-      if (diff == 1) return 'Yesterday';
-      if (diff < 7) return '$diff days ago';
+    if (diff == 0 && today != null) return today;
+    if (diff == 1 && yesterday != null) return yesterday;
+    if (diff < 7 && diff > 1 && daysAgo != null) {
+      return '$diff $daysAgo';
     }
     return formatDate(date);
   }

@@ -80,6 +80,50 @@ class AppLocalizations {
       'freelance': 'Freelance',
       'investment': 'Investment',
       'other': 'Other',
+      'data': 'Data',
+      'darkMode': 'Dark Mode',
+      'appLock': 'App Lock',
+      'appLockSubtitle': 'Use PIN/Password to unlock',
+      'securityType': 'Security Type',
+      'pin': 'PIN',
+      'password': 'Password',
+      'changePin': 'Change PIN',
+      'changePassword': 'Change Password',
+      'exportCsvSubtitle': 'Save transactions as CSV file',
+      'exportSuccess': 'File exported successfully',
+      'history': 'History',
+      'recurringTransactions': 'Recurring Transactions',
+      'noRecurringTransactions': 'No recurring transactions',
+      'next': 'Next',
+      'every': 'Every',
+      'deleteRecurring': 'Delete recurring?',
+      'daily': 'Daily',
+      'weekly': 'Weekly',
+      'monthly': 'Monthly',
+      'yearly': 'Yearly',
+      'saveRecurring': 'Save Recurring',
+      'debts': 'Debts',
+      'noDebts': 'No debts recorded',
+      'owesYou': 'Owes you',
+      'youOwe': 'You owe',
+      'dueDate': 'Due Date',
+      'addDebt': 'Add New Debt',
+      'personName': 'Person Name',
+      'thisMonthSummary': 'This Month\'s Summary',
+      'budget': 'Budget',
+      'welcome': 'Welcome',
+      'manageExpenses': 'Manage your expenses easily',
+      'currentBalance': 'Current Balance',
+      'viewDetails': 'View Details',
+      'remaining': 'Remaining',
+      'monthlyBudget': 'Monthly Budget',
+      'spent': 'Spent',
+      'noBudgetSet': 'No budget set',
+      'overBudget': 'Over budget!',
+      'setBudget': 'Set Budget',
+      'today': 'Today',
+      'yesterday': 'Yesterday',
+      'daysAgo': 'days ago',
     },
     'ar': {
       'appTitle': 'متتبع المصروفات',
@@ -147,6 +191,50 @@ class AppLocalizations {
       'freelance': 'عمل حر',
       'investment': 'استثمار',
       'other': 'أخرى',
+      'data': 'البيانات',
+      'darkMode': 'الوضع الليلي',
+      'appLock': 'قفل التطبيق',
+      'appLockSubtitle': 'استخدم الرقم السري لفتح التطبيق',
+      'securityType': 'نوع الحماية',
+      'pin': 'رقم سري',
+      'password': 'كلمة مرور',
+      'changePin': 'تغيير الرقم السري',
+      'changePassword': 'تغيير كلمة المرور',
+      'exportCsvSubtitle': 'حفظ نسخة من المعاملات بصيغة CSV',
+      'exportSuccess': 'تم تصدير الملف بنجاح',
+      'history': 'السجل',
+      'recurringTransactions': 'المعاملات المتكررة',
+      'noRecurringTransactions': 'لا توجد معاملات متكررة',
+      'next': 'التالي',
+      'every': 'كل',
+      'deleteRecurring': 'حذف المعاملة المتكررة؟',
+      'daily': 'يومياً',
+      'weekly': 'أسبوعياً',
+      'monthly': 'شهرياً',
+      'yearly': 'سنوياً',
+      'saveRecurring': 'حفظ المعاملة المتكررة',
+      'debts': 'الديون',
+      'noDebts': 'لا توجد ديون مسجلة',
+      'owesYou': 'فلوس ليك',
+      'youOwe': 'فلوس عليك',
+      'dueDate': 'تاريخ الاستحقاق',
+      'addDebt': 'إضافة دين جديد',
+      'personName': 'اسم الشخص',
+      'thisMonthSummary': 'ملخص هذا الشهر',
+      'budget': 'الميزانية',
+      'welcome': 'مرحباً بك',
+      'manageExpenses': 'إدارة مصاريفك بسهولة',
+      'currentBalance': 'الرصيد الحالي',
+      'viewDetails': 'عرض التفاصيل',
+      'remaining': 'المتبقي',
+      'monthlyBudget': 'الميزانية الشهرية',
+      'spent': 'المصروف',
+      'noBudgetSet': 'لم تحدد ميزانية',
+      'overBudget': 'لقد تجاوزت الميزانية!',
+      'setBudget': 'تحديد الميزانية',
+      'today': 'اليوم',
+      'yesterday': 'أمس',
+      'daysAgo': 'أيام',
     },
     'es': {
       'appTitle': 'Gestor de Gastos',
@@ -214,6 +302,50 @@ class AppLocalizations {
       'freelance': 'Freelance',
       'investment': 'Inversión',
       'other': 'Otro',
+      'data': 'Datos',
+      'darkMode': 'Modo Oscuro',
+      'appLock': 'Bloqueo de App',
+      'appLockSubtitle': 'Usar PIN para desbloquear',
+      'securityType': 'Tipo de Seguridad',
+      'pin': 'PIN',
+      'password': 'Contraseña',
+      'changePin': 'Cambiar PIN',
+      'changePassword': 'Cambiar Contraseña',
+      'exportCsvSubtitle': 'Guardar transacciones como CSV',
+      'exportSuccess': 'Archivo exportado con éxito',
+      'history': 'Historial',
+      'recurringTransactions': 'Transacciones Recurrentes',
+      'noRecurringTransactions': 'Sin transacciones recurrentes',
+      'next': 'Siguiente',
+      'every': 'Cada',
+      'deleteRecurring': '¿Eliminar recurrente?',
+      'daily': 'Diario',
+      'weekly': 'Semanal',
+      'monthly': 'Mensual',
+      'yearly': 'Anual',
+      'saveRecurring': 'Guardar Recurrente',
+      'debts': 'Deudas',
+      'noDebts': 'Sin deudas registradas',
+      'owesYou': 'Te deben',
+      'youOwe': 'Debes',
+      'dueDate': 'Fecha de vencimiento',
+      'addDebt': 'Añadir Nueva Deuda',
+      'personName': 'Nombre de la persona',
+      'thisMonthSummary': 'Resumen de este mes',
+      'budget': 'Presupuesto',
+      'welcome': 'Bienvenido',
+      'manageExpenses': 'Gestiona tus gastos fácilmente',
+      'currentBalance': 'Saldo Actual',
+      'viewDetails': 'Ver Detalles',
+      'remaining': 'Restante',
+      'monthlyBudget': 'Presupuesto Mensual',
+      'spent': 'Gastado',
+      'noBudgetSet': 'Sin presupuesto fijado',
+      'overBudget': '¡Has superado el presupuesto!',
+      'setBudget': 'Fijar Presupuesto',
+      'today': 'Hoy',
+      'yesterday': 'Ayer',
+      'daysAgo': 'días atrás',
     },
     'fr': {
       'appTitle': 'Gestion des Dépenses',
@@ -281,6 +413,50 @@ class AppLocalizations {
       'freelance': 'Freelance',
       'investment': 'Investissement',
       'other': 'Autre',
+      'data': 'Données',
+      'darkMode': 'Mode Sombre',
+      'appLock': 'Verrouillage',
+      'appLockSubtitle': 'Utiliser un code pour déverrouiller',
+      'securityType': 'Type de sécurité',
+      'pin': 'Code PIN',
+      'password': 'Mot de passe',
+      'changePin': 'Changer le PIN',
+      'changePassword': 'Changer le mot de passe',
+      'exportCsvSubtitle': 'Enregistrer en CSV',
+      'exportSuccess': 'Exportation réussie',
+      'history': 'Historique',
+      'recurringTransactions': 'Transactions récurrentes',
+      'noRecurringTransactions': 'Aucune transaction récurrente',
+      'next': 'Suivant',
+      'every': 'Chaque',
+      'deleteRecurring': 'Supprimer la récurrence ?',
+      'daily': 'Quotidien',
+      'weekly': 'Hebdomadaire',
+      'monthly': 'Mensuel',
+      'yearly': 'Annuel',
+      'saveRecurring': 'Enregistrer la récurrence',
+      'debts': 'Dettes',
+      'noDebts': 'Aucune dette enregistrée',
+      'owesYou': 'On vous doit',
+      'youOwe': 'Vous devez',
+      'dueDate': 'Date d\'échéance',
+      'addDebt': 'Ajouter une dette',
+      'personName': 'Nom de la personne',
+      'thisMonthSummary': 'Résumé du mois',
+      'budget': 'Budget',
+      'welcome': 'Bienvenue',
+      'manageExpenses': 'Gérez vos dépenses facilement',
+      'currentBalance': 'Solde actuel',
+      'viewDetails': 'Voir les détails',
+      'remaining': 'Restant',
+      'monthlyBudget': 'Budget mensuel',
+      'spent': 'Dépensé',
+      'noBudgetSet': 'Pas de budget fixé',
+      'overBudget': 'Hors budget !',
+      'setBudget': 'Fixer le budget',
+      'today': 'Aujourd\'hui',
+      'yesterday': 'Hier',
+      'daysAgo': 'jours',
     },
     'de': {
       'appTitle': 'Kostenverfolgung',
@@ -348,6 +524,50 @@ class AppLocalizations {
       'freelance': 'Freelance',
       'investment': 'Investition',
       'other': 'Andere',
+      'data': 'Daten',
+      'darkMode': 'Dunkelmodus',
+      'appLock': 'App-Sperre',
+      'appLockSubtitle': 'PIN zum Entsperren verwenden',
+      'securityType': 'Sicherheitstyp',
+      'pin': 'PIN',
+      'password': 'Passwort',
+      'changePin': 'PIN ändern',
+      'changePassword': 'Passwort ändern',
+      'exportCsvSubtitle': 'Transaktionen als CSV speichern',
+      'exportSuccess': 'Datei erfolgreich exportiert',
+      'history': 'Verlauf',
+      'recurringTransactions': 'Wiederkehrende Transaktionen',
+      'noRecurringTransactions': 'Keine wiederkehrenden Transaktionen',
+      'next': 'Nächste',
+      'every': 'Jeden',
+      'deleteRecurring': 'Wiederholung löschen?',
+      'daily': 'Täglich',
+      'weekly': 'Wöchentlich',
+      'monthly': 'Monatlich',
+      'yearly': 'Jährlich',
+      'saveRecurring': 'Wiederholung speichern',
+      'debts': 'Schulden',
+      'noDebts': 'Keine Schulden verzeichnet',
+      'owesYou': 'Schuldet dir',
+      'youOwe': 'Du schuldest',
+      'dueDate': 'Fälligkeitsdatum',
+      'addDebt': 'Schulden hinzufügen',
+      'personName': 'Name der Person',
+      'thisMonthSummary': 'Übersicht diesen Monat',
+      'budget': 'Budget',
+      'welcome': 'Willkommen',
+      'manageExpenses': 'Verwalten Sie Ihre Ausgaben einfach',
+      'currentBalance': 'Aktuelles Guthaben',
+      'viewDetails': 'Details anzeigen',
+      'remaining': 'Verbleibend',
+      'monthlyBudget': 'Monatliches Budget',
+      'spent': 'Ausgegeben',
+      'noBudgetSet': 'Kein Budget festgelegt',
+      'overBudget': 'Budget überschritten!',
+      'setBudget': 'Budget festlegen',
+      'today': 'Heute',
+      'yesterday': 'Gestern',
+      'daysAgo': 'Tage her',
     },
   };
 
@@ -422,6 +642,50 @@ class AppLocalizations {
   String get freelance => _t('freelance');
   String get investment => _t('investment');
   String get other => _t('other');
+  String get data => _t('data');
+  String get darkMode => _t('darkMode');
+  String get appLock => _t('appLock');
+  String get appLockSubtitle => _t('appLockSubtitle');
+  String get securityType => _t('securityType');
+  String get pin => _t('pin');
+  String get password => _t('password');
+  String get changePin => _t('changePin');
+  String get changePassword => _t('changePassword');
+  String get exportCsvSubtitle => _t('exportCsvSubtitle');
+  String get exportSuccess => _t('exportSuccess');
+  String get history => _t('history');
+  String get recurringTransactions => _t('recurringTransactions');
+  String get noRecurringTransactions => _t('noRecurringTransactions');
+  String get next => _t('next');
+  String get every => _t('every');
+  String get deleteRecurring => _t('deleteRecurring');
+  String get daily => _t('daily');
+  String get weekly => _t('weekly');
+  String get monthly => _t('monthly');
+  String get yearly => _t('yearly');
+  String get saveRecurring => _t('saveRecurring');
+  String get debts => _t('debts');
+  String get noDebts => _t('noDebts');
+  String get owesYou => _t('owesYou');
+  String get youOwe => _t('youOwe');
+  String get dueDate => _t('dueDate');
+  String get addDebt => _t('addDebt');
+  String get personName => _t('personName');
+  String get thisMonthSummary => _t('thisMonthSummary');
+  String get budget => _t('budget');
+  String get welcome => _t('welcome');
+  String get manageExpenses => _t('manageExpenses');
+  String get currentBalance => _t('currentBalance');
+  String get viewDetails => _t('viewDetails');
+  String get remaining => _t('remaining');
+  String get monthlyBudget => _t('monthlyBudget');
+  String get spent => _t('spent');
+  String get noBudgetSet => _t('noBudgetSet');
+  String get overBudget => _t('overBudget');
+  String get setBudget => _t('setBudget');
+  String get today => _t('today');
+  String get yesterday => _t('yesterday');
+  String get daysAgo => _t('daysAgo');
 
   // Legacy support for navigation
   String get navDashboard => dashboard;

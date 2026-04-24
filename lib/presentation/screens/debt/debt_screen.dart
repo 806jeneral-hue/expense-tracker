@@ -5,6 +5,7 @@ import '../../providers/app_provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/debt_model.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/l10n/app_localizations.dart';
 
 class DebtScreen extends StatelessWidget {
   const DebtScreen({super.key});
@@ -12,13 +13,14 @@ class DebtScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<AppProvider>();
+    final loc = AppLocalizations.of(context);
     final isArabic = provider.isArabic;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          isArabic ? 'الديون والالتزامات' : 'Debts & Lending',
+          loc.debts,
           style: GoogleFonts.outfit(fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.transparent,
@@ -26,7 +28,7 @@ class DebtScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle_outline_rounded, color: AppColors.primary, size: 28),
-            onPressed: () => _showAddDebtDialog(context),
+            onPressed: () => _showAddDebtDialog(context, loc),
           ),
           const SizedBox(width: 8),
         ],
@@ -39,7 +41,7 @@ class DebtScreen extends StatelessWidget {
                   Icon(Icons.handshake_outlined, size: 80, color: AppColors.textLight.withOpacity(0.5)),
                   const SizedBox(height: 16),
                   Text(
-                    isArabic ? 'لا توجد ديون مسجلة' : 'No debts recorded',
+                    loc.noDebts,
                     style: GoogleFonts.outfit(color: AppColors.textSecondary),
                   ),
                 ],
@@ -82,13 +84,13 @@ class DebtScreen extends StatelessWidget {
                       children: [
                         Text(
                           isLend 
-                            ? (isArabic ? 'فلوس ليك' : 'Owes you') 
-                            : (isArabic ? 'فلوس عليك' : 'You owe'),
+                            ? loc.owesYou 
+                            : loc.youOwe,
                           style: GoogleFonts.outfit(fontSize: 12, color: AppColors.textSecondary),
                         ),
                         if (debt.dueDate != null)
                           Text(
-                            '${isArabic ? 'تاريخ الاستحقاق:' : 'Due:'} ${Formatters.formatDate(debt.dueDate!)}',
+                            '${loc.dueDate}: ${Formatters.formatDate(debt.dueDate!)}',
                             style: GoogleFonts.outfit(fontSize: 11, color: Colors.orange),
                           ),
                       ],
@@ -129,7 +131,7 @@ class DebtScreen extends StatelessWidget {
     );
   }
 
-  void _showAddDebtDialog(BuildContext context) {
+  void _showAddDebtDialog(BuildContext context, AppLocalizations loc) {
     final nameController = TextEditingController();
     final amountController = TextEditingController();
     String type = 'lend';
@@ -141,7 +143,7 @@ class DebtScreen extends StatelessWidget {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setState) => AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Text(isArabic ? 'إضافة دين جديد' : 'Add New Debt'),
+          title: Text(loc.addDebt),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -149,28 +151,28 @@ class DebtScreen extends StatelessWidget {
                 DropdownButtonFormField<String>(
                   value: type,
                   decoration: const InputDecoration(),
-                  items: [
-                    DropdownMenuItem(value: 'lend', child: Text(isArabic ? 'فلوس ليك (سلف)' : 'Lend (They owe you)')),
-                    DropdownMenuItem(value: 'borrow', child: Text(isArabic ? 'فلوس عليك (دين)' : 'Borrow (You owe them)')),
-                  ],
+                    items: [
+                      DropdownMenuItem(value: 'lend', child: Text(loc.owesYou)),
+                      DropdownMenuItem(value: 'borrow', child: Text(loc.youOwe)),
+                    ],
                   onChanged: (v) => setState(() => type = v!),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: nameController,
-                  decoration: InputDecoration(hintText: isArabic ? 'اسم الشخص' : 'Person Name'),
+                  decoration: InputDecoration(hintText: loc.personName),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: amountController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(hintText: isArabic ? 'المبلغ' : 'Amount'),
+                  decoration: InputDecoration(hintText: loc.amount),
                 ),
               ],
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: Text(isArabic ? 'إلغاء' : 'Cancel')),
+            TextButton(onPressed: () => Navigator.pop(ctx), child: Text(loc.cancel)),
             ElevatedButton(
               onPressed: () {
                 if (nameController.text.isEmpty || amountController.text.isEmpty) return;
@@ -182,7 +184,7 @@ class DebtScreen extends StatelessWidget {
                 ));
                 Navigator.pop(ctx);
               },
-              child: Text(isArabic ? 'إضافة' : 'Add'),
+              child: Text(loc.save),
             ),
           ],
         ),

@@ -43,7 +43,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
             // ---- This Month Summary ----
             Text(
-              provider.isArabic ? 'ملخص هذا الشهر' : 'This Month\'s Summary',
+              loc.thisMonthSummary,
               style: GoogleFonts.outfit(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -64,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 _QuickActionItem(
                   icon: Icons.account_balance_wallet_outlined,
-                  label: provider.isArabic ? 'الميزانية' : 'Budget',
+                  label: loc.budget,
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const BudgetScreen()),
@@ -72,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 _QuickActionItem(
                   icon: Icons.handshake_outlined,
-                  label: provider.isArabic ? 'الديون' : 'Debts',
+                  label: loc.debts,
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const DebtScreen()),
@@ -80,7 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 _QuickActionItem(
                   icon: Icons.autorenew_rounded,
-                  label: provider.isArabic ? 'المتكررة' : 'Recurring',
+                  label: loc.recurringTransactions,
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => const RecurringScreen()),
@@ -88,7 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 _QuickActionItem(
                   icon: Icons.category_outlined,
-                  label: provider.isArabic ? 'الفئات' : 'Categories',
+                  label: loc.categories,
                   onTap: () => _showCategoriesSheet(context, provider),
                 ),
               ],
@@ -149,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  provider.isArabic ? 'مرحباً بك 👋' : 'Welcome 👋',
+                  loc.welcome + ' 👋',
                   style: GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -157,7 +157,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 Text(
-                  provider.isArabic ? 'إدارة مصاريفك بسهولة' : 'Manage your expenses easily',
+                  loc.manageExpenses,
                   style: GoogleFonts.outfit(
                     fontSize: 12,
                     color: AppColors.textSecondary,
@@ -207,7 +207,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    provider.isArabic ? 'الرصيد الحالي' : 'Current Balance',
+                    loc.currentBalance,
                     style: GoogleFonts.outfit(
                       color: Colors.white.withOpacity(0.8),
                       fontSize: 14,
@@ -236,7 +236,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                provider.isArabic ? 'إجمالي الدخل - إجمالي المصروفات' : 'Total Income - Total Expenses',
+                loc.totalIncome + ' - ' + loc.totalExpense,
                 style: GoogleFonts.outfit(
                   color: Colors.white.withOpacity(0.6),
                   fontSize: 11,
@@ -258,7 +258,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  provider.isArabic ? 'عرض التفاصيل' : 'View Details',
+                  loc.viewDetails,
                   style: GoogleFonts.outfit(
                     color: Colors.white,
                     fontSize: 12,
@@ -299,7 +299,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               children: [
                 _buildSmallIndicator(
-                  label: provider.isArabic ? 'إجمالي الدخل' : 'Total Income',
+                  label: loc.totalIncome,
                   amount: income,
                   currency: provider.currency,
                   isIncome: true,
@@ -308,7 +308,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 const SizedBox(height: 12),
                 _buildSmallIndicator(
-                  label: provider.isArabic ? 'إجمالي المصروفات' : 'Total Expenses',
+                  label: loc.totalExpense,
                   amount: expense,
                   currency: provider.currency,
                   isIncome: false,
@@ -352,7 +352,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        provider.isArabic ? 'المتبقي' : 'Remaining',
+                        loc.remaining,
                         style: GoogleFonts.outfit(
                           fontSize: 10,
                           color: AppColors.textSecondary,
@@ -458,7 +458,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              provider.isArabic ? 'الفئات المتاحة' : 'Available Categories',
+              loc.categories,
               style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),

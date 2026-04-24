@@ -5,6 +5,7 @@ import '../../providers/app_provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../data/models/budget_model.dart';
 import '../../../core/utils/formatters.dart';
+import '../../../core/l10n/app_localizations.dart';
 
 class BudgetScreen extends StatelessWidget {
   const BudgetScreen({super.key});
@@ -12,13 +13,14 @@ class BudgetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<AppProvider>();
+    final loc = AppLocalizations.of(context);
     final isArabic = provider.isArabic;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          isArabic ? 'الميزانية الشهرية' : 'Monthly Budget',
+          loc.monthlyBudget,
           style: GoogleFonts.outfit(fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.transparent,
@@ -79,7 +81,7 @@ class BudgetScreen extends StatelessWidget {
                     ),
                     IconButton(
                       icon: const Icon(Icons.edit_note_rounded, color: AppColors.primary),
-                      onPressed: () => _showSetBudgetDialog(context, category.id!, budgetAmount),
+                      onPressed: () => _showSetBudgetDialog(context, category.id!, budgetAmount, loc),
                     ),
                   ],
                 ),
@@ -88,13 +90,13 @@ class BudgetScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${isArabic ? 'المصروف:' : 'Spent:'} ${Formatters.formatCurrency(spent, currency: provider.currency, isArabic: isArabic)}',
+                      '${loc.spent}: ${Formatters.formatCurrency(spent, currency: provider.currency, isArabic: isArabic)}',
                       style: GoogleFonts.outfit(fontSize: 13, color: AppColors.textSecondary),
                     ),
                     Text(
                       budgetAmount > 0 
-                        ? '${isArabic ? 'الميزانية:' : 'Budget:'} ${Formatters.formatCurrency(budgetAmount, currency: provider.currency, isArabic: isArabic)}'
-                        : (isArabic ? 'لم تحدد ميزانية' : 'No budget set'),
+                        ? '${loc.budget}: ${Formatters.formatCurrency(budgetAmount, currency: provider.currency, isArabic: isArabic)}'
+                        : loc.noBudgetSet,
                       style: GoogleFonts.outfit(
                         fontSize: 13, 
                         fontWeight: FontWeight.bold,
@@ -118,7 +120,7 @@ class BudgetScreen extends StatelessWidget {
                 if (isOverBudget) ...[
                   const SizedBox(height: 8),
                   Text(
-                    isArabic ? 'لقد تجاوزت الميزانية!' : 'Over budget!',
+                    loc.overBudget,
                     style: GoogleFonts.outfit(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold),
                   ),
                 ]
@@ -130,7 +132,7 @@ class BudgetScreen extends StatelessWidget {
     );
   }
 
-  void _showSetBudgetDialog(BuildContext context, int categoryId, double currentAmount) {
+  void _showSetBudgetDialog(BuildContext context, int categoryId, double currentAmount, AppLocalizations loc) {
     final controller = TextEditingController(text: currentAmount > 0 ? currentAmount.toString() : '');
     final provider = context.read<AppProvider>();
     final isArabic = provider.isArabic;
@@ -140,21 +142,21 @@ class BudgetScreen extends StatelessWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
-          isArabic ? 'تحديد الميزانية' : 'Set Budget',
+          loc.setBudget,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         content: TextField(
           controller: controller,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            hintText: isArabic ? 'أدخل المبلغ' : 'Enter amount',
+            hintText: loc.amount,
             prefixIcon: const Icon(Icons.account_balance_wallet_rounded),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(isArabic ? 'إلغاء' : 'Cancel'),
+            child: Text(loc.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -167,7 +169,7 @@ class BudgetScreen extends StatelessWidget {
               ));
               Navigator.pop(ctx);
             },
-            child: Text(isArabic ? 'حفظ' : 'Save'),
+            child: Text(loc.save),
           ),
         ],
       ),

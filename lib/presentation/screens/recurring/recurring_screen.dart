@@ -13,6 +13,7 @@ class RecurringScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<AppProvider>();
+    final loc = AppLocalizations.of(context);
     final isArabic = provider.isArabic;
     final recurringItems = provider.recurring;
 
@@ -20,7 +21,7 @@ class RecurringScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          isArabic ? 'المعاملات المتكررة' : 'Recurring',
+          loc.recurringTransactions,
           style: GoogleFonts.outfit(fontWeight: FontWeight.w700),
         ),
         backgroundColor: Colors.transparent,
@@ -34,7 +35,7 @@ class RecurringScreen extends StatelessWidget {
                   Icon(Icons.autorenew_rounded, size: 80, color: AppColors.divider),
                   const SizedBox(height: 16),
                   Text(
-                    isArabic ? 'لا توجد معاملات متكررة' : 'No recurring transactions',
+                    loc.noRecurringTransactions,
                     style: GoogleFonts.outfit(color: AppColors.textSecondary, fontSize: 16),
                   ),
                 ],
@@ -88,14 +89,14 @@ class RecurringScreen extends StatelessWidget {
                       children: [
                         const SizedBox(height: 4),
                         Text(
-                          '${isArabic ? 'المرة القادمة:' : 'Next:'} ${DateFormat.yMd().format(item.nextExecution)}',
+                          '${loc.next}: ${DateFormat.yMd().format(item.nextExecution)}',
                           style: GoogleFonts.outfit(
                             fontSize: 12,
                             color: AppColors.textSecondary,
                           ),
                         ),
                         Text(
-                          '${isArabic ? 'التكرار:' : 'Every:'} ${item.frequency}',
+                          '${loc.every}: ${item.frequency}',
                           style: GoogleFonts.outfit(
                             fontSize: 11,
                             color: AppColors.textLight,
@@ -125,29 +126,29 @@ class RecurringScreen extends StatelessWidget {
                       ],
                     ),
                     onLongPress: () {
-                      _showDeleteDialog(context, item.id!, provider);
+                      _showDeleteDialog(context, item.id!, provider, loc);
                     },
                   ),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddRecurringDialog(context, provider),
+        onPressed: () => _showAddRecurringDialog(context, provider, loc),
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 
-  void _showDeleteDialog(BuildContext context, int id, AppProvider provider) {
+  void _showDeleteDialog(BuildContext context, int id, AppProvider provider, AppLocalizations loc) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(provider.isArabic ? 'حذف المعاملة؟' : 'Delete recurring?'),
+        title: Text(loc.deleteRecurring),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(provider.isArabic ? 'إلغاء' : 'Cancel'),
+            child: Text(loc.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -155,14 +156,14 @@ class RecurringScreen extends StatelessWidget {
               Navigator.pop(ctx);
             },
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.expense),
-            child: Text(provider.isArabic ? 'حذف' : 'Delete', style: const TextStyle(color: Colors.white)),
+            child: Text(loc.delete, style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),
     );
   }
 
-  void _showAddRecurringDialog(BuildContext context, AppProvider provider) {
+  void _showAddRecurringDialog(BuildContext context, AppProvider provider, AppLocalizations loc) {
     final amountCtrl = TextEditingController();
     final noteCtrl = TextEditingController();
     String type = 'expense';
@@ -191,7 +192,7 @@ class RecurringScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  provider.isArabic ? 'إضافة معاملة متكررة' : 'Add Recurring',
+                  loc.addTransaction,
                   style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
@@ -210,7 +211,7 @@ class RecurringScreen extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            provider.isArabic ? 'مصروف' : 'Expense',
+                            loc.expense,
                             style: TextStyle(color: type == 'expense' ? Colors.white : AppColors.textPrimary),
                           ),
                         ),
@@ -229,7 +230,7 @@ class RecurringScreen extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            provider.isArabic ? 'دخل' : 'Income',
+                            loc.income,
                             style: TextStyle(color: type == 'income' ? Colors.white : AppColors.textPrimary),
                           ),
                         ),
@@ -242,14 +243,14 @@ class RecurringScreen extends StatelessWidget {
                   controller: amountCtrl,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: provider.isArabic ? 'المبلغ' : 'Amount',
+                    hintText: loc.amount,
                   ),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<int>(
                   value: categoryId,
                   decoration: InputDecoration(
-                    hintText: provider.isArabic ? 'الفئة' : 'Category',
+                    hintText: loc.category,
                   ),
                   items: categories.map((c) {
                     return DropdownMenuItem(
@@ -263,13 +264,13 @@ class RecurringScreen extends StatelessWidget {
                 DropdownButtonFormField<String>(
                   value: frequency,
                   decoration: InputDecoration(
-                    hintText: provider.isArabic ? 'التكرار' : 'Frequency',
+                    hintText: loc.every,
                   ),
                   items: [
-                    DropdownMenuItem(value: 'daily', child: Text(provider.isArabic ? 'يومياً' : 'Daily')),
-                    DropdownMenuItem(value: 'weekly', child: Text(provider.isArabic ? 'أسبوعياً' : 'Weekly')),
-                    DropdownMenuItem(value: 'monthly', child: Text(provider.isArabic ? 'شهرياً' : 'Monthly')),
-                    DropdownMenuItem(value: 'yearly', child: Text(provider.isArabic ? 'سنوياً' : 'Yearly')),
+                    DropdownMenuItem(value: 'daily', child: Text(loc.daily)),
+                    DropdownMenuItem(value: 'weekly', child: Text(loc.weekly)),
+                    DropdownMenuItem(value: 'monthly', child: Text(loc.monthly)),
+                    DropdownMenuItem(value: 'yearly', child: Text(loc.yearly)),
                   ],
                   onChanged: (val) => setState(() => frequency = val!),
                 ),
@@ -292,7 +293,7 @@ class RecurringScreen extends StatelessWidget {
                         Navigator.pop(ctx);
                       }
                     },
-                    child: Text(provider.isArabic ? 'حفظ المعاملة' : 'Save Recurring'),
+                    child: Text(loc.saveRecurring),
                   ),
                 ),
               ],

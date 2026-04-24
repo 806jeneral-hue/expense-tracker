@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(height: 24),
 
           // ---- Data Management Section ----
-          _SectionHeader(title: "البيانات"),
+          _SectionHeader(title: loc.data),
           const SizedBox(height: 10),
           _DataCard(provider: provider, loc: loc),
 
@@ -264,7 +264,7 @@ class _PreferencesCard extends StatelessWidget {
               child: const Icon(Icons.dark_mode_rounded,
                   color: AppColors.primary, size: 20),
             ),
-            title: Text(provider.isArabic ? "الوضع الليلي" : "Dark Mode",
+            title: Text(loc.darkMode,
                 style: GoogleFonts.outfit(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -289,12 +289,10 @@ class _PreferencesCard extends StatelessWidget {
                   color: AppColors.primary, size: 20),
             ),
             title: Text(
-                provider.isArabic ? "قفل التطبيق" : "App Lock",
+                loc.appLock,
                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
             subtitle: Text(
-                provider.isArabic 
-                  ? "استخدم الرقم السري لفتح التطبيق" 
-                  : "Use PIN to unlock the app",
+                loc.appLockSubtitle,
                 style: const TextStyle(fontSize: 11)),
             trailing: Switch(
               value: provider.isSecurityEnabled,
@@ -318,7 +316,7 @@ class _PreferencesCard extends StatelessWidget {
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               title: Text(
-                provider.isArabic ? "نوع الحماية" : "Security Type",
+                loc.securityType,
                 style: GoogleFonts.outfit(
                     fontSize: 13,
                     color: AppColors.textPrimary,
@@ -337,11 +335,11 @@ class _PreferencesCard extends StatelessWidget {
                 items: [
                   DropdownMenuItem(
                     value: 'pin',
-                    child: Text(provider.isArabic ? "رقم سري" : "PIN"),
+                    child: Text(loc.pin),
                   ),
                   DropdownMenuItem(
                     value: 'password',
-                    child: Text(provider.isArabic ? "كلمة مرور" : "Password"),
+                    child: Text(loc.password),
                   ),
                 ],
               ),
@@ -351,8 +349,8 @@ class _PreferencesCard extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               title: Text(
                 provider.securityType == 'pin'
-                    ? (provider.isArabic ? "تغيير الرقم السري" : "Change PIN")
-                    : (provider.isArabic ? "تغيير كلمة المرور" : "Change Password"),
+                    ? loc.changePin
+                    : loc.changePassword,
                 style: GoogleFonts.outfit(
                     fontSize: 13,
                     color: AppColors.primary,
@@ -386,9 +384,9 @@ class _CurrencyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: const [],
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -419,9 +417,9 @@ class _AboutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: const [],
       ),
       child: Column(
         children: [
@@ -461,9 +459,9 @@ class _DataCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppColors.shadow, blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: const [],
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -473,13 +471,13 @@ class _DataCard extends StatelessWidget {
           child: const Icon(Icons.file_download_rounded, color: AppColors.primary, size: 20),
         ),
         title: Text(loc.exportCsv, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-        subtitle: const Text("حفظ نسخة من المعاملات بصيغة CSV", style: TextStyle(fontSize: 11)),
+        subtitle: Text(loc.exportCsvSubtitle, style: const TextStyle(fontSize: 11)),
         trailing: const Icon(Icons.chevron_right_rounded),
         onTap: () async {
           await provider.exportToCSV();
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("تم تصدير الملف بنجاح")),
+              SnackBar(content: Text(loc.exportSuccess)),
             );
           }
         },
