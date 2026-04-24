@@ -19,7 +19,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
   bool _isAuthenticated = true;
 
   @override
@@ -36,6 +35,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AppProvider>();
     final loc = AppLocalizations.of(context);
 
     if (!_isAuthenticated) {
@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       body: IndexedStack(
-        index: _currentIndex,
+        index: provider.navigationIndex,
         children: _screens,
       ),
       floatingActionButton: FloatingActionButton(
@@ -85,27 +85,27 @@ class _MainScreenState extends State<MainScreen> {
                   _NavItem(
                     icon: Icons.home_rounded,
                     label: loc.navDashboard,
-                    isSelected: _currentIndex == 0,
-                    onTap: () => setState(() => _currentIndex = 0),
+                    isSelected: provider.navigationIndex == 0,
+                    onTap: () => provider.setNavigationIndex(0),
                   ),
                   _NavItem(
                     icon: Icons.receipt_long_rounded,
                     label: loc.navTransactions,
-                    isSelected: _currentIndex == 1,
-                    onTap: () => setState(() => _currentIndex = 1),
+                    isSelected: provider.navigationIndex == 1,
+                    onTap: () => provider.setNavigationIndex(1),
                   ),
                   const SizedBox(width: 56),
                   _NavItem(
                     icon: Icons.bar_chart_rounded,
                     label: loc.navReports,
-                    isSelected: _currentIndex == 2,
-                    onTap: () => setState(() => _currentIndex = 2),
+                    isSelected: provider.navigationIndex == 2,
+                    onTap: () => provider.setNavigationIndex(2),
                   ),
                   _NavItem(
                     icon: Icons.settings_rounded,
                     label: loc.navSettings,
-                    isSelected: _currentIndex == 3,
-                    onTap: () => setState(() => _currentIndex = 3),
+                    isSelected: provider.navigationIndex == 3,
+                    onTap: () => provider.setNavigationIndex(3),
                   ),
                 ],
               ),

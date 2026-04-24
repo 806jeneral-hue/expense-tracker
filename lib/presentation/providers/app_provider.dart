@@ -21,6 +21,16 @@ class AppProvider extends ChangeNotifier {
   // ---- Locale ----
   Locale _locale = const Locale('en');
   Locale get locale => _locale;
+  bool get isArabic => _locale.languageCode == 'ar';
+
+  // ---- Navigation ----
+  int _navigationIndex = 0;
+  int get navigationIndex => _navigationIndex;
+
+  void setNavigationIndex(int index) {
+    _navigationIndex = index;
+    notifyListeners();
+  }
 
   // ---- Theme ----
   ThemeMode _themeMode = ThemeMode.light;

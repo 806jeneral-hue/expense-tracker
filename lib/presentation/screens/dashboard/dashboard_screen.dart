@@ -149,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  provider.isArabic ? 'مرحباً، أحمد 👋' : 'Hello, Ahmed 👋',
+                  provider.isArabic ? 'مرحباً بك 👋' : 'Welcome 👋',
                   style: GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -261,18 +261,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
             bottom: 0,
             right: provider.isArabic ? null : 0,
             left: provider.isArabic ? 0 : null,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                provider.isArabic ? 'عرض التفاصيل' : 'View Details',
-                style: GoogleFonts.outfit(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+            child: GestureDetector(
+              onTap: () => provider.setNavigationIndex(1),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  provider.isArabic ? 'عرض التفاصيل' : 'View Details',
+                  style: GoogleFonts.outfit(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
