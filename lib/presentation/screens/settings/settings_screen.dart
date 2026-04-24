@@ -299,10 +299,48 @@ class _PreferencesCard extends StatelessWidget {
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               title: Text(
-                provider.isArabic ? "تغيير الرقم السري" : "Change PIN",
-                style: GoogleFonts.outfit(fontSize: 13, color: AppColors.primary, fontWeight: FontWeight.w500),
+                provider.isArabic ? "نوع الحماية" : "Security Type",
+                style: GoogleFonts.outfit(
+                    fontSize: 13,
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w500),
               ),
-              trailing: const Icon(Icons.chevron_right_rounded, size: 18, color: AppColors.primary),
+              trailing: DropdownButton<String>(
+                value: provider.securityType,
+                underline: const SizedBox.shrink(),
+                style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary),
+                onChanged: (type) {
+                  if (type != null) provider.setSecurityType(type);
+                },
+                items: [
+                  DropdownMenuItem(
+                    value: 'pin',
+                    child: Text(provider.isArabic ? "رقم سري" : "PIN"),
+                  ),
+                  DropdownMenuItem(
+                    value: 'password',
+                    child: Text(provider.isArabic ? "كلمة مرور" : "Password"),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, indent: 16, endIndent: 16),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+              title: Text(
+                provider.securityType == 'pin'
+                    ? (provider.isArabic ? "تغيير الرقم السري" : "Change PIN")
+                    : (provider.isArabic ? "تغيير كلمة المرور" : "Change Password"),
+                style: GoogleFonts.outfit(
+                    fontSize: 13,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w500),
+              ),
+              trailing: const Icon(Icons.chevron_right_rounded,
+                  size: 18, color: AppColors.primary),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

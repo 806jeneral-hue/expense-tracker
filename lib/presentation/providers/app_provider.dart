@@ -22,12 +22,20 @@ class AppProvider extends ChangeNotifier {
   bool get isSecurityEnabled => _isSecurityEnabled;
   String? _appPin;
   String? get appPin => _appPin;
+  String _securityType = 'pin'; // pin | password
+  String get securityType => _securityType;
 
   bool get hasPin => _appPin != null && _appPin!.isNotEmpty;
 
   void setSecurity(bool value) {
     _isSecurityEnabled = value;
     _prefs.setBool('security', value);
+    notifyListeners();
+  }
+
+  void setSecurityType(String type) {
+    _securityType = type;
+    _prefs.setString('security_type', type);
     notifyListeners();
   }
 
@@ -106,6 +114,7 @@ class AppProvider extends ChangeNotifier {
     // Load Saved Settings
     _currency = _prefs.getString('currency') ?? 'EGP';
     _isSecurityEnabled = _prefs.getBool('security') ?? false;
+    _securityType = _prefs.getString('security_type') ?? 'pin';
     _appPin = _prefs.getString('app_pin');
     final lang = _prefs.getString('language') ?? 'en';
     _locale = Locale(lang);

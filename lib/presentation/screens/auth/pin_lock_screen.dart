@@ -23,18 +23,49 @@ class _PinLockScreenState extends State<PinLockScreen> {
   String _firstPin = '';
   bool _isConfirming = false;
   String _message = '';
+  final TextEditingController _passController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _message = widget.isSettingPin ? 'Set your PIN' : 'Enter PIN to unlock';
+    final provider = context.read<AppProvider>();
+    if (widget.isSettingPin) {
+      _message = provider.securityType == 'pin'
+          ? (provider.isArabic ? 'عيّن الرقم السري' : 'Set your PIN')
+          : (provider.isArabic ? 'عيّن كلمة المرور' : 'Set your Password');
+    } else {
+      _message = provider.securityType == 'pin'
+          ? (provider.isArabic ? 'أدخل الرقم السري' : 'Enter PIN to unlock')
+          : (provider.isArabic ? 'أدخل كلمة المرور' : 'Enter Password to unlock');
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _checkAndAuthenticate();
+      });
+    }
+  }
+
+  Future<void> _checkAndAuthenticate() async {
+    final provider = context.read<AppProvider>();
+    await provider.checkBiometrics();
+    if (provider.isBiometricAvailable) {
+      final success = await provider.authenticateWithBiometrics();
+      if (success && mounted) {
+        if (widget.onUnlocked != null) {
+          widget.onUnlocked!();
+        } else {
+          Navigator.pop(context);
+        }
+      }
+    }
   }
 
   void _onNumberPressed(String number) {
-    if (_input.length < 4) {
+    if (_input.length < 8) {
+      // Allow up to 8 for PIN if needed, but usually 4
       setState(() {
         _input += number;
-        if (_input.length == 4) {
+        if (context.read<AppProvider>().securityType == 'pin' &&
+            _input.length == 4) {
           _handleComplete();
         }
       });
@@ -49,32 +80,38 @@ class _PinLockScreenState extends State<PinLockScreen> {
 
   Future<void> _handleComplete() async {
     final provider = context.read<AppProvider>();
+    final isPin = provider.securityType == 'pin';
 
     if (widget.isSettingPin) {
       if (!_isConfirming) {
-        // First step of setting PIN
         setState(() {
           _firstPin = _input;
           _input = '';
+          _passController.clear();
           _isConfirming = true;
-          _message = 'Confirm your PIN';
+          _message = isPin
+              ? (provider.isArabic ? 'تأكيد الرقم السري' : 'Confirm your PIN')
+              : (provider.isArabic
+                  ? 'تأكيد كلمة المرور'
+                  : 'Confirm your Password');
         });
       } else {
-        // Confirming PIN
         if (_input == _firstPin) {
           await provider.setPin(_input);
           if (mounted) Navigator.pop(context);
         } else {
           setState(() {
             _input = '';
-            _message = 'PINs do not match. Try again.';
+            _passController.clear();
+            _message = provider.isArabic
+                ? 'غير متطابق، حاول ثانية'
+                : 'Does not match. Try again.';
             _isConfirming = false;
             _firstPin = '';
           });
         }
       }
     } else {
-      // Unlocking
       if (provider.verifyPin(_input)) {
         if (widget.onUnlocked != null) {
           widget.onUnlocked!();
@@ -84,7 +121,10 @@ class _PinLockScreenState extends State<PinLockScreen> {
       } else {
         setState(() {
           _input = '';
-          _message = 'Incorrect PIN. Try again.';
+          _passController.clear();
+          _message = provider.isArabic
+              ? 'خطأ، حاول ثانية'
+              : 'Incorrect. Try again.';
         });
       }
     }
@@ -92,50 +132,97 @@ class _PinLockScreenState extends State<PinLockScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<AppProvider>();
+    final isPin = provider.securityType == 'pin';
+
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Directionality(
         textDirection: TextDirection.ltr,
         child: SafeArea(
-          child: Column(
-            children: [
-              const Spacer(),
-              // Logo or Icon
-              const Icon(Icons.lock_outline_rounded,
-                  size: 64, color: Colors.white70),
-              const SizedBox(height: 24),
-              // Message
-              Text(
-                _message,
-                style: GoogleFonts.outfit(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 32),
-              // PIN Dots
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(4, (index) {
-                  bool filled = index < _input.length;
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: filled ? Colors.white : Colors.white24,
-                      border: Border.all(color: Colors.white38),
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height -
+                  MediaQuery.of(context).padding.top,
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Column(
+                children: [
+                  const Spacer(),
+                  const Icon(Icons.lock_outline_rounded,
+                      size: 64, color: Colors.white70),
+                  const SizedBox(height: 24),
+                  Text(
+                    _message,
+                    style: GoogleFonts.outfit(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                     ),
-                  );
-                }),
+                  ),
+                  const SizedBox(height: 32),
+                  if (isPin)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(4, (index) {
+                        bool filled = index < _input.length;
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 12),
+                          width: 16,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: filled ? Colors.white : Colors.white24,
+                            border: Border.all(color: Colors.white38),
+                          ),
+                        );
+                      }),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: TextField(
+                        controller: _passController,
+                        obscureText: true,
+                        style: GoogleFonts.outfit(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: provider.isArabic ? 'كلمة المرور' : 'Password',
+                          hintStyle: const TextStyle(color: Colors.white38),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white24)),
+                          focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                        ),
+                        onChanged: (v) => _input = v,
+                        onSubmitted: (_) => _handleComplete(),
+                      ),
+                    ),
+                  const Spacer(),
+                  if (isPin)
+                    _buildKeypad()
+                  else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: ElevatedButton(
+                        onPressed: _handleComplete,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: AppColors.primary,
+                          minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: Text(
+                          widget.isSettingPin
+                              ? (provider.isArabic ? 'حفظ' : 'Save')
+                              : (provider.isArabic ? 'فتح' : 'Unlock'),
+                          style: GoogleFonts.outfit(fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 48),
+                ],
               ),
-              const Spacer(),
-              // Keypad
-              _buildKeypad(),
-              const SizedBox(height: 48),
-            ],
+            ),
           ),
         ),
       ),
@@ -161,12 +248,28 @@ class _PinLockScreenState extends State<PinLockScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(width: 70), // Spacer
+              if (!widget.isSettingPin)
+                _buildBiometricKey()
+              else
+                const SizedBox(width: 70),
               _buildKey('0'),
               _buildDeleteKey(),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBiometricKey() {
+    return GestureDetector(
+      onTap: _checkAndAuthenticate,
+      child: Container(
+        width: 70,
+        height: 70,
+        alignment: Alignment.center,
+        child: const Icon(Icons.fingerprint_rounded,
+            color: Colors.white70, size: 32),
       ),
     );
   }
@@ -201,7 +304,8 @@ class _PinLockScreenState extends State<PinLockScreen> {
         width: 70,
         height: 70,
         alignment: Alignment.center,
-        child: const Icon(Icons.backspace_outlined, color: Colors.white70, size: 24),
+        child:
+            const Icon(Icons.backspace_outlined, color: Colors.white70, size: 24),
       ),
     );
   }
