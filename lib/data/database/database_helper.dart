@@ -172,10 +172,6 @@ class DatabaseHelper {
     await _seedData(db);
   }
 
-    // Seed default data
-    await _seedData(db);
-  }
-
   Future<void> _seedData(Database db) async {
     final now = DateTime.now().toIso8601String();
 
