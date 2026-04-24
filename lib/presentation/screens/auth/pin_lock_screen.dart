@@ -94,45 +94,49 @@ class _PinLockScreenState extends State<PinLockScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const Spacer(),
-            // Logo or Icon
-            const Icon(Icons.lock_outline_rounded, size: 64, color: Colors.white70),
-            const SizedBox(height: 24),
-            // Message
-            Text(
-              _message,
-              style: GoogleFonts.outfit(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child: SafeArea(
+          child: Column(
+            children: [
+              const Spacer(),
+              // Logo or Icon
+              const Icon(Icons.lock_outline_rounded,
+                  size: 64, color: Colors.white70),
+              const SizedBox(height: 24),
+              // Message
+              Text(
+                _message,
+                style: GoogleFonts.outfit(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            // PIN Dots
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(4, (index) {
-                bool filled = index < _input.length;
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12),
-                  width: 16,
-                  height: 16,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: filled ? Colors.white : Colors.white24,
-                    border: Border.all(color: Colors.white38),
-                  ),
-                );
-              }),
-            ),
-            const Spacer(),
-            // Keypad
-            _buildKeypad(),
-            const SizedBox(height: 48),
-          ],
+              const SizedBox(height: 32),
+              // PIN Dots
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(4, (index) {
+                  bool filled = index < _input.length;
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 12),
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: filled ? Colors.white : Colors.white24,
+                      border: Border.all(color: Colors.white38),
+                    ),
+                  );
+                }),
+              ),
+              const Spacer(),
+              // Keypad
+              _buildKeypad(),
+              const SizedBox(height: 48),
+            ],
+          ),
         ),
       ),
     );
