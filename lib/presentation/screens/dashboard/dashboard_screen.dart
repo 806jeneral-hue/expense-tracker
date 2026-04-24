@@ -7,6 +7,9 @@ import 'package:expense_tracker/core/l10n/app_localizations.dart';
 import 'package:expense_tracker/core/utils/formatters.dart';
 import 'package:expense_tracker/data/models/transaction_model.dart';
 import 'package:expense_tracker/presentation/widgets/transaction_card.dart';
+import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
+import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
+import 'package:expense_tracker/presentation/screens/settings/settings_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -89,6 +92,49 @@ class DashboardScreen extends StatelessWidget {
                         currency: provider.currency,
                         isIncome: false,
                       ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+
+                // ---- Quick Actions ----
+                GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: [
+                    _QuickActionItem(
+                      icon: Icons.pie_chart_outline_rounded,
+                      label: loc.reports,
+                      onTap: () {
+                        // Assuming you have a reports screen or navigation logic
+                      },
+                    ),
+                    _QuickActionItem(
+                      icon: Icons.account_balance_wallet_outlined,
+                      label: provider.isArabic ? 'الميزانية' : 'Budget',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const BudgetScreen()),
+                      ),
+                    ),
+                    _QuickActionItem(
+                      icon: Icons.handshake_outlined,
+                      label: provider.isArabic ? 'الديون' : 'Debts',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const DebtScreen()),
+                      ),
+                    ),
+                    _QuickActionItem(
+                      icon: Icons.settings_outlined,
+                      label: loc.settings,
+                      onTap: () {
+                         // Navigation to settings usually from drawer or main nav
+                      },
                     ),
                   ],
                 ),
@@ -264,6 +310,50 @@ class _BalanceHeroCard extends StatelessWidget {
 }
 
 // ---- Summary Card ----
+  }
+}
+
+class _QuickActionItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _QuickActionItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Icon(icon, color: AppColors.primary, size: 24),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.outfit(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _SummaryCard extends StatelessWidget {
   final String label;
   final double amount;
