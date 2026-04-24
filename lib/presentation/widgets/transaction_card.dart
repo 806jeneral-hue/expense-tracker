@@ -107,7 +107,7 @@ class TransactionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '${isExpense ? '-' : '+'}${Formatters.formatCurrency(transaction.amount, currency: currency)}',
+                  '${isExpense ? '-' : '+'}${Formatters.formatCurrency(transaction.amount, currency: currency, isArabic: isArabic)}',
                   style: GoogleFonts.outfit(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,

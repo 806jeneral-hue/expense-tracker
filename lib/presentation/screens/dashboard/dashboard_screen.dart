@@ -239,7 +239,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Text(
                 obscureBalance
                     ? '••••••••'
-                    : Formatters.formatCurrency(provider.netBalance, currency: provider.currency),
+                    : Formatters.formatCurrency(provider.netBalance, currency: provider.currency, isArabic: provider.isArabic),
                 style: GoogleFonts.outfit(
                   color: Colors.white,
                   fontSize: 32,
@@ -437,7 +437,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary),
                 ),
                 Text(
-                  Formatters.formatCurrency(amount, currency: currency),
+                  Formatters.formatCurrency(amount, currency: currency, isArabic: provider.isArabic),
                   style: GoogleFonts.outfit(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,

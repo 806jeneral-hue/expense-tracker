@@ -1,9 +1,11 @@
 import 'package:intl/intl.dart';
 
 class Formatters {
-  static String formatCurrency(double amount, {String currency = 'EGP'}) {
+  static String formatCurrency(double amount, {String currency = 'EGP', bool isArabic = false}) {
     final formatter = NumberFormat('#,##0.00', 'en');
-    return '$currency ${formatter.format(amount.abs())}';
+    String symbol = currency;
+    if (isArabic && currency == 'EGP') symbol = 'ج.م';
+    return isArabic ? '${formatter.format(amount.abs())} $symbol' : '$symbol ${formatter.format(amount.abs())}';
   }
 
   static String formatDate(DateTime date) {
