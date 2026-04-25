@@ -78,24 +78,32 @@ class AppProvider extends ChangeNotifier {
 
   Future<void> checkBiometrics() async {
     try {
-      _isBiometricAvailable = await _auth.canCheckBiometrics;
+      final isSupported = await _auth.isDeviceSupported();
+      final canCheck = await _auth.canCheckBiometrics;
+      _isBiometricAvailable = isSupported && canCheck;
       notifyListeners();
     } catch (e) {
-      debugPrint("Biometric Error: $e");
+      debugPrint("Biometric Check Error: $e");
+      _isBiometricAvailable = false;
     }
   }
 
   Future<bool> authenticateWithBiometrics() async {
     try {
+      final canCheck = await _auth.canCheckBiometrics;
+      final isSupported = await _auth.isDeviceSupported();
+      if (!canCheck || !isSupported) return false;
+
       return await _auth.authenticate(
         localizedReason: 'Please authenticate to unlock the app',
         options: const AuthenticationOptions(
-          biometricOnly: true,
+          biometricOnly: false, // Set to false to allow OS level fallbacks if needed
           stickyAuth: true,
+          useErrorDialogs: true,
         ),
       );
     } catch (e) {
-      debugPrint("Auth Error: $e");
+      debugPrint("Biometric Auth Error: $e");
       return false;
     }
   }

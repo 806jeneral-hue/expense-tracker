@@ -31,6 +31,18 @@ jobs:
       - name: Create Android files
         run: flutter create --project-name=expense_tracker . --platforms android
 
+      - name: Configure Android Biometrics
+        run: |
+          # Add Biometric Permission
+          sed -i '/<application/i \    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>' android/app/src/main/AndroidManifest.xml
+          
+          # Update MainActivity for FragmentActivity (Required for local_auth)
+          MAIN_ACTIVITY_PATH="android/app/src/main/kotlin/com/example/expense_tracker/MainActivity.kt"
+          if [ -f "$MAIN_ACTIVITY_PATH" ]; then
+            sed -i 's/import io.flutter.embedding.android.FlutterActivity/import io.flutter.embedding.android.FlutterFragmentActivity/' "$MAIN_ACTIVITY_PATH"
+            sed -i 's/class MainActivity: FlutterActivity()/class MainActivity: FlutterFragmentActivity()/' "$MAIN_ACTIVITY_PATH"
+          fi
+
       - name: Generate App Icons
         run: dart run flutter_launcher_icons
 
