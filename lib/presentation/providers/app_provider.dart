@@ -40,41 +40,19 @@ class AppProvider extends ChangeNotifier {
   // ---- Security ----
   bool _isSecurityEnabled = false;
   bool get isSecurityEnabled => _isSecurityEnabled;
-  String? _appPin;
-  String? get appPin => _appPin;
-  String _securityType = 'pin'; // pin | password
-  String get securityType => _securityType;
-
-  bool get hasPin => _appPin != null && _appPin!.isNotEmpty;
 
   void setSecurity(bool value) {
-    if (value && !hasPin) return; // Prevent enabling without a PIN
     _isSecurityEnabled = value;
     _prefs.setBool('security', value);
     notifyListeners();
-  }
-
-  void setSecurityType(String type) {
-    _securityType = type;
-    _prefs.setString('security_type', type);
-    notifyListeners();
-  }
-
-  Future<void> setPin(String pin) async {
-    _appPin = pin;
-    await _prefs.setString('app_pin', pin);
-    notifyListeners();
-  }
-
-  bool verifyPin(String input) {
-    if (_appPin == null) return false;
-    return _appPin!.trim() == input.trim();
   }
 
   // ---- Biometrics ----
   final LocalAuthentication _auth = LocalAuthentication();
   bool _isBiometricAvailable = false;
   bool get isBiometricAvailable => _isBiometricAvailable;
+
+  bool get hasPin => true; // No longer using custom PINs
 
   Future<void> checkBiometrics() async {
     try {

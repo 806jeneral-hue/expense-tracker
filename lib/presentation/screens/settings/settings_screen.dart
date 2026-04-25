@@ -296,76 +296,10 @@ class _PreferencesCard extends StatelessWidget {
                 style: const TextStyle(fontSize: 11)),
             trailing: Switch(
               value: provider.isSecurityEnabled,
-              onChanged: (v) {
-                if (v && !provider.hasPin) {
-                  // Force set PIN if enabling security for first time
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PinLockScreen(isSettingPin: true),
-                    ),
-                  );
-                }
-                provider.setSecurity(v);
-              },
+              onChanged: (v) => provider.setSecurity(v),
               activeColor: AppColors.primary,
             ),
           ),
-          if (provider.isSecurityEnabled) ...[
-            const Divider(height: 1, indent: 16, endIndent: 16),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              title: Text(
-                loc.securityType,
-                style: GoogleFonts.outfit(
-                    fontSize: 13,
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w500),
-              ),
-              trailing: DropdownButton<String>(
-                value: provider.securityType,
-                underline: const SizedBox.shrink(),
-                style: GoogleFonts.outfit(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary),
-                onChanged: (type) {
-                  if (type != null) provider.setSecurityType(type);
-                },
-                items: [
-                  DropdownMenuItem(
-                    value: 'pin',
-                    child: Text(loc.pin),
-                  ),
-                  DropdownMenuItem(
-                    value: 'password',
-                    child: Text(loc.password),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(height: 1, indent: 16, endIndent: 16),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              title: Text(
-                provider.securityType == 'pin'
-                    ? loc.changePin
-                    : loc.changePassword,
-                style: GoogleFonts.outfit(
-                    fontSize: 13,
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w500),
-              ),
-              trailing: const Icon(Icons.chevron_right_rounded,
-                  size: 18, color: AppColors.primary),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const PinLockScreen(isSettingPin: true),
-                ),
-              ),
-            ),
-          ],
         ],
       ),
     );
