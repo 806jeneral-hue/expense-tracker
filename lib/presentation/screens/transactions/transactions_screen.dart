@@ -5,6 +5,7 @@ import '../../providers/app_provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../widgets/transaction_card.dart';
+import '../../widgets/transaction_detail_modal.dart';
 import '../add_transaction/add_transaction_screen.dart';
 import '../../../data/models/transaction_model.dart';
 
@@ -132,7 +133,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                               transaction: tx,
                               currency: provider.currency,
                               isArabic: provider.isArabic,
-                              onTap: () => _editTransaction(context, tx),
+                              onTap: () => _showTransactionDetails(context, tx, provider),
                             ),
                           );
                         },

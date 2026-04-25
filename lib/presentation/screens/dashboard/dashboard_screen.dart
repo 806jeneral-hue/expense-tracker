@@ -9,6 +9,7 @@ import 'package:expense_tracker/core/utils/formatters.dart';
 import 'package:expense_tracker/data/models/transaction_model.dart';
 import 'package:expense_tracker/presentation/widgets/transaction_card.dart';
 import 'package:expense_tracker/presentation/widgets/category_manager_modal.dart';
+import 'package:expense_tracker/presentation/widgets/transaction_detail_modal.dart';
 import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
 import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
 import 'package:expense_tracker/presentation/screens/recurring/recurring_screen.dart';
@@ -119,10 +120,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ...provider.getRecentTransactions(limit: 5).map(
                     (t) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: TransactionCard(
-                        transaction: t,
-                        currency: provider.currency,
-                        isArabic: provider.isArabic,
+                      child: GestureDetector(
+                        onTap: () => _showTransactionDetails(context, t, provider),
+                        child: TransactionCard(
+                          transaction: t,
+                          currency: provider.currency,
+                          isArabic: provider.isArabic,
+                        ),
                       ),
                     ),
                   ),
@@ -462,6 +466,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (ctx) => const CategoryManagerModal(),
+    );
+  }
+
+  void _showTransactionDetails(BuildContext context, TransactionModel t, AppProvider provider) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => TransactionDetailModal(transaction: t, provider: provider),
     );
   }
 

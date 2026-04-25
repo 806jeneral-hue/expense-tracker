@@ -202,9 +202,11 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: '0.00',
+                        hintStyle: GoogleFonts.outfit(
                           color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
                         ),
                         prefixText: '${provider.currency}  ',
+                        prefixStyle: GoogleFonts.outfit(
                           color: Theme.of(context).textTheme.bodyMedium?.color,
                           fontWeight: FontWeight.w500,
                         ),
