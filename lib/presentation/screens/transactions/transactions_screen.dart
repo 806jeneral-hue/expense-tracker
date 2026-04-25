@@ -48,7 +48,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   onChanged: (v) => provider.setSearch(v),
                   decoration: InputDecoration(
                     hintText: loc.search,
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.search_rounded,
                       color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
                     ),
@@ -58,7 +58,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                               _searchController.clear();
                               provider.setSearch('');
                             },
-                            icon: const Icon(Icons.clear_rounded,
+                            icon: Icon(Icons.clear_rounded,
                                 color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5)),
                           )
                         : null,
