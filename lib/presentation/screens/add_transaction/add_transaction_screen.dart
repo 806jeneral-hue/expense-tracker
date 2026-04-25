@@ -197,20 +197,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                       style: GoogleFonts.outfit(
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+                        color: Theme.of(context).textTheme.titleLarge?.color,
                       ),
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: '0.00',
-                        hintStyle: GoogleFonts.outfit(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textLight,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
                         ),
                         prefixText: '${provider.currency}  ',
-                        prefixStyle: GoogleFonts.outfit(
-                          fontSize: 16,
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -288,9 +283,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                       controller: _noteController,
                       decoration: InputDecoration(
                         hintText: loc.note,
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.edit_note_rounded,
-                          color: AppColors.textLight,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                         ),
                       ),
                       maxLines: 2,
@@ -332,7 +327,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
           style: GoogleFonts.outfit(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: AppColors.textSecondary,
+            color: Theme.of(context).textTheme.bodyMedium?.color,
             letterSpacing: 0.5,
           ),
         ),
@@ -503,9 +498,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
         padding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: Colors.white, // Save button text remains white
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.divider),
+          border: Border.all(color: Theme.of(context).brightness == Brightness.dark ? AppColors.darkBorder : AppColors.divider),
         ),
         child: Row(
           children: [
@@ -516,7 +511,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               '${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}',
               style: GoogleFonts.outfit(
                 fontSize: 14,
-                color: AppColors.textPrimary,
+                color: Theme.of(context).textTheme.titleLarge?.color,
                 fontWeight: FontWeight.w500,
               ),
             ),

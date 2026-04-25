@@ -8,6 +8,7 @@ import 'package:expense_tracker/core/l10n/app_localizations.dart';
 import 'package:expense_tracker/core/utils/formatters.dart';
 import 'package:expense_tracker/data/models/transaction_model.dart';
 import 'package:expense_tracker/presentation/widgets/transaction_card.dart';
+import 'package:expense_tracker/presentation/widgets/category_manager_modal.dart';
 import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
 import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
 import 'package:expense_tracker/presentation/screens/recurring/recurring_screen.dart';
@@ -253,7 +254,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             right: provider.isArabic ? null : 0,
             left: provider.isArabic ? 0 : null,
             child: GestureDetector(
-              onTap: () => provider.setNavigationIndex(1),
+              onTap: () => _showBalanceDetails(context, provider, loc),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
@@ -458,37 +459,67 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void _showCategoriesSheet(BuildContext context, AppProvider provider, AppLocalizations loc) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => const CategoryManagerModal(),
+    );
+  }
+
+  void _showBalanceDetails(BuildContext context, AppProvider provider, AppLocalizations loc) {
+    showModalBottomSheet(
+      context: context,
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+          border: Theme.of(context).brightness == Brightness.dark ? Border.all(color: AppColors.darkBorder) : null,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              loc.categories,
+              loc.currentBalance,
               style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: provider.categories.map((c) {
-                return Chip(
-                  label: Text(provider.isArabic ? c.nameAr : c.name),
-                  backgroundColor: Theme.of(context).cardColor,
-                  labelStyle: TextStyle(color: Theme.of(context).textTheme.titleLarge?.color),
-                );
-              }).toList(),
-            ),
             const SizedBox(height: 24),
+            _buildDetailRow(loc.totalIncome, provider.totalIncome, AppColors.income, provider),
+            const SizedBox(height: 12),
+            _buildDetailRow(loc.totalExpense, provider.totalExpense, AppColors.expense, provider),
+            const Divider(height: 32),
+            _buildDetailRow(loc.remaining, provider.totalIncome - provider.totalExpense, Theme.of(context).colorScheme.primary, provider, isBold: true),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  provider.setNavigationIndex(1);
+                },
+                child: Text(loc.viewDetails), // Using "View All" logic
+              ),
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, double amount, Color color, AppProvider provider, {bool isBold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: GoogleFonts.outfit(fontSize: 14)),
+        Text(
+          Formatters.formatCurrency(amount, currency: provider.currency, isArabic: provider.isArabic),
+          style: GoogleFonts.outfit(
+            fontSize: 16,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
+            color: color,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -257,9 +257,18 @@ class AppProvider extends ChangeNotifier {
     await loadCategories();
   }
 
-  Future<void> deleteCategory(int id) async {
-    await _db.deleteCategory(id);
+  Future<void> updateCategory(CategoryModel category) async {
+    await _db.updateCategory(category);
     await loadCategories();
+    await loadTransactions();
+    await loadSummary();
+  }
+
+  Future<void> deleteCategory(CategoryModel category) async {
+    await _db.deleteCategory(category.id!);
+    await loadCategories();
+    await loadTransactions();
+    await loadSummary();
   }
 
   // ==================== TRANSACTIONS ====================
