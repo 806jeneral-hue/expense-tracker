@@ -210,8 +210,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       builder: (_) => AddTransactionScreen(existingTransaction: tx),
     );
   }
-    );
-  }
 
   void _showTransactionDetails(BuildContext context, TransactionModel t, AppProvider provider) {
     showModalBottomSheet(
