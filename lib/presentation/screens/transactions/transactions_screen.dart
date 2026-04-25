@@ -253,4 +253,12 @@ class _FilterChip extends StatelessWidget {
       ),
     );
   }
+  void _showTransactionDetails(BuildContext context, TransactionModel t, AppProvider provider) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => TransactionDetailModal(transaction: t, provider: provider),
+    );
+  }
 }
