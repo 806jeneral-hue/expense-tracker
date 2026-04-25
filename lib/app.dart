@@ -5,6 +5,7 @@ import 'package:expense_tracker/core/theme/app_theme.dart';
 import 'package:expense_tracker/core/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/providers/app_provider.dart';
 import 'package:expense_tracker/presentation/screens/splash_screen.dart';
+import 'package:expense_tracker/presentation/widgets/auth_wrapper.dart';
 
 class ExpenseTrackerApp extends StatelessWidget {
   const ExpenseTrackerApp({super.key});
