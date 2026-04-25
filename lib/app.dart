@@ -1,11 +1,9 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:expense_tracker/core/theme/app_theme.dart';
 import 'package:expense_tracker/core/l10n/app_localizations.dart';
 import 'package:expense_tracker/presentation/providers/app_provider.dart';
-import 'package:expense_tracker/presentation/screens/main_screen.dart';
-import 'package:expense_tracker/presentation/screens/auth/pin_lock_screen.dart';
 import 'package:expense_tracker/presentation/screens/splash_screen.dart';
 
 class ExpenseTrackerApp extends StatelessWidget {
@@ -37,29 +35,5 @@ class ExpenseTrackerApp extends StatelessWidget {
       ],
       home: const SplashScreen(),
     );
-  }
-}
-
-class AuthWrapper extends StatefulWidget {
-  const AuthWrapper({super.key});
-
-  @override
-  State<AuthWrapper> createState() => _AuthWrapperState();
-}
-
-class _AuthWrapperState extends State<AuthWrapper> {
-  bool _isAuthenticated = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final provider = context.watch<AppProvider>();
-
-    if (provider.isSecurityEnabled && provider.hasPin && !_isAuthenticated) {
-      return PinLockScreen(
-        onUnlocked: () => setState(() => _isAuthenticated = true),
-      );
-    }
-
-    return const MainScreen();
   }
 }

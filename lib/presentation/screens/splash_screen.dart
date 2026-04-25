@@ -5,8 +5,8 @@ import '../../core/constants/app_colors.dart';
 import '../../core/l10n/app_localizations.dart';
 import '../providers/app_provider.dart';
 import '../widgets/premium_logo.dart';
+import '../widgets/auth_wrapper.dart';
 import 'main_screen.dart';
-import 'auth/pin_lock_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -31,16 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (provider.isSecurityEnabled && provider.hasPin) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => PinLockScreen(
-            onUnlocked: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => const MainScreen()),
-              );
-            },
-          ),
-        ),
+        MaterialPageRoute(builder: (_) => const AuthWrapper()),
       );
     } else {
       Navigator.pushReplacement(

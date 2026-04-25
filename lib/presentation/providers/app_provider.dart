@@ -48,6 +48,7 @@ class AppProvider extends ChangeNotifier {
   bool get hasPin => _appPin != null && _appPin!.isNotEmpty;
 
   void setSecurity(bool value) {
+    if (value && !hasPin) return; // Prevent enabling without a PIN
     _isSecurityEnabled = value;
     _prefs.setBool('security', value);
     notifyListeners();
@@ -66,7 +67,8 @@ class AppProvider extends ChangeNotifier {
   }
 
   bool verifyPin(String input) {
-    return _appPin == input;
+    if (_appPin == null) return false;
+    return _appPin!.trim() == input.trim();
   }
 
   // ---- Biometrics ----
