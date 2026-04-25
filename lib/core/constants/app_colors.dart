@@ -45,16 +45,17 @@ class AppColors {
   static const Color overlay = Color(0x80000000);
 
   // ---- Dark Mode (Premium Deep Forest) ----
-  static const Color darkBackground = Color(0xFF0E1A17);
-  static const Color darkSurface = Color(0xFF0F211D); // Bottom Nav Background
-  static const Color darkCard = Color(0xFF1A2E2A); // Secondary Cards
+  static const Color darkBackground = Color(0xFF0B1412); // Slightly deeper
+  static const Color darkSurface = Color(0xFF142621); // More distinct
+  static const Color darkCard = Color(0xFF1A2E2A);
   static const Color darkTextPrimary = Color(0xFFE8F1EF);
-  static const Color darkTextSecondary = Color(0xFFA7B7B3);
-  static const Color darkDivider = Color(0xFF243B36); // Icon Backgrounds / Borders
+  static const Color darkTextSecondary = Color(0xFF90A49F); // Adjusted for clarity
+  static const Color darkDivider = Color(0xFF243B36);
+  static const Color darkBorder = Color(0xFF2A453F); // New border color for dark mode
   
   // Specific Dark Mode accents
-  static const Color darkFab = Color(0xFF1F5A4A);
-  static const Color darkIncome = Color(0xFF4CAF50);
-  static const Color darkExpense = Color(0xFFE57373);
-  static const Color darkInactive = Color(0xFF7A8F8A);
+  static const Color darkFab = Color(0xFF26735F); // Slightly brighter
+  static const Color darkIncome = Color(0xFF66BB6A);
+  static const Color darkExpense = Color(0xFFEF5350);
+  static const Color darkInactive = Color(0xFF5A7A72);
 }

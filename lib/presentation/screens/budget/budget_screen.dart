@@ -47,6 +47,9 @@ class BudgetScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(20),
+              border: Theme.of(context).brightness == Brightness.dark
+                  ? Border.all(color: AppColors.darkBorder, width: 1)
+                  : null,
               boxShadow: const [],
             ),
             child: Column(
@@ -80,7 +83,7 @@ class BudgetScreen extends StatelessWidget {
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(Icons.edit_note_rounded, color: AppColors.primary),
+                      icon: Icon(Icons.edit_note_rounded, color: Theme.of(context).colorScheme.primary),
                       onPressed: () => _showSetBudgetDialog(context, category.id!, budgetAmount, loc),
                     ),
                   ],
@@ -91,7 +94,10 @@ class BudgetScreen extends StatelessWidget {
                   children: [
                     Text(
                       '${loc.spent}: ${Formatters.formatCurrency(spent, currency: provider.currency, isArabic: isArabic)}',
-                      style: GoogleFonts.outfit(fontSize: 13, color: AppColors.textSecondary),
+                      style: GoogleFonts.outfit(
+                        fontSize: 13,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
                     ),
                     Text(
                       budgetAmount > 0 
@@ -100,7 +106,9 @@ class BudgetScreen extends StatelessWidget {
                       style: GoogleFonts.outfit(
                         fontSize: 13, 
                         fontWeight: FontWeight.bold,
-                        color: budgetAmount > 0 ? AppColors.primary : AppColors.textLight
+                        color: budgetAmount > 0 
+                            ? Theme.of(context).colorScheme.primary 
+                            : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5)
                       ),
                     ),
                   ],
@@ -111,9 +119,9 @@ class BudgetScreen extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: percent,
                     minHeight: 8,
-                    backgroundColor: AppColors.secondary,
+                    backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      isOverBudget ? Colors.red : AppColors.primary
+                      isOverBudget ? Colors.red : Theme.of(context).colorScheme.primary
                     ),
                   ),
                 ),

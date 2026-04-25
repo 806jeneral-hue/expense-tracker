@@ -141,8 +141,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundColor: AppColors.primary.withOpacity(0.1),
-              child: const Icon(Icons.person, color: AppColors.primary, size: 28),
+              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              child: Icon(Icons.person, color: Theme.of(context).colorScheme.primary, size: 28),
             ),
             const SizedBox(width: 12),
             Column(
@@ -160,7 +160,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   loc.manageExpenses,
                   style: GoogleFonts.outfit(
                     fontSize: 12,
-                    color: AppColors.textSecondary,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
               ],
@@ -172,11 +172,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
             shape: BoxShape.circle,
+            border: Theme.of(context).brightness == Brightness.dark
+                ? Border.all(color: AppColors.darkBorder, width: 1)
+                : null,
             boxShadow: const [],
           ),
-          child: const Icon(
+          child: Icon(
             Icons.notifications_none_rounded,
-            color: AppColors.primary,
+            color: Theme.of(context).colorScheme.primary,
             size: 24,
           ),
         ),
@@ -289,6 +292,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24),
+        border: Theme.of(context).brightness == Brightness.dark
+            ? Border.all(color: AppColors.darkBorder, width: 1)
+            : null,
         boxShadow: const [],
       ),
       child: Row(
@@ -334,13 +340,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       startDegreeOffset: -90,
                       sections: [
                         PieChartSectionData(
-                          color: AppColors.primary,
+                          color: Theme.of(context).colorScheme.primary,
                           value: incomePct,
                           title: '',
                           radius: 12,
                         ),
                         PieChartSectionData(
-                          color: AppColors.secondary,
+                          color: Theme.of(context).colorScheme.secondary,
                           value: expensePct,
                           title: '',
                           radius: 12,
@@ -355,7 +361,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         loc.remaining,
                         style: GoogleFonts.outfit(
                           fontSize: 10,
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                         ),
                       ),
                       Text(
@@ -370,7 +376,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         provider.currency,
                         style: GoogleFonts.outfit(
                           fontSize: 10,
-                          color: AppColors.textSecondary,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                         ),
                       ),
                     ],
@@ -400,6 +406,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(16),
+        border: Theme.of(context).brightness == Brightness.dark
+            ? Border.all(color: AppColors.darkBorder, width: 1)
+            : null,
       ),
       child: Row(
         children: [
@@ -422,7 +431,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Text(
                   label,
-                  style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary),
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
                 ),
                 Text(
                   Formatters.formatCurrency(amount, currency: currency, isArabic: isArabic),
@@ -503,9 +515,12 @@ class _QuickActionItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(15),
+              border: Theme.of(context).brightness == Brightness.dark
+                  ? Border.all(color: AppColors.darkBorder, width: 1)
+                  : null,
               boxShadow: const [],
             ),
-            child: Icon(icon, color: AppColors.primary, size: 24),
+            child: Icon(icon, color: Theme.of(context).colorScheme.primary, size: 24),
           ),
           const SizedBox(height: 6),
           Text(
@@ -534,6 +549,9 @@ class _EmptyState extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(24),
+        border: Theme.of(context).brightness == Brightness.dark
+            ? Border.all(color: AppColors.darkBorder, width: 1)
+            : null,
         boxShadow: const [],
       ),
       child: Column(
@@ -564,7 +582,7 @@ class _EmptyState extends StatelessWidget {
             loc.addFirstTransaction,
             style: GoogleFonts.outfit(
               fontSize: 13,
-              color: AppColors.textSecondary,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
             ),
           ),
         ],

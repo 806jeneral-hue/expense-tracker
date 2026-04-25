@@ -50,7 +50,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     hintText: loc.search,
                     prefixIcon: const Icon(
                       Icons.search_rounded,
-                      color: AppColors.textLight,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
                     ),
                     suffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
@@ -59,7 +59,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                               provider.setSearch('');
                             },
                             icon: const Icon(Icons.clear_rounded,
-                                color: AppColors.textLight),
+                                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5)),
                           )
                         : null,
                   ),
@@ -98,8 +98,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           // ---- Transaction List ----
           Expanded(
             child: provider.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(color: AppColors.primary))
+                ? Center(
+                    child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary))
                 : provider.transactions.isEmpty
                     ? _buildEmpty(loc)
                     : ListView.separated(
@@ -151,13 +151,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppColors.secondary.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.secondary.withOpacity(0.4),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.receipt_long_rounded,
               size: 48,
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(height: 16),
@@ -187,7 +187,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
             child: Text(loc.cancel,
-                style: const TextStyle(color: AppColors.textSecondary)),
+                style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(ctx, true),
@@ -226,7 +226,7 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final activeColor = color ?? AppColors.primary;
+    final activeColor = color ?? Theme.of(context).colorScheme.primary;
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -236,6 +236,9 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected ? activeColor : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
+          border: !isSelected && Theme.of(context).brightness == Brightness.dark
+              ? Border.all(color: AppColors.darkBorder, width: 1)
+              : null,
           boxShadow: const [],
         ),
         child: Text(
@@ -243,7 +246,7 @@ class _FilterChip extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 13,
             fontWeight: FontWeight.w500,
-            color: isSelected ? Colors.white : AppColors.textSecondary,
+            color: isSelected ? Colors.white : Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
       ),

@@ -21,7 +21,7 @@ class PremiumLogo extends StatelessWidget {
         borderRadius: BorderRadius.circular(size * 0.25),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: (useDarkTheme ? Colors.black : AppColors.primary).withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -78,7 +78,7 @@ class PremiumLogo extends StatelessWidget {
               child: Icon(
                 Icons.attach_money_rounded,
                 size: size * 0.18,
-                color: AppColors.primary,
+                color: useDarkTheme ? AppColors.darkBackground : AppColors.primary,
               ),
             ),
           ),

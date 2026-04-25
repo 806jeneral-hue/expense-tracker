@@ -27,7 +27,7 @@ class DebtScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_circle_outline_rounded, color: AppColors.primary, size: 28),
+            icon: Icon(Icons.add_circle_outline_rounded, color: Theme.of(context).colorScheme.primary, size: 28),
             onPressed: () => _showAddDebtDialog(context, loc),
           ),
           const SizedBox(width: 8),
@@ -38,11 +38,11 @@ class DebtScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.handshake_outlined, size: 80, color: AppColors.textLight.withOpacity(0.5)),
+                  Icon(Icons.handshake_outlined, size: 80, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5)),
                   const SizedBox(height: 16),
                   Text(
                     loc.noDebts,
-                    style: GoogleFonts.outfit(color: AppColors.textSecondary),
+                    style: GoogleFonts.outfit(color: Theme.of(context).textTheme.bodyMedium?.color),
                   ),
                 ],
               ),
@@ -59,6 +59,9 @@ class DebtScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(20),
+                    border: Theme.of(context).brightness == Brightness.dark
+                        ? Border.all(color: AppColors.darkBorder, width: 1)
+                        : null,
                     boxShadow: const [],
                   ),
                   child: ListTile(
@@ -86,7 +89,10 @@ class DebtScreen extends StatelessWidget {
                           isLend 
                             ? loc.owesYou 
                             : loc.youOwe,
-                          style: GoogleFonts.outfit(fontSize: 12, color: AppColors.textSecondary),
+                          style: GoogleFonts.outfit(
+                            fontSize: 12,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
                         ),
                         if (debt.dueDate != null)
                           Text(
@@ -108,7 +114,7 @@ class DebtScreen extends StatelessWidget {
                         ),
                         Checkbox(
                           value: debt.isPaid,
-                          activeColor: AppColors.primary,
+                          activeColor: Theme.of(context).colorScheme.primary,
                           onChanged: (val) {
                             provider.updateDebt(DebtModel(
                               id: debt.id,

@@ -39,6 +39,9 @@ class TransactionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
+          border: Theme.of(context).brightness == Brightness.dark
+              ? Border.all(color: AppColors.darkBorder, width: 1)
+              : null,
           boxShadow: const [],
         ),
         child: Row(
@@ -82,7 +85,7 @@ class TransactionCard extends StatelessWidget {
                             daysAgo: loc.daysAgo),
                     style: GoogleFonts.outfit(
                       fontSize: 12,
-                      color: AppColors.textSecondary,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -95,7 +98,7 @@ class TransactionCard extends StatelessWidget {
                           daysAgo: loc.daysAgo),
                       style: GoogleFonts.outfit(
                         fontSize: 11,
-                        color: AppColors.textLight,
+                        color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
                       ),
                     ),
                 ],
@@ -119,7 +122,7 @@ class TransactionCard extends StatelessWidget {
                     transaction.accountName!,
                     style: GoogleFonts.outfit(
                       fontSize: 11,
-                      color: AppColors.textLight,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
                     ),
                   ),
               ],

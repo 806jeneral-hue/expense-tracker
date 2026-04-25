@@ -181,6 +181,11 @@ class AppTheme {
           fontSize: 14,
           color: AppColors.darkTextSecondary,
         ),
+        labelLarge: GoogleFonts.outfit(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: AppColors.darkTextPrimary,
+        ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.darkBackground,
@@ -199,6 +204,7 @@ class AppTheme {
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
+          side: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -208,11 +214,11 @@ class AppTheme {
             const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.darkDivider, width: 1),
+          borderSide: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
