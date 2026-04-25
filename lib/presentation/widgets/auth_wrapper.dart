@@ -24,6 +24,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
       );
     }
 
-    return const MainScreen();
+    return const SplashScreen();
   }
 }

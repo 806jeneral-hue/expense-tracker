@@ -33,7 +33,7 @@ class ExpenseTrackerApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: const SplashScreen(),
+      home: const AuthWrapper(),
     );
   }
 }

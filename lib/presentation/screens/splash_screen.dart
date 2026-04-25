@@ -28,17 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final provider = context.read<AppProvider>();
     
-    if (provider.isSecurityEnabled && provider.hasPin) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const AuthWrapper()),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const MainScreen()),
-      );
-    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const MainScreen()),
+    );
   }
 
   @override
