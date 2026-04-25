@@ -163,8 +163,6 @@ class AppProvider extends ChangeNotifier {
     // Load Saved Settings
     _currency = _prefs.getString('currency') ?? 'EGP';
     _isSecurityEnabled = _prefs.getBool('security') ?? false;
-    _securityType = _prefs.getString('security_type') ?? 'pin';
-    _appPin = _prefs.getString('app_pin');
     final lang = _prefs.getString('language') ?? 'en';
     _locale = Locale(lang);
     
