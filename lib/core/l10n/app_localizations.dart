@@ -124,6 +124,9 @@ class AppLocalizations {
       'today': 'Today',
       'yesterday': 'Yesterday',
       'daysAgo': 'days ago',
+      'edit': 'Edit',
+      'confirmDelete': 'Are you sure you want to delete this?',
+      'mainWallet': 'Main Wallet',
     },
     'ar': {
       'appTitle': 'متتبع المصروفات',
@@ -235,6 +238,9 @@ class AppLocalizations {
       'today': 'اليوم',
       'yesterday': 'أمس',
       'daysAgo': 'أيام',
+      'edit': 'تعديل',
+      'confirmDelete': 'هل أنت متأكد من الحذف؟',
+      'mainWallet': 'المحفظة الرئيسية',
     },
     'es': {
       'appTitle': 'Gestor de Gastos',
@@ -686,6 +692,9 @@ class AppLocalizations {
   String get today => _t('today');
   String get yesterday => _t('yesterday');
   String get daysAgo => _t('daysAgo');
+  String get edit => _t('edit');
+  String get confirmDelete => _t('confirmDelete');
+  String get mainWallet => _t('mainWallet');
 
   // Legacy support for navigation
   String get navDashboard => dashboard;
