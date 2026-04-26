@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_provider.dart';
 import 'dashboard/dashboard_screen.dart';
-import 'transactions/transactions_screen.dart';
+import 'accounts/accounts_screen.dart';
 import 'reports/reports_screen.dart';
 import 'settings/settings_screen.dart';
 import 'add_transaction/add_transaction_screen.dart';
@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = const [
     DashboardScreen(),
-    TransactionsScreen(),
+    AccountsScreen(),
     ReportsScreen(),
     SettingsScreen(),
   ];
@@ -83,8 +83,8 @@ class _MainScreenState extends State<MainScreen> {
                     onTap: () => provider.setNavigationIndex(0),
                   ),
                   _NavItem(
-                    icon: Icons.receipt_long_rounded,
-                    label: loc.navTransactions,
+                    icon: Icons.account_balance_wallet_rounded,
+                    label: loc.accounts,
                     isSelected: provider.navigationIndex == 1,
                     onTap: () => provider.setNavigationIndex(1),
                   ),
