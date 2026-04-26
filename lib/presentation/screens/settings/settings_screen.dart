@@ -98,19 +98,62 @@ class _AccountsCard extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Primary Account Selection
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            leading: Container(
+              width: 42, height: 42,
+              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: const Icon(Icons.star_rounded, color: AppColors.primary, size: 20),
+            ),
+            title: Text(loc.isArabic ? 'الحساب الأساسي' : 'Primary Account', 
+                style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
+            subtitle: Text(provider.primaryAccount?.name ?? (loc.isArabic ? 'لم يتم تحديد حساب أساسي' : 'No primary account selected'),
+                style: GoogleFonts.outfit(fontSize: 12, color: AppColors.textSecondary)),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: AppColors.textSecondary),
+            onTap: () => _showPrimaryAccountDialog(context, provider, loc),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+
           ...provider.accounts.asMap().entries.map((entry) {
             final i = entry.key;
             final acc = entry.value;
+            final isPrimary = provider.primaryAccountId == acc.id;
             return Column(
               children: [
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   leading: Container(
                     width: 42, height: 42,
-                    decoration: BoxDecoration(color: Theme.of(context).dividerTheme.color?.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-                    child: const Icon(Icons.account_balance_wallet_rounded, color: AppColors.primary, size: 20),
+                    decoration: BoxDecoration(
+                      color: isPrimary ? AppColors.primary.withOpacity(0.1) : Theme.of(context).dividerTheme.color?.withOpacity(0.1), 
+                      borderRadius: BorderRadius.circular(12)
+                    ),
+                    child: Icon(
+                      isPrimary ? Icons.star_rounded : Icons.account_balance_wallet_rounded, 
+                      color: isPrimary ? AppColors.primary : AppColors.primary, 
+                      size: 20
+                    ),
                   ),
-                  title: Text(acc.name, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
+                  title: Row(
+                    children: [
+                      Text(acc.name, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
+                      if (isPrimary) ...[
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            loc.isArabic ? 'أساسي' : 'Primary',
+                            style: GoogleFonts.outfit(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.primary),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
                   subtitle: Text('${acc.type.toUpperCase()} • ${acc.currency}',
                       style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary)),
                   trailing: Text(
@@ -135,6 +178,65 @@ class _AccountsCard extends StatelessWidget {
             ),
             title: Text(loc.addAccount, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primary)),
             onTap: () => _showAddAccountDialog(context, provider, loc),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPrimaryAccountDialog(BuildContext context, AppProvider provider, AppLocalizations loc) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(loc.isArabic ? 'اختر الحساب الأساسي' : 'Select Primary Account'),
+        content: provider.accounts.isEmpty
+            ? Text(loc.isArabic ? 'لا توجد حسابات متاحة' : 'No accounts available')
+            : SizedBox(
+                width: double.maxFinite,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: provider.accounts.length + 1, // +1 for "None" option
+                  itemBuilder: (context, index) {
+                    if (index == provider.accounts.length) {
+                      // "None" option
+                      final isSelected = provider.primaryAccountId == null;
+                      return ListTile(
+                        leading: Icon(
+                          isSelected ? Icons.star_rounded : Icons.star_border_rounded,
+                          color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                        ),
+                        title: Text(loc.isArabic ? 'لا يوجد حساب أساسي' : 'No Primary Account'),
+                        subtitle: Text(loc.isArabic ? 'عرض مجموع جميع الأرصدة' : 'Show total of all balances'),
+                        selected: isSelected,
+                        onTap: () {
+                          provider.setPrimaryAccount(null);
+                          Navigator.pop(ctx);
+                        },
+                      );
+                    } else {
+                      final account = provider.accounts[index];
+                      final isSelected = provider.primaryAccountId == account.id;
+                      return ListTile(
+                        leading: Icon(
+                          isSelected ? Icons.star_rounded : Icons.star_border_rounded,
+                          color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                        ),
+                        title: Text(account.name),
+                        subtitle: Text('${account.type.toUpperCase()} • ${account.currency} ${account.balance.toStringAsFixed(2)}'),
+                        selected: isSelected,
+                        onTap: () {
+                          provider.setPrimaryAccount(account.id);
+                          Navigator.pop(ctx);
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(loc.cancel),
           ),
         ],
       ),

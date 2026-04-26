@@ -90,6 +90,13 @@ class AppProvider extends ChangeNotifier {
   List<AccountModel> _accounts = [];
   List<AccountModel> get accounts => _accounts;
 
+  // ---- Primary Account ----
+  int? _primaryAccountId;
+  int? get primaryAccountId => _primaryAccountId;
+  AccountModel? get primaryAccount => _accounts.isNotEmpty && _primaryAccountId != null
+      ? _accounts.firstWhere((a) => a.id == _primaryAccountId, orElse: () => _accounts.first)
+      : _accounts.isNotEmpty ? _accounts.first : null;
+
   // ---- Categories ----
   List<CategoryModel> _categories = [];
   List<CategoryModel> get categories => _categories;
@@ -116,8 +123,7 @@ class AppProvider extends ChangeNotifier {
   double get totalIncome => _totalIncome;
   double get totalExpense => _totalExpense;
   double get totalBalance => _totalIncome - _totalExpense;
-  double get netBalance =>
-      _accounts.fold(0, (sum, a) => sum + a.balance);
+  double get netBalance => primaryAccount?.balance ?? 0.0;
 
   // ---- Filter ----
   String _transactionFilter = 'all'; // all | income | expense
@@ -168,6 +174,9 @@ class AppProvider extends ChangeNotifier {
     
     final isDark = _prefs.getBool('isDarkMode') ?? false;
     _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+
+    // Load primary account
+    _primaryAccountId = _prefs.getInt('primaryAccountId');
 
     await loadAccounts();
     await loadCategories();
@@ -226,9 +235,28 @@ class AppProvider extends ChangeNotifier {
 
   Future<void> deleteAccount(int id) async {
     await _db.deleteAccount(id);
+    // If the deleted account was the primary account, reset to first account or null
+    if (_primaryAccountId == id) {
+      _primaryAccountId = _accounts.isNotEmpty && _accounts.first.id != id ? _accounts.first.id : null;
+      if (_primaryAccountId != null) {
+        _prefs.setInt('primaryAccountId', _primaryAccountId!);
+      } else {
+        _prefs.remove('primaryAccountId');
+      }
+    }
     await loadAccounts();
     await loadTransactions();
     await loadSummary();
+  }
+
+  void setPrimaryAccount(int? accountId) {
+    _primaryAccountId = accountId;
+    if (accountId != null) {
+      _prefs.setInt('primaryAccountId', accountId);
+    } else {
+      _prefs.remove('primaryAccountId');
+    }
+    notifyListeners();
   }
 
   // ==================== CATEGORIES ====================
