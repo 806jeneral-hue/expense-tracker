@@ -199,6 +199,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: Form(
                 key: _formKey,
+                autovalidateMode: AutovalidateMode.disabled,
                 child: Column(
                   children: [
                     // Amount field
@@ -280,12 +281,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
                       _buildSubCategoryGrid(provider, loc),
                     ],
 
-                    const SizedBox(height: 16),
-
-                    // Account
-                    _buildSectionLabel(loc.account),
-                    const SizedBox(height: 8),
-                    _buildAccountsRow(provider, loc),
+                    // Account (only show if no initial account is provided)
+                    if (widget.initialAccount == null) ...[
+                      const SizedBox(height: 16),
+                      _buildSectionLabel(loc.account),
+                      const SizedBox(height: 8),
+                      _buildAccountsRow(provider, loc),
+                    ],
 
                     const SizedBox(height: 16),
 
@@ -551,7 +553,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       );
       return;
     }
-    if (_selectedAccount == null && provider.accounts.isEmpty) {
+    if (_selectedAccount == null && widget.initialAccount == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(loc.accountRequired),
