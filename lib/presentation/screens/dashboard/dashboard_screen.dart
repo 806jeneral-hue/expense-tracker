@@ -13,6 +13,7 @@ import 'package:expense_tracker/presentation/widgets/transaction_detail_modal.da
 import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
 import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
 import 'package:expense_tracker/presentation/screens/recurring/recurring_screen.dart';
+import 'package:expense_tracker/presentation/screens/accounts/accounts_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -60,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 4,
+              crossAxisCount: 5,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
               children: [
@@ -92,6 +93,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   icon: Icons.category_outlined,
                   label: loc.categories,
                   onTap: () => _showCategoriesSheet(context, provider, loc),
+                ),
+                _QuickActionItem(
+                  icon: Icons.account_balance_outlined,
+                  label: loc.accounts,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AccountsScreen()),
+                  ),
                 ),
               ],
             ),
