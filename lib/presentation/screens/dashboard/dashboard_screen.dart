@@ -13,7 +13,7 @@ import 'package:expense_tracker/presentation/widgets/transaction_detail_modal.da
 import 'package:expense_tracker/presentation/screens/budget/budget_screen.dart';
 import 'package:expense_tracker/presentation/screens/debt/debt_screen.dart';
 import 'package:expense_tracker/presentation/screens/recurring/recurring_screen.dart';
-import 'package:expense_tracker/presentation/screens/accounts/accounts_screen.dart';
+import 'package:expense_tracker/presentation/screens/transactions/transactions_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -95,11 +95,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onTap: () => _showCategoriesSheet(context, provider, loc),
                 ),
                 _QuickActionItem(
-                  icon: Icons.account_balance_outlined,
-                  label: loc.accounts,
+                  icon: Icons.receipt_long_outlined,
+                  label: loc.transactions,
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const AccountsScreen()),
+                    MaterialPageRoute(builder: (_) => const TransactionsScreen()),
                   ),
                 ),
               ],

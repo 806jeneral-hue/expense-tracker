@@ -11,8 +11,15 @@ import '../../../data/models/account_model.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   final TransactionModel? existingTransaction;
+  final AccountModel? initialAccount;
+  final String? initialType;
 
-  const AddTransactionScreen({super.key, this.existingTransaction});
+  const AddTransactionScreen({
+    super.key,
+    this.existingTransaction,
+    this.initialAccount,
+    this.initialType,
+  });
 
   @override
   State<AddTransactionScreen> createState() => _AddTransactionScreenState();
@@ -45,6 +52,15 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       _noteController.text = tx.note ?? '';
       _selectedDate = tx.date;
       _tabController.index = tx.type == 'expense' ? 0 : 1;
+    } else {
+      // Set initial values if provided
+      if (widget.initialType != null) {
+        _type = widget.initialType!;
+        _tabController.index = _type == 'expense' ? 0 : 1;
+      }
+      if (widget.initialAccount != null) {
+        _selectedAccount = widget.initialAccount;
+      }
     }
 
     _tabController.addListener(() {

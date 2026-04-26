@@ -9,6 +9,7 @@ import '../../../data/models/account_model.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../widgets/transaction_card.dart';
 import '../../widgets/transaction_detail_modal.dart';
+import 'account_details_screen.dart';
 
 class AccountsScreen extends StatefulWidget {
   const AccountsScreen({super.key});
@@ -85,161 +86,95 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget _buildAccountCard(BuildContext context, AccountModel account, AppProvider provider, AppLocalizations loc) {
-    // Get transactions for this account
+    // Get basic transaction counts for this account
     final accountTransactions = provider.transactions.where((t) => t.accountId == account.id).toList();
-    final income = accountTransactions.where((t) => t.type == 'income').fold(0.0, (sum, t) => sum + t.amount);
-    final expense = accountTransactions.where((t) => t.type == 'expense').fold(0.0, (sum, t) => sum + t.amount);
-    final net = income - expense;
+    final transactionCount = accountTransactions.length;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Theme.of(context).brightness == Brightness.dark
-            ? Border.all(color: AppColors.darkBorder, width: 1)
-            : null,
-        boxShadow: const [],
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AccountDetailsScreen(account: account),
+        ),
       ),
-      child: Column(
-        children: [
-          // Account Header
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(int.parse(account.color.replaceFirst('#', '0xFF'))), Color(int.parse(account.color.replaceFirst('#', '0xFF'))).withOpacity(0.7)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Theme.of(context).brightness == Brightness.dark
+              ? Border.all(color: AppColors.darkBorder, width: 1)
+              : null,
+          boxShadow: const [],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Color(int.parse(account.color.replaceFirst('#', '0xFF'))).withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              child: Icon(
+                _getAccountIcon(account.icon),
+                color: Color(int.parse(account.color.replaceFirst('#', '0xFF'))),
+                size: 24,
+              ),
             ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    _getAccountIcon(account.icon),
-                    color: Colors.white,
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        account.name,
-                        style: GoogleFonts.outfit(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        _getAccountTypeLabel(account.type, loc),
-                        style: GoogleFonts.outfit(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      Formatters.formatCurrency(account.balance, currency: provider.currency, isArabic: provider.isArabic),
-                      style: GoogleFonts.outfit(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      provider.currency,
-                      style: GoogleFonts.outfit(
-                        color: Colors.white.withOpacity(0.8),
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          // Account Summary
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildSummaryItem(loc.totalIncome, income, AppColors.income, provider),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildSummaryItem(loc.totalExpense, expense, AppColors.expense, provider),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildSummaryItem(loc.remaining, net, net >= 0 ? AppColors.income : AppColors.expense, provider),
-                ),
-              ],
-            ),
-          ),
-
-          // Recent Transactions
-          if (accountTransactions.isNotEmpty) ...[
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    loc.recentTransactions,
+                    account.name,
                     style: GoogleFonts.outfit(
-                      fontSize: 14,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Theme.of(context).textTheme.titleLarge?.color,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => _showAllTransactions(context, account, provider, loc),
-                    child: Text(
-                      loc.seeAll,
-                      style: GoogleFonts.outfit(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                  Text(
+                    _getAccountTypeLabel(account.type, loc),
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
                     ),
                   ),
+                  if (transactionCount > 0)
+                    Text(
+                      '$transactionCount ${loc.transactions.toLowerCase()}',
+                      style: GoogleFonts.outfit(
+                        fontSize: 11,
+                        color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
+                      ),
+                    ),
                 ],
               ),
             ),
-            ...accountTransactions.take(3).map(
-                  (t) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                    child: GestureDetector(
-                      onTap: () => _showTransactionDetails(context, t, provider),
-                      child: TransactionCard(
-                        transaction: t,
-                        currency: provider.currency,
-                        isArabic: provider.isArabic,
-                      ),
-                    ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  Formatters.formatCurrency(account.balance, currency: provider.currency, isArabic: provider.isArabic),
+                  style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.titleLarge?.color,
                   ),
                 ),
-            const SizedBox(height: 16),
+                Text(
+                  provider.currency,
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                  ),
+                ),
+              ],
+            ),
           ],
-        ],
+        ),
       ),
     );
   }
@@ -270,18 +205,165 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   void _showAddAccountDialog(BuildContext context, AppProvider provider, AppLocalizations loc) {
-    // TODO: Implement add account dialog
-    showDialog(
+    final _nameController = TextEditingController();
+    final _balanceController = TextEditingController(text: '0.0');
+    String _selectedType = 'cash';
+    String _selectedColor = '#102C26';
+    String _selectedIcon = 'wallet';
+
+    showModalBottomSheet(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(loc.addAccount),
-        content: const Text('Add account functionality coming soon'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(loc.cancel),
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+          border: Theme.of(context).brightness == Brightness.dark
+              ? Border.all(color: AppColors.darkBorder)
+              : null,
+        ),
+        child: StatefulBuilder(
+          builder: (context, setState) => Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                loc.addAccount,
+                style: GoogleFonts.outfit(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Account Name
+              TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: loc.accountName,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Account Type
+              Text(
+                loc.accountType,
+                style: GoogleFonts.outfit(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                children: [
+                  _buildTypeChip('cash', loc.cash, _selectedType, (type) {
+                    setState(() => _selectedType = type);
+                  }),
+                  _buildTypeChip('bank', loc.bank, _selectedType, (type) {
+                    setState(() => _selectedType = type);
+                  }),
+                  _buildTypeChip('credit', loc.credit, _selectedType, (type) {
+                    setState(() => _selectedType = type);
+                  }),
+                  _buildTypeChip('savings', loc.savings, _selectedType, (type) {
+                    setState(() => _selectedType = type);
+                  }),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Initial Balance
+              TextField(
+                controller: _balanceController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: loc.initialBalance,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Buttons
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(loc.cancel),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_nameController.text.trim().isEmpty) return;
+
+                        final account = AccountModel(
+                          name: _nameController.text.trim(),
+                          type: _selectedType,
+                          balance: double.tryParse(_balanceController.text) ?? 0.0,
+                          color: _selectedColor,
+                          icon: _selectedIcon,
+                        );
+
+                        await provider.addAccount(account);
+                        Navigator.pop(ctx);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(loc.save),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTypeChip(String type, String label, String selectedType, Function(String) onSelected) {
+    final isSelected = type == selectedType;
+    return GestureDetector(
+      onTap: () => onSelected(type),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isSelected ? Theme.of(context).colorScheme.primary : AppColors.darkBorder,
+            width: 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: isSelected ? Colors.white : Theme.of(context).textTheme.bodyMedium?.color,
+          ),
+        ),
       ),
     );
   }
