@@ -122,7 +122,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             const SizedBox(height: 12),
             if (provider.isLoading)
-              const Center(child: CircularProgressIndicator(color: AppColors.primary))
+              Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary))
             else if (provider.transactions.isEmpty)
               _EmptyState(loc: loc)
             else
@@ -532,8 +532,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildDetailRow(String label, double amount, Color color, AppProvider provider, {bool isBold = false}) {
     return Row(

@@ -81,10 +81,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
         centerTitle: true,
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppColors.primary))
+          ? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary))
           : RefreshIndicator(
               onRefresh: _fetchData,
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
               child: CustomScrollView(
                 slivers: [
                   // Summary Header
@@ -156,13 +156,15 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     final netBalance = _totalIncome - _totalExpense;
     final isNegative = netBalance < 0;
 
+    final primaryColor = Theme.of(context).colorScheme.primary;
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.primary,
-            AppColors.primary.withOpacity(0.8),
+            primaryColor,
+            primaryColor.withOpacity(0.8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -170,7 +172,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: primaryColor.withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

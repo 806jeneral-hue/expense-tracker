@@ -93,8 +93,9 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildTypeButton(String label, String type) {
     final isSelected = _selectedType == type;

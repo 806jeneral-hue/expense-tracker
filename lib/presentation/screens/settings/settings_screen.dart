@@ -331,7 +331,7 @@ class _PreferencesCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.language_rounded,
+              child: Icon(Icons.language_rounded,
                   color: Theme.of(context).colorScheme.primary, size: 20),
             ),
             title: Text(loc.language,
