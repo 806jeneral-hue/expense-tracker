@@ -5,6 +5,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/l10n/app_localizations.dart';
 import '../../data/models/category_model.dart';
 import '../providers/app_provider.dart';
+import '../screens/categories/category_details_screen.dart';
 
 class CategoryManagerModal extends StatefulWidget {
   const CategoryManagerModal({super.key});
@@ -123,44 +124,54 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
 
   Widget _buildCategoryItem(BuildContext context, CategoryModel cat, AppProvider provider, AppLocalizations loc) {
     final color = Color(int.parse(cat.color.replaceFirst('#', '0xFF')));
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Theme.of(context).brightness == Brightness.dark
-            ? Border.all(color: AppColors.darkBorder)
-            : null,
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(Icons.category_rounded, color: color, size: 20),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryDetailsScreen(category: cat),
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              provider.isArabic ? cat.nameAr : cat.name,
-              style: GoogleFonts.outfit(
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).textTheme.titleLarge?.color,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Theme.of(context).brightness == Brightness.dark
+              ? Border.all(color: AppColors.darkBorder)
+              : null,
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.category_rounded, color: color, size: 20),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                provider.isArabic ? cat.nameAr : cat.name,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).textTheme.titleLarge?.color,
+                ),
               ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.edit_rounded, size: 20, color: Colors.blue),
-            onPressed: () => _showAddCategoryDialog(context, provider, loc, existing: cat),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete_rounded, size: 20, color: Colors.red),
-            onPressed: () => _confirmDelete(context, provider, cat, loc),
-          ),
-        ],
+            IconButton(
+              icon: const Icon(Icons.edit_rounded, size: 20, color: Colors.blue),
+              onPressed: () => _showAddCategoryDialog(context, provider, loc, existing: cat),
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_rounded, size: 20, color: Colors.red),
+              onPressed: () => _confirmDelete(context, provider, cat, loc),
+            ),
+          ],
+        ),
       ),
     );
   }

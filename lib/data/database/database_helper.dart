@@ -6,6 +6,7 @@ import '../models/transaction_model.dart';
 import '../models/budget_model.dart';
 import '../models/debt_model.dart';
 import '../models/recurring_model.dart';
+import '../models/person_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -25,7 +26,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onCreate: _createDB,
       onUpgrade: _onUpgrade,
     );
@@ -78,6 +79,21 @@ class DatabaseHelper {
         )
       ''');
     }
+    if (oldVersion < 4) {
+      // Add person_id to transactions
+      await db.execute('ALTER TABLE transactions ADD COLUMN person_id INTEGER REFERENCES persons(id) ON DELETE SET NULL');
+
+      // Persons table
+      await db.execute('''
+        CREATE TABLE persons (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          phone TEXT,
+          email TEXT,
+          created_at TEXT NOT NULL
+        )
+      ''');
+    }
   }
 
   Future<void> _createDB(Database db, int version) async {
@@ -115,6 +131,7 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         account_id INTEGER NOT NULL,
         category_id INTEGER NOT NULL,
+        person_id INTEGER,
         amount REAL NOT NULL,
         type TEXT NOT NULL,
         note TEXT,
@@ -123,7 +140,8 @@ class DatabaseHelper {
         recur_interval TEXT,
         created_at TEXT NOT NULL,
         FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE,
-        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT
+        FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE RESTRICT,
+        FOREIGN KEY (person_id) REFERENCES persons(id) ON DELETE SET NULL
       )
     ''');
 
@@ -166,6 +184,17 @@ class DatabaseHelper {
         date TEXT NOT NULL,
         due_date TEXT,
         note TEXT
+      )
+    ''');
+
+    // Persons table
+    await db.execute('''
+      CREATE TABLE persons (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        phone TEXT,
+        email TEXT,
+        created_at TEXT NOT NULL
       )
     ''');
 
@@ -329,6 +358,7 @@ class DatabaseHelper {
 
   Future<List<TransactionModel>> getTransactions({
     int? accountId,
+    int? categoryId,
     String? type,
     DateTime? startDate,
     DateTime? endDate,
@@ -344,10 +374,12 @@ class DatabaseHelper {
         c.name as category_name,
         c.name_ar as category_name_ar,
         c.icon as category_icon,
-        c.color as category_color
+        c.color as category_color,
+        p.name as person_name
       FROM transactions t
       LEFT JOIN accounts a ON t.account_id = a.id
       LEFT JOIN categories c ON t.category_id = c.id
+      LEFT JOIN persons p ON t.person_id = p.id
       WHERE 1=1
     ''';
 
@@ -356,6 +388,10 @@ class DatabaseHelper {
     if (accountId != null) {
       query += ' AND t.account_id = ?';
       args.add(accountId);
+    }
+    if (categoryId != null) {
+      query += ' AND t.category_id = ?';
+      args.add(categoryId);
     }
     if (type != null) {
       query += ' AND t.type = ?';
@@ -583,6 +619,37 @@ class DatabaseHelper {
   Future<int> deleteRecurring(int id) async {
     final db = await database;
     return await db.delete('recurring_transactions', where: 'id = ?', whereArgs: [id]);
+  }
+
+  // ==================== PERSONS ====================
+
+  Future<int> insertPerson(PersonModel person) async {
+    final db = await database;
+    return await db.insert('persons', person.toMap());
+  }
+
+  Future<List<PersonModel>> getPersons() async {
+    final db = await database;
+    final maps = await db.query(
+      'persons',
+      orderBy: 'name ASC',
+    );
+    return maps.map((m) => PersonModel.fromMap(m)).toList();
+  }
+
+  Future<int> updatePerson(PersonModel person) async {
+    final db = await database;
+    return await db.update(
+      'persons',
+      person.toMap(),
+      where: 'id = ?',
+      whereArgs: [person.id],
+    );
+  }
+
+  Future<int> deletePerson(int id) async {
+    final db = await database;
+    return await db.delete('persons', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> close() async {

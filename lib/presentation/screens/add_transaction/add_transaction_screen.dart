@@ -8,6 +8,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/models/account_model.dart';
+import '../../../data/models/person_model.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   final TransactionModel? existingTransaction;
@@ -36,6 +37,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
   CategoryModel? _selectedCategory;
   CategoryModel? _selectedSubCategory;
   AccountModel? _selectedAccount;
+  PersonModel? _selectedPerson;
   DateTime _selectedDate = DateTime.now();
 
   bool get isEditing => widget.existingTransaction != null;
@@ -97,6 +99,12 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       try {
         _selectedAccount = provider.accounts.firstWhere(
           (a) => a.id == tx.accountId,
+        );
+      } catch (_) {}
+
+      try {
+        _selectedPerson = provider.persons.firstWhere(
+          (p) => p.id == tx.personId,
         );
       } catch (_) {}
     }
@@ -571,6 +579,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
       id: isEditing ? widget.existingTransaction!.id : null,
       accountId: account.id!,
       categoryId: categoryId,
+      personId: _selectedPerson?.id,
       amount: amount,
       type: _type,
       note: _noteController.text.trim().isEmpty

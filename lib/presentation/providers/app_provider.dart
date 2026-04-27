@@ -11,6 +11,7 @@ import '../../data/models/transaction_model.dart';
 import '../../data/models/budget_model.dart';
 import '../../data/models/debt_model.dart';
 import '../../data/models/recurring_model.dart';
+import '../../data/models/person_model.dart';
 import '../../core/l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -89,6 +90,10 @@ class AppProvider extends ChangeNotifier {
   // ---- Accounts ----
   List<AccountModel> _accounts = [];
   List<AccountModel> get accounts => _accounts;
+
+  // ---- Persons ----
+  List<PersonModel> _persons = [];
+  List<PersonModel> get persons => _persons;
 
   // ---- Primary Account ----
   int? _primaryAccountId;
@@ -179,6 +184,7 @@ class AppProvider extends ChangeNotifier {
     _primaryAccountId = _prefs.getInt('primaryAccountId');
 
     await loadAccounts();
+    await loadPersons();
     await loadCategories();
     _transactions = await _db.getTransactions(limit: 50); // Get recent 50
     await loadSummary();
@@ -259,6 +265,28 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ==================== PERSONS ====================
+
+  Future<void> loadPersons() async {
+    _persons = await _db.getPersons();
+    notifyListeners();
+  }
+
+  Future<void> addPerson(PersonModel person) async {
+    await _db.insertPerson(person);
+    await loadPersons();
+  }
+
+  Future<void> updatePerson(PersonModel person) async {
+    await _db.updatePerson(person);
+    await loadPersons();
+  }
+
+  Future<void> deletePerson(int id) async {
+    await _db.deletePerson(id);
+    await loadPersons();
+  }
+
   // ==================== CATEGORIES ====================
 
   Future<void> loadCategories() async {
@@ -296,6 +324,10 @@ class AppProvider extends ChangeNotifier {
       searchQuery: _searchQuery.isEmpty ? null : _searchQuery,
     );
     notifyListeners();
+  }
+
+  Future<List<TransactionModel>> getTransactionsByCategory(int categoryId) async {
+    return await _db.getTransactions(categoryId: categoryId);
   }
 
   Future<void> addTransaction(TransactionModel transaction) async {

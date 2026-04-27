@@ -2,6 +2,7 @@ class TransactionModel {
   final int? id;
   final int accountId;
   final int categoryId;
+  final int? personId; // New field for person
   final double amount;
   final String type; // income | expense
   final String? note;
@@ -16,11 +17,13 @@ class TransactionModel {
   final String? categoryNameAr;
   final String? categoryIcon;
   final String? categoryColor;
+  final String? personName; // New joined field
 
   TransactionModel({
     this.id,
     required this.accountId,
     required this.categoryId,
+    this.personId,
     required this.amount,
     required this.type,
     this.note,
@@ -33,6 +36,7 @@ class TransactionModel {
     this.categoryNameAr,
     this.categoryIcon,
     this.categoryColor,
+    this.personName,
   }) : createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
@@ -40,6 +44,7 @@ class TransactionModel {
       'id': id,
       'account_id': accountId,
       'category_id': categoryId,
+      'person_id': personId,
       'amount': amount,
       'type': type,
       'note': note,
@@ -55,6 +60,7 @@ class TransactionModel {
       id: map['id'],
       accountId: map['account_id'],
       categoryId: map['category_id'],
+      personId: map['person_id'],
       amount: (map['amount'] as num).toDouble(),
       type: map['type'],
       note: map['note'],
@@ -67,6 +73,7 @@ class TransactionModel {
       categoryNameAr: map['category_name_ar'],
       categoryIcon: map['category_icon'],
       categoryColor: map['category_color'],
+      personName: map['person_name'],
     );
   }
 
