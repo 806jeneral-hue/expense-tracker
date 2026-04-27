@@ -103,8 +103,8 @@ class _AccountsCard extends StatelessWidget {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             leading: Container(
               width: 42, height: 42,
-              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.star_rounded, color: AppColors.primary, size: 20),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Icon(Icons.star_rounded, color: Theme.of(context).colorScheme.primary, size: 20),
             ),
             title: Text(loc.isArabic ? 'الحساب الأساسي' : 'Primary Account', 
                 style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
@@ -126,12 +126,12 @@ class _AccountsCard extends StatelessWidget {
                   leading: Container(
                     width: 42, height: 42,
                     decoration: BoxDecoration(
-                      color: isPrimary ? AppColors.primary.withOpacity(0.1) : Theme.of(context).dividerTheme.color?.withOpacity(0.1), 
+                      color: isPrimary ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Theme.of(context).dividerTheme.color?.withOpacity(0.1), 
                       borderRadius: BorderRadius.circular(12)
                     ),
                     child: Icon(
                       isPrimary ? Icons.star_rounded : Icons.account_balance_wallet_rounded, 
-                      color: isPrimary ? AppColors.primary : AppColors.primary, 
+                      color: Theme.of(context).colorScheme.primary, 
                       size: 20
                     ),
                   ),
@@ -143,12 +143,12 @@ class _AccountsCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
                             loc.isArabic ? 'أساسي' : 'Primary',
-                            style: GoogleFonts.outfit(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.primary),
+                            style: GoogleFonts.outfit(fontSize: 10, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primary),
                           ),
                         ),
                       ],
@@ -173,10 +173,10 @@ class _AccountsCard extends StatelessWidget {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             leading: Container(
               width: 42, height: 42,
-              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.add_rounded, color: AppColors.primary, size: 20),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.primary.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Icon(Icons.add_rounded, color: Theme.of(context).colorScheme.primary, size: 20),
             ),
-            title: Text(loc.addAccount, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primary)),
+            title: Text(loc.addAccount, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w500, color: Theme.of(context).colorScheme.primary)),
             onTap: () => _showAddAccountDialog(context, provider, loc),
           ),
         ],
@@ -203,7 +203,7 @@ class _AccountsCard extends StatelessWidget {
                       return ListTile(
                         leading: Icon(
                           isSelected ? Icons.star_rounded : Icons.star_border_rounded,
-                          color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                          color: isSelected ? Theme.of(context).colorScheme.primary : AppColors.textSecondary,
                         ),
                         title: Text(loc.isArabic ? 'لا يوجد حساب أساسي' : 'No Primary Account'),
                         subtitle: Text(loc.isArabic ? 'عرض مجموع جميع الأرصدة' : 'Show total of all balances'),
@@ -332,7 +332,7 @@ class _PreferencesCard extends StatelessWidget {
                   color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.language_rounded,
-                  color: AppColors.primary, size: 20),
+                  color: Theme.of(context).colorScheme.primary, size: 20),
             ),
             title: Text(loc.language,
                 style: GoogleFonts.outfit(
@@ -363,8 +363,8 @@ class _PreferencesCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.dark_mode_rounded,
-                  color: AppColors.primary, size: 20),
+              child: Icon(Icons.dark_mode_rounded,
+                  color: Theme.of(context).colorScheme.primary, size: 20),
             ),
             title: Text(loc.darkMode,
                 style: GoogleFonts.outfit(
@@ -374,7 +374,7 @@ class _PreferencesCard extends StatelessWidget {
             trailing: Switch(
               value: provider.isDarkMode,
               onChanged: (_) => provider.toggleTheme(),
-              activeColor: AppColors.primary,
+              activeColor: Theme.of(context).colorScheme.primary,
             ),
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),
@@ -387,8 +387,8 @@ class _PreferencesCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Theme.of(context).dividerTheme.color?.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.lock_rounded,
-                  color: AppColors.primary, size: 20),
+              child: Icon(Icons.lock_rounded,
+                  color: Theme.of(context).colorScheme.primary, size: 20),
             ),
             title: Text(
                 loc.appLock,
@@ -399,7 +399,7 @@ class _PreferencesCard extends StatelessWidget {
             trailing: Switch(
               value: provider.isSecurityEnabled,
               onChanged: (v) => provider.setSecurity(v),
-              activeColor: AppColors.primary,
+              activeColor: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],
@@ -428,14 +428,14 @@ class _CurrencyCard extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: Container(
           width: 42, height: 42,
-          decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(12)),
-          child: const Icon(Icons.monetization_on_rounded, color: AppColors.primary, size: 20),
+          decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+          child: Icon(Icons.monetization_on_rounded, color: Theme.of(context).colorScheme.primary, size: 20),
         ),
-        title: Text(loc.currency, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+        title: Text(loc.currency, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
         trailing: DropdownButton<String>(
           value: provider.currency,
           underline: const SizedBox.shrink(),
-          style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.primary),
+          style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.primary),
           items: currencies.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
           onChanged: (v) => provider.setCurrency(v!),
         ),
@@ -463,10 +463,10 @@ class _AboutCard extends StatelessWidget {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             leading: Container(
               width: 42, height: 42,
-              decoration: BoxDecoration(color: AppColors.secondary, borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.info_outline_rounded, color: AppColors.primary, size: 20),
+              decoration: BoxDecoration(color: Theme.of(context).colorScheme.secondary.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+              child: Icon(Icons.info_outline_rounded, color: Theme.of(context).colorScheme.primary, size: 20),
             ),
-            title: Text(loc.about, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+            title: Text(loc.about, style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w600, color: Theme.of(context).textTheme.titleLarge?.color)),
             subtitle: Text(loc.version, style: GoogleFonts.outfit(fontSize: 12, color: AppColors.textSecondary)),
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),

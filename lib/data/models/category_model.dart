@@ -2,7 +2,7 @@ class CategoryModel {
   final int? id;
   final String name;
   final String nameAr;
-  final String type; // expense | income
+  final String type; // expense | income | both
   final String color;
   final String icon;
   final bool isCustom;

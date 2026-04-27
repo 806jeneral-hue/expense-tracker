@@ -106,9 +106,9 @@ class AppProvider extends ChangeNotifier {
   List<CategoryModel> _categories = [];
   List<CategoryModel> get categories => _categories;
   List<CategoryModel> get expenseCategories =>
-      _categories.where((c) => c.type == 'expense' && c.parentId == null).toList();
+      _categories.where((c) => (c.type == 'expense' || c.type == 'both') && c.parentId == null).toList();
   List<CategoryModel> get incomeCategories =>
-      _categories.where((c) => c.type == 'income' && c.parentId == null).toList();
+      _categories.where((c) => (c.type == 'income' || c.type == 'both') && c.parentId == null).toList();
 
   List<CategoryModel> getSubCategories(int parentId) {
     return _categories.where((c) => c.parentId == parentId).toList();

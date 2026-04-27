@@ -25,7 +25,9 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
         ? provider.expenseCategories 
         : provider.incomeCategories;
 
-    return Container(
+    return Material(
+      color: Colors.transparent,
+      child: Container(
       height: MediaQuery.of(context).size.height * 0.8,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -123,31 +125,34 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
   }
 
   Widget _buildCategoryItem(BuildContext context, CategoryModel cat, AppProvider provider, AppLocalizations loc) {
-    final color = Color(int.parse(cat.color.replaceFirst('#', '0xFF')));
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    Color color = Color(int.parse(cat.color.replaceFirst('#', '0xFF')));
+    if (isDark) {
+      // Lighten dark colors in dark mode for visibility
+      color = Color.lerp(color, Colors.white, 0.4)!;
+    }
+
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CategoryDetailsScreen(category: cat),
-          ),
-        );
-      },
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CategoryDetailsScreen(category: cat),
+        ),
+      ),
       child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
-          border: Theme.of(context).brightness == Brightness.dark
-              ? Border.all(color: AppColors.darkBorder)
-              : null,
+          border: isDark ? Border.all(color: AppColors.darkBorder) : null,
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withOpacity(0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(Icons.category_rounded, color: color, size: 20),
@@ -178,49 +183,95 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
 
   void _showAddCategoryDialog(BuildContext context, AppProvider provider, AppLocalizations loc, {CategoryModel? existing}) {
     final nameController = TextEditingController(text: existing != null ? (provider.isArabic ? existing.nameAr : existing.name) : '');
-    
+    String dialogType = existing?.type ?? _selectedType;
+
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(existing == null ? loc.addTransaction : loc.editTransaction), // Using available l10n
-        content: TextField(
-          controller: nameController,
-          decoration: InputDecoration(
-            hintText: provider.isArabic ? "اسم الفئة" : "Category Name",
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text(existing == null ? loc.addTransaction : loc.editTransaction),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: provider.isArabic ? "اسم الفئة" : "Category Name",
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  _buildDialogTypeOption(setDialogState, loc.expense, 'expense', dialogType, (val) => dialogType = val),
+                  const SizedBox(width: 8),
+                  _buildDialogTypeOption(setDialogState, loc.income, 'income', dialogType, (val) => dialogType = val),
+                  const SizedBox(width: 8),
+                  _buildDialogTypeOption(setDialogState, provider.isArabic ? "كلاهما" : "Both", 'both', dialogType, (val) => dialogType = val),
+                ],
+              ),
+            ],
           ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: Text(loc.cancel)),
+            ElevatedButton(
+              onPressed: () {
+                if (nameController.text.isEmpty) return;
+                if (existing != null) {
+                  provider.updateCategory(CategoryModel(
+                    id: existing.id,
+                    name: nameController.text,
+                    nameAr: nameController.text,
+                    icon: existing.icon,
+                    type: dialogType,
+                    color: existing.color,
+                  ));
+                } else {
+                  provider.addCategory(CategoryModel(
+                    name: nameController.text,
+                    nameAr: nameController.text,
+                    icon: 'category',
+                    type: dialogType,
+                    color: '#1F5A4A',
+                  ));
+                }
+                Navigator.pop(ctx);
+              },
+              child: Text(loc.save),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text(loc.cancel)),
-          ElevatedButton(
-            onPressed: () {
-              if (nameController.text.isEmpty) return;
-              if (existing != null) {
-                provider.updateCategory(CategoryModel(
-                  id: existing.id,
-                  name: nameController.text,
-                  nameAr: nameController.text,
-                  icon: existing.icon,
-                  type: existing.type,
-                  color: existing.color,
-                ));
-              } else {
-                provider.addCategory(CategoryModel(
-                  name: nameController.text,
-                  nameAr: nameController.text,
-                  icon: 'category',
-                  type: _selectedType,
-                  color: '#1F5A4A',
-                ));
-              }
-              Navigator.pop(ctx);
-            },
-            child: Text(loc.save),
-          ),
-        ],
       ),
     );
   }
+
+  Widget _buildDialogTypeOption(StateSetter setState, String label, String type, String selectedType, Function(String) onSelect) {
+    final isSelected = selectedType == type;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => onSelect(type)),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primary : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: isSelected ? AppColors.primary : AppColors.divider),
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.outfit(
+              fontSize: 10,
+              color: isSelected ? Colors.white : AppColors.textSecondary,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
 
   void _confirmDelete(BuildContext context, AppProvider provider, CategoryModel cat, AppLocalizations loc) {
     showDialog(

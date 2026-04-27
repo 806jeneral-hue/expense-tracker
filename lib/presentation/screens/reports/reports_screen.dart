@@ -24,14 +24,14 @@ class ReportsScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.calendar_month_rounded, color: AppColors.primary),
+            icon: Icon(Icons.calendar_month_rounded, color: Theme.of(context).colorScheme.primary),
             onPressed: () => _showMonthPicker(context, provider),
           ),
         ],
       ),
       body: provider.isLoading
           ? const Center(
-              child: CircularProgressIndicator(color: AppColors.primary))
+              child: CircularProgressIndicator(color: Theme.of(context).colorScheme.primary))
           : ListView(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
               children: [
@@ -107,7 +107,7 @@ class ReportsScreen extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            color: isSelected ? AppColors.primary : AppColors.textSecondary,
+            color: isSelected ? Theme.of(context).colorScheme.primary : AppColors.textSecondary,
           ),
         ),
       ),
@@ -136,12 +136,17 @@ class _MonthSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final savings = provider.totalIncome - provider.totalExpense;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final incomeColor = isDark ? AppColors.darkIncome : AppColors.income;
+    final expenseColor = isDark ? AppColors.darkExpense : AppColors.expense;
+    final savingsColor = savings >= 0 ? incomeColor : expenseColor;
+
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: const [],
+        border: isDark ? Border.all(color: AppColors.darkBorder) : null,
       ),
       child: Column(
         children: [
@@ -151,31 +156,31 @@ class _MonthSummaryCard extends StatelessWidget {
           Text(Formatters.formatCurrency(savings, currency: provider.currency),
               style: GoogleFonts.outfit(
                   fontSize: 28, fontWeight: FontWeight.w700,
-                  color: savings >= 0 ? AppColors.income : AppColors.expense)),
+                  color: savingsColor)),
           const SizedBox(height: 16),
           Row(
             children: [
               Expanded(child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const Icon(Icons.arrow_downward_rounded, color: AppColors.income, size: 14),
+                  Icon(Icons.arrow_downward_rounded, color: incomeColor, size: 14),
                   const SizedBox(width: 4),
                   Text(loc.totalIncome, style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary)),
                 ]),
                 const SizedBox(height: 4),
                 Text(Formatters.formatCurrency(provider.totalIncome, currency: provider.currency),
-                    style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.income),
+                    style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w700, color: incomeColor),
                     maxLines: 1, overflow: TextOverflow.ellipsis),
               ])),
-              Container(width: 1, height: 36, color: AppColors.divider),
+              Container(width: 1, height: 36, color: isDark ? AppColors.darkBorder : AppColors.divider),
               Expanded(child: Column(children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const Icon(Icons.arrow_upward_rounded, color: AppColors.expense, size: 14),
+                  Icon(Icons.arrow_upward_rounded, color: expenseColor, size: 14),
                   const SizedBox(width: 4),
                   Text(loc.totalExpense, style: GoogleFonts.outfit(fontSize: 11, color: AppColors.textSecondary)),
                 ]),
                 const SizedBox(height: 4),
                 Text(Formatters.formatCurrency(provider.totalExpense, currency: provider.currency),
-                    style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w700, color: AppColors.expense),
+                    style: GoogleFonts.outfit(fontSize: 13, fontWeight: FontWeight.w700, color: expenseColor),
                     maxLines: 1, overflow: TextOverflow.ellipsis),
               ])),
             ],

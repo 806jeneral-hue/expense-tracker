@@ -412,8 +412,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required BuildContext context,
     required bool isArabic,
   }) {
-    final color = isIncome ? AppColors.income : AppColors.expense;
-    final bgColor = isIncome ? AppColors.incomeLight.withOpacity(0.3) : AppColors.expenseLight.withOpacity(0.3);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isIncome 
+        ? (isDark ? AppColors.darkIncome : AppColors.income) 
+        : (isDark ? AppColors.darkExpense : AppColors.expense);
+    final bgColor = isIncome 
+        ? (isDark ? AppColors.darkIncome.withOpacity(0.15) : AppColors.incomeLight.withOpacity(0.3)) 
+        : (isDark ? AppColors.darkExpense.withOpacity(0.15) : AppColors.expenseLight.withOpacity(0.3));
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -491,7 +496,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Container(
+      builder: (ctx) => Material(
+        color: Colors.transparent,
+        child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -615,10 +622,10 @@ class _EmptyState extends StatelessWidget {
               color: AppColors.secondary.withOpacity(0.5),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.receipt_long_rounded,
               size: 40,
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(height: 16),

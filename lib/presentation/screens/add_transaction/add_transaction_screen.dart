@@ -115,7 +115,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     final provider = context.watch<AppProvider>();
     final loc = AppLocalizations.of(context);
 
-    return Container(
+    return Material(
+      color: Colors.transparent,
+      child: Container(
       height: MediaQuery.of(context).size.height * 0.9,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -609,56 +611,106 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
   void _showAddCategoryDialog(AppProvider provider, AppLocalizations loc,
       {bool isSub = false}) {
     final controller = TextEditingController();
+    String dialogType = _type;
+
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(
-          isSub
-              ? (provider.isArabic ? "إضافة تصنيف فرعي" : "Add Sub-Category")
-              : (provider.isArabic ? "إضافة تصنيف جديد" : "Add New Category"),
-          style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.w600),
-        ),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: provider.isArabic ? "اسم التصنيف" : "Category Name",
-            hintStyle: GoogleFonts.outfit(fontSize: 14),
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text(
+            isSub
+                ? (provider.isArabic ? "إضافة تصنيف فرعي" : "Add Sub-Category")
+                : (provider.isArabic ? "إضافة تصنيف جديد" : "Add New Category"),
+            style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.w600),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(provider.isArabic ? "إلغاء" : "Cancel"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: controller,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: provider.isArabic ? "اسم التصنيف" : "Category Name",
+                  hintStyle: GoogleFonts.outfit(fontSize: 14),
+                ),
+              ),
+              if (!isSub) ...[
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    _buildDialogTypeOption(setDialogState, loc.expense, 'expense', dialogType, (val) => dialogType = val),
+                    const SizedBox(width: 8),
+                    _buildDialogTypeOption(setDialogState, loc.income, 'income', dialogType, (val) => dialogType = val),
+                    const SizedBox(width: 8),
+                    _buildDialogTypeOption(setDialogState, provider.isArabic ? "كلاهما" : "Both", 'both', dialogType, (val) => dialogType = val),
+                  ],
+                ),
+              ],
+            ],
           ),
-          ElevatedButton(
-            onPressed: () async {
-              if (controller.text.trim().isEmpty) return;
-              final newCat = CategoryModel(
-                name: controller.text.trim(),
-                nameAr: controller.text.trim(),
-                icon: isSub ? 'subdirectory_arrow_right' : 'category',
-                type: _type,
-                parentId: isSub ? _selectedCategory?.id : null,
-              );
-              await provider.addCategory(newCat);
-              if (mounted) {
-                if (isSub) {
-                  setState(() => _selectedSubCategory = provider.categories.last);
-                } else {
-                  setState(() {
-                    _selectedCategory = provider.categories.last;
-                    _selectedSubCategory = null;
-                  });
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(provider.isArabic ? "إلغاء" : "Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (controller.text.trim().isEmpty) return;
+                final newCat = CategoryModel(
+                  name: controller.text.trim(),
+                  nameAr: controller.text.trim(),
+                  icon: isSub ? 'subdirectory_arrow_right' : 'category',
+                  type: isSub ? _type : dialogType,
+                  parentId: isSub ? _selectedCategory?.id : null,
+                );
+                await provider.addCategory(newCat);
+                if (mounted) {
+                  if (isSub) {
+                    setState(
+                        () => _selectedSubCategory = provider.categories.last);
+                  } else {
+                    setState(() {
+                      _selectedCategory = provider.categories.last;
+                      _selectedSubCategory = null;
+                    });
+                  }
+                  Navigator.pop(ctx);
                 }
-                Navigator.pop(ctx);
-              }
-            },
-            child: Text(provider.isArabic ? "إضافة" : "Add"),
-          ),
-        ],
+              },
+              child: Text(provider.isArabic ? "إضافة" : "Add"),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget _buildDialogTypeOption(StateSetter setState, String label, String type, String selectedType, Function(String) onSelect) {
+    final isSelected = selectedType == type;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => setState(() => onSelect(type)),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primary : Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: isSelected ? AppColors.primary : AppColors.divider),
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.outfit(
+              fontSize: 10,
+              color: isSelected ? Colors.white : AppColors.textSecondary,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 }

@@ -179,7 +179,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
       child: Column(
         children: [
           Text(
-            loc.totalBalance, // Using totalBalance as Net
+            loc.netBalance,
             style: GoogleFonts.outfit(
               color: Colors.white.withOpacity(0.8),
               fontSize: 14,

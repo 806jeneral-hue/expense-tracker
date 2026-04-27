@@ -90,6 +90,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
     final accountTransactions = provider.transactions.where((t) => t.accountId == account.id).toList();
     final transactionCount = accountTransactions.length;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    Color accountColor = Color(int.parse(account.color.replaceFirst('#', '0xFF')));
+    if (isDark) {
+      accountColor = Color.lerp(accountColor, Colors.white, 0.4)!;
+    }
+
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -103,7 +109,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
-          border: Theme.of(context).brightness == Brightness.dark
+          border: isDark
               ? Border.all(color: AppColors.darkBorder, width: 1)
               : null,
           boxShadow: const [],
@@ -113,12 +119,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Color(int.parse(account.color.replaceFirst('#', '0xFF'))).withOpacity(0.1),
+                color: accountColor.withOpacity(0.15),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 _getAccountIcon(account.icon),
-                color: Color(int.parse(account.color.replaceFirst('#', '0xFF'))),
+                color: accountColor,
                 size: 24,
               ),
             ),
@@ -215,7 +221,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Container(
+      builder: (ctx) => Material(
+        color: Colors.transparent,
+        child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,

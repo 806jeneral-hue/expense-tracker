@@ -67,11 +67,12 @@ class _MainScreenState extends State<MainScreen> {
         ),
         child: SafeArea(
           child: SizedBox(
-            height: 64,
+            height: 70,
             child: BottomAppBar(
               color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
               elevation: 0,
               notchMargin: 8,
+              padding: EdgeInsets.zero,
               shape: const CircularNotchedRectangle(),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -140,12 +141,12 @@ class _NavItem extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
               ? Theme.of(context).bottomNavigationBarTheme.selectedItemColor?.withOpacity(0.12)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

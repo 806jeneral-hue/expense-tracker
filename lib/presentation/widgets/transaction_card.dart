@@ -25,9 +25,13 @@ class TransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
     final isExpense = transaction.isExpense;
-    final color = isExpense ? AppColors.expense : AppColors.income;
-    final bgColor =
-        isExpense ? AppColors.expenseLight : AppColors.incomeLight;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isExpense 
+        ? (isDark ? AppColors.darkExpense : AppColors.expense) 
+        : (isDark ? AppColors.darkIncome : AppColors.income);
+    final bgColor = isExpense 
+        ? (isDark ? AppColors.darkExpense.withOpacity(0.15) : AppColors.expenseLight) 
+        : (isDark ? AppColors.darkIncome.withOpacity(0.15) : AppColors.incomeLight);
     final categoryName = isArabic
         ? (transaction.categoryNameAr ?? transaction.categoryName ?? '')
         : (transaction.categoryName ?? '');

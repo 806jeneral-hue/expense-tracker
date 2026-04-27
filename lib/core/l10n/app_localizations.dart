@@ -121,6 +121,7 @@ class AppLocalizations {
       'noBudgetSet': 'No budget set',
       'overBudget': 'Over budget!',
       'setBudget': 'Set Budget',
+      'netBalance': 'Net Balance',
       'today': 'Today',
       'yesterday': 'Yesterday',
       'daysAgo': 'days ago',
@@ -235,6 +236,7 @@ class AppLocalizations {
       'noBudgetSet': 'لم تحدد ميزانية',
       'overBudget': 'لقد تجاوزت الميزانية!',
       'setBudget': 'تحديد الميزانية',
+      'netBalance': 'الصافي',
       'today': 'اليوم',
       'yesterday': 'أمس',
       'daysAgo': 'أيام',
@@ -689,6 +691,7 @@ class AppLocalizations {
   String get noBudgetSet => _t('noBudgetSet');
   String get overBudget => _t('overBudget');
   String get setBudget => _t('setBudget');
+  String get netBalance => _t('netBalance');
   String get today => _t('today');
   String get yesterday => _t('yesterday');
   String get daysAgo => _t('daysAgo');
