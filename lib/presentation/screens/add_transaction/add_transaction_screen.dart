@@ -548,9 +548,8 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
           ],
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Future<void> _save(
       BuildContext context, AppProvider provider, AppLocalizations loc) async {
