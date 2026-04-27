@@ -282,7 +282,7 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
           TextButton(onPressed: () => Navigator.pop(ctx), child: Text(loc.cancel)),
           TextButton(
             onPressed: () async {
-              await provider.deleteCategory(cat.id!);
+              await provider.deleteCategory(cat);
               Navigator.pop(ctx);
             },
             child: Text(loc.delete, style: const TextStyle(color: Colors.red)),
