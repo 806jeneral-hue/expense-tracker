@@ -576,6 +576,29 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
 
     final account = _selectedAccount ?? provider.accounts.first;
     final amount = double.parse(_amountController.text);
+
+    // Check for insufficient balance
+    if (_type == 'expense') {
+      double availableBalance = account.balance;
+      if (isEditing) {
+        if (widget.existingTransaction!.type == 'expense') {
+          availableBalance += widget.existingTransaction!.amount;
+        } else if (widget.existingTransaction!.type == 'income') {
+          availableBalance -= widget.existingTransaction!.amount;
+        }
+      }
+
+      if (availableBalance < amount) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(loc.insufficientBalance),
+            backgroundColor: AppColors.expense,
+          ),
+        );
+        return;
+      }
+    }
+
     final categoryId = (_selectedSubCategory ?? _selectedCategory)!.id!;
 
     final newTx = TransactionModel(

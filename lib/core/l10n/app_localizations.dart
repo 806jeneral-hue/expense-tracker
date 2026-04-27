@@ -43,6 +43,7 @@ class AppLocalizations {
       'amountRequired': 'Amount is required',
       'accountRequired': 'Account is required',
       'categoryRequired': 'Category is required',
+      'insufficientBalance': 'Insufficient wallet balance',
       'transactionSaved': 'Transaction saved!',
       'about': 'About',
       'version': 'Version 1.0.0',
@@ -158,6 +159,7 @@ class AppLocalizations {
       'amountRequired': 'المبلغ مطلوب',
       'accountRequired': 'الحساب مطلوب',
       'categoryRequired': 'التصنيف مطلوب',
+      'insufficientBalance': 'رصيد المحفظة لا يكفي',
       'transactionSaved': 'تم حفظ المعاملة!',
       'about': 'عن التطبيق',
       'version': 'الإصدار 1.0.0',
@@ -613,6 +615,7 @@ class AppLocalizations {
   String get amountRequired => _t('amountRequired');
   String get accountRequired => _t('accountRequired');
   String get categoryRequired => _t('categoryRequired');
+  String get insufficientBalance => _localizedValues[locale.languageCode]!['insufficientBalance'] ?? _localizedValues['en']!['insufficientBalance']!;
   String get transactionSaved => _t('transactionSaved');
   String get about => _t('about');
   String get version => _t('version');

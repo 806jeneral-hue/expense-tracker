@@ -39,9 +39,11 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     
     for (var tx in txs) {
       if (tx.isIncome) {
-        income += tx.amount;
-      } else {
+        // For the category (person), user's income is their expense
         expense += tx.amount;
+      } else {
+        // For the category (person), user's expense is their income
+        income += tx.amount;
       }
     }
 
