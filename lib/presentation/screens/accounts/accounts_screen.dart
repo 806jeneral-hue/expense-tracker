@@ -86,7 +86,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget _buildAccountCard(BuildContext context, AccountModel account, AppProvider provider, AppLocalizations loc) {
-    // Get basic transaction counts for this account
     final accountTransactions = provider.transactions.where((t) => t.accountId == account.id).toList();
     final transactionCount = accountTransactions.length;
 
@@ -185,31 +184,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
     );
   }
 
-  Widget _buildSummaryItem(String label, double amount, Color color, AppProvider provider) {
-    return Column(
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 11,
-            color: Theme.of(context).textTheme.bodyMedium?.color,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 4),
-        Text(
-          Formatters.formatCurrency(amount, currency: provider.currency, isArabic: provider.isArabic),
-          style: GoogleFonts.outfit(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
-
   void _showAddAccountDialog(BuildContext context, AppProvider provider, AppLocalizations loc) {
     final _nameController = TextEditingController();
     final _balanceController = TextEditingController(text: '0.0');
@@ -237,117 +211,116 @@ class _AccountsScreenState extends State<AccountsScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Text(
-                loc.addAccount,
-                style: GoogleFonts.outfit(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Account Name
-              TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  labelText: loc.accountName,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                Text(
+                  loc.addAccount,
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 24),
 
-              // Account Type
-              Text(
-                loc.accountType,
-                style: GoogleFonts.outfit(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                children: [
-                  _buildTypeChip('cash', loc.cash, _selectedType, (type) {
-                    setState(() => _selectedType = type);
-                  }),
-                  _buildTypeChip('bank', loc.bank, _selectedType, (type) {
-                    setState(() => _selectedType = type);
-                  }),
-                  _buildTypeChip('credit', loc.credit, _selectedType, (type) {
-                    setState(() => _selectedType = type);
-                  }),
-                  _buildTypeChip('savings', loc.savings, _selectedType, (type) {
-                    setState(() => _selectedType = type);
-                  }),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // Initial Balance
-              TextField(
-                controller: _balanceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: loc.initialBalance,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(ctx),
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(loc.cancel),
+                // Account Name
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: loc.accountName,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        if (_nameController.text.trim().isEmpty) return;
+                ),
+                const SizedBox(height: 16),
 
-                        final account = AccountModel(
-                          name: _nameController.text.trim(),
-                          type: _selectedType,
-                          balance: double.tryParse(_balanceController.text) ?? 0.0,
-                          color: _selectedColor,
-                          icon: _selectedIcon,
-                        );
+                // Account Type
+                Text(
+                  loc.accountType,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    _buildTypeChip('cash', loc.cash, _selectedType, (type) {
+                      setState(() => _selectedType = type);
+                    }),
+                    _buildTypeChip('bank', loc.bank, _selectedType, (type) {
+                      setState(() => _selectedType = type);
+                    }),
+                    _buildTypeChip('credit', loc.credit, _selectedType, (type) {
+                      setState(() => _selectedType = type);
+                    }),
+                    _buildTypeChip('savings', loc.savings, _selectedType, (type) {
+                      setState(() => _selectedType = type);
+                    }),
+                  ],
+                ),
+                const SizedBox(height: 16),
 
-                        await provider.addAccount(account);
-                        Navigator.pop(ctx);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(loc.save),
+                // Initial Balance
+                TextField(
+                  controller: _balanceController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: loc.initialBalance,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 16),
+                ),
+                const SizedBox(height: 24),
+
+                // Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(loc.cancel),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_nameController.text.trim().isEmpty) return;
+
+                          final account = AccountModel(
+                            name: _nameController.text.trim(),
+                            type: _selectedType,
+                            balance: double.tryParse(_balanceController.text) ?? 0.0,
+                            color: _selectedColor,
+                            icon: _selectedIcon,
+                          );
+
+                          await provider.addAccount(account);
+                          Navigator.pop(ctx);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(loc.save),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -374,23 +347,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
             color: isSelected ? Colors.white : Theme.of(context).textTheme.bodyMedium?.color,
           ),
         ),
-      ),
-    );
-  }
-
-  void _showAllTransactions(BuildContext context, AccountModel account, AppProvider provider, AppLocalizations loc) {
-    // TODO: Show all transactions for this account
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('${loc.transactions} - ${account.name}'),
-        content: const Text('View all transactions functionality coming soon'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(loc.cancel),
-          ),
-        ],
       ),
     );
   }
