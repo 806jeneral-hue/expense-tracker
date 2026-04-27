@@ -115,15 +115,17 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     final provider = context.watch<AppProvider>();
     final loc = AppLocalizations.of(context);
 
-    return Material(
-      color: Colors.transparent,
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.9,
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-        ),
-        child: Column(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Material(
+        color: Colors.transparent,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.9,
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
           children: [
           // ---- Handle Bar ----
           Container(
@@ -345,9 +347,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
           ),
           ],
         ),
-        ),
-    );
-  }
+      ),
+    ),
+  );
+}
 
   Widget _buildSectionLabel(String label, {Widget? trailing}) {
     return Row(

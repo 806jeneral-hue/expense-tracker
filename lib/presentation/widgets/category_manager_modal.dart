@@ -25,77 +25,80 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
         ? provider.expenseCategories 
         : provider.incomeCategories;
 
-    return Material(
-      color: Colors.transparent,
-      child: Container(
-      height: MediaQuery.of(context).size.height * 0.8,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        border: Theme.of(context).brightness == Brightness.dark
-            ? Border.all(color: AppColors.darkBorder, width: 1)
-            : null,
-      ),
-      child: Column(
-        children: [
-          // Header
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 20, 24, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  loc.categories,
-                  style: GoogleFonts.outfit(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.titleLarge?.color,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => _showAddCategoryDialog(context, provider, loc),
-                  icon: const Icon(Icons.add_circle_rounded, color: AppColors.primary, size: 30),
-                ),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Material(
+        color: Colors.transparent,
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+            border: Theme.of(context).brightness == Brightness.dark
+                ? Border.all(color: AppColors.darkBorder, width: 1)
+                : null,
           ),
-
-          // Type Toggle
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-            child: Row(
-              children: [
-                _buildTypeButton(loc.expense, 'expense'),
-                const SizedBox(width: 12),
-                _buildTypeButton(loc.income, 'income'),
-              ],
-            ),
-          ),
-
-          // Categories List
-          Expanded(
-            child: categories.isEmpty
-                ? Center(
-                    child: Text(
-                      loc.noTransactions, // Use appropriate empty text
-                      style: GoogleFonts.outfit(color: Theme.of(context).textTheme.bodyMedium?.color),
+          child: Column(
+            children: [
+              // Header
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 20, 24, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      loc.categories,
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).textTheme.titleLarge?.color,
+                      ),
                     ),
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.all(24),
-                    itemCount: categories.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    itemBuilder: (context, index) {
-                      final cat = categories[index];
-                      return _buildCategoryItem(context, cat, provider, loc);
-                    },
-                  ),
+                    IconButton(
+                      onPressed: () => _showAddCategoryDialog(context, provider, loc),
+                      icon: const Icon(Icons.add_circle_rounded, color: AppColors.primary, size: 30),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Type Toggle
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                child: Row(
+                  children: [
+                    _buildTypeButton(loc.expense, 'expense'),
+                    const SizedBox(width: 12),
+                    _buildTypeButton(loc.income, 'income'),
+                  ],
+                ),
+              ),
+
+              // Categories List
+              Expanded(
+                child: categories.isEmpty
+                    ? Center(
+                        child: Text(
+                          loc.noTransactions, // Use appropriate empty text
+                          style: GoogleFonts.outfit(color: Theme.of(context).textTheme.bodyMedium?.color),
+                        ),
+                      )
+                    : ListView.separated(
+                        padding: const EdgeInsets.all(24),
+                        itemCount: categories.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          final cat = categories[index];
+                          return _buildCategoryItem(context, cat, provider, loc);
+                        },
+                      ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildTypeButton(String label, String type) {
     final isSelected = _selectedType == type;
@@ -198,17 +201,16 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
-                  hintText: provider.isArabic ? "اسم الفئة" : "Category Name",
+                  labelText: loc.category,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
               Row(
                 children: [
-                  _buildDialogTypeOption(setDialogState, loc.expense, 'expense', dialogType, (val) => dialogType = val),
-                  const SizedBox(width: 8),
-                  _buildDialogTypeOption(setDialogState, loc.income, 'income', dialogType, (val) => dialogType = val),
-                  const SizedBox(width: 8),
-                  _buildDialogTypeOption(setDialogState, provider.isArabic ? "كلاهما" : "Both", 'both', dialogType, (val) => dialogType = val),
+                  _buildDialogTypeButton('expense', loc.expense, dialogType, (type) => setDialogState(() => dialogType = type)),
+                  const SizedBox(width: 12),
+                  _buildDialogTypeButton('income', loc.income, dialogType, (type) => setDialogState(() => dialogType = type)),
                 ],
               ),
             ],
@@ -216,25 +218,23 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
           actions: [
             TextButton(onPressed: () => Navigator.pop(ctx), child: Text(loc.cancel)),
             ElevatedButton(
-              onPressed: () {
-                if (nameController.text.isEmpty) return;
-                if (existing != null) {
-                  provider.updateCategory(CategoryModel(
-                    id: existing.id,
-                    name: nameController.text,
-                    nameAr: nameController.text,
-                    icon: existing.icon,
-                    type: dialogType,
-                    color: existing.color,
-                  ));
+              onPressed: () async {
+                if (nameController.text.trim().isEmpty) return;
+                
+                final cat = CategoryModel(
+                  id: existing?.id,
+                  name: nameController.text.trim(),
+                  nameAr: nameController.text.trim(),
+                  type: dialogType,
+                  color: existing?.color ?? '#102C26',
+                  icon: existing?.icon ?? 'category',
+                  isCustom: true,
+                );
+
+                if (existing == null) {
+                  await provider.addCategory(cat);
                 } else {
-                  provider.addCategory(CategoryModel(
-                    name: nameController.text,
-                    nameAr: nameController.text,
-                    icon: 'category',
-                    type: dialogType,
-                    color: '#1F5A4A',
-                  ));
+                  await provider.updateCategory(cat);
                 }
                 Navigator.pop(ctx);
               },
@@ -246,25 +246,25 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
     );
   }
 
-  Widget _buildDialogTypeOption(StateSetter setState, String label, String type, String selectedType, Function(String) onSelect) {
-    final isSelected = selectedType == type;
+  Widget _buildDialogTypeButton(String type, String label, String selectedType, Function(String) onTap) {
+    final isSelected = type == selectedType;
     return Expanded(
       child: GestureDetector(
-        onTap: () => setState(() => onSelect(type)),
+        onTap: () => onTap(type),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.primary : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: isSelected ? AppColors.primary : AppColors.divider),
+            border: Border.all(color: isSelected ? AppColors.primary : AppColors.darkBorder),
           ),
           child: Text(
             label,
             textAlign: TextAlign.center,
             style: GoogleFonts.outfit(
-              fontSize: 10,
-              color: isSelected ? Colors.white : AppColors.textSecondary,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              color: isSelected ? Colors.white : Theme.of(context).textTheme.bodyMedium?.color,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -272,23 +272,20 @@ class _CategoryManagerModalState extends State<CategoryManagerModal> {
     );
   }
 
-
-
   void _confirmDelete(BuildContext context, AppProvider provider, CategoryModel cat, AppLocalizations loc) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(provider.isArabic ? "حذف الفئة؟" : "Delete Category?"),
-        content: Text(provider.isArabic ? "هل أنت متأكد من حذف هذه الفئة؟" : "Are you sure you want to delete this category?"),
+        title: Text(loc.delete),
+        content: Text(loc.deleteConfirm),
         actions: [
           TextButton(onPressed: () => Navigator.pop(ctx), child: Text(loc.cancel)),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () {
-              provider.deleteCategory(cat);
+          TextButton(
+            onPressed: () async {
+              await provider.deleteCategory(cat.id!);
               Navigator.pop(ctx);
             },
-            child: Text(provider.isArabic ? "حذف" : "Delete"),
+            child: Text(loc.delete, style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),

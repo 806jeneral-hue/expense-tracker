@@ -195,8 +195,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (ctx) => Material(
-        color: Colors.transparent,
+      builder: (ctx) => Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Material(
+          color: Colors.transparent,
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -320,10 +322,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
               ],
             ),
           ),
+          ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildTypeChip(String type, String label, String selectedType, Function(String) onSelected) {
     final isSelected = type == selectedType;
