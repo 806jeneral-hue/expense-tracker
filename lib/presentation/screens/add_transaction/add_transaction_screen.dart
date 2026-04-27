@@ -118,13 +118,13 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
     return Material(
       color: Colors.transparent,
       child: Container(
-      height: MediaQuery.of(context).size.height * 0.9,
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      child: Column(
-        children: [
+        height: MediaQuery.of(context).size.height * 0.9,
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        ),
+        child: Column(
+          children: [
           // ---- Handle Bar ----
           Container(
             margin: const EdgeInsets.only(top: 12),
@@ -343,7 +343,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen>
               ),
             ),
           ),
-        ],
+          ],
+        ),
+      ),
       ),
     );
   }

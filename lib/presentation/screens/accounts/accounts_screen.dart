@@ -224,19 +224,19 @@ class _AccountsScreenState extends State<AccountsScreen> {
       builder: (ctx) => Material(
         color: Colors.transparent,
         child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-          border: Theme.of(context).brightness == Brightness.dark
-              ? Border.all(color: AppColors.darkBorder)
-              : null,
-        ),
-        child: StatefulBuilder(
-          builder: (context, setState) => Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+            border: Theme.of(context).brightness == Brightness.dark
+                ? Border.all(color: AppColors.darkBorder)
+                : null,
+          ),
+          child: StatefulBuilder(
+            builder: (context, setState) => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               Text(
                 loc.addAccount,
                 style: GoogleFonts.outfit(
@@ -343,9 +343,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-            ],
+              ],
+            ),
           ),
         ),
+      ),
       ),
     );
   }
